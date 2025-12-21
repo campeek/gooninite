@@ -4,9 +4,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 
-// GoonJuiceParticle.java
-// Cameron Peek
-// 12/20/2025
 public class GoonJuiceFallingParticle extends TextureSheetParticle {
 
     protected GoonJuiceFallingParticle(ClientLevel level, double x, double y, double z, double vx, double vy, double vz, SpriteSet sprites) {

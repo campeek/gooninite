@@ -1,5 +1,6 @@
-package net.cpeek.gooninite;
+package net.cpeek.gooninite.particles;
 
+import net.cpeek.gooninite.Gooninite;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -7,9 +8,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-// GoonParticles.java
-// Cameron Peek
-// 12/20/2025
 public class GoonParticles {
     public static final DeferredRegister<ParticleType<?>> PARTICLES =
             DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Gooninite.MODID);

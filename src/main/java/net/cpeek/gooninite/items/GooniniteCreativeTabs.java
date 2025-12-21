@@ -11,9 +11,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-// GooniniteCreativeTabs.java
-// Cameron Peek
-// 12/21/2025
 public class GooniniteCreativeTabs {
 
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Gooninite.MODID);

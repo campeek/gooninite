@@ -1,6 +1,6 @@
 package net.cpeek.gooninite.blocks;
 
-import net.cpeek.gooninite.GoonParticles;
+import net.cpeek.gooninite.particles.GoonParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -17,9 +17,6 @@ import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-// GooniniteDripBlock.java
-// Cameron Peek
-// 12/20/2025
 public class GooniniteDripBlock extends PointedDripstoneBlock {
     public GooniniteDripBlock(Properties p) {
         super(p);
@@ -162,9 +159,6 @@ public class GooniniteDripBlock extends PointedDripstoneBlock {
     public static boolean canDrip(BlockState block){
         DripstoneThickness thickness = block.getValue(THICKNESS);
         Direction dir = block.getValue(TIP_DIRECTION);
-        if (thickness == DripstoneThickness.TIP && dir == Direction.DOWN){
-            return true;
-        }
-        return false;
+        return thickness == DripstoneThickness.TIP && dir == Direction.DOWN;
     }
 }

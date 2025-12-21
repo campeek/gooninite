@@ -1,11 +1,8 @@
 package net.cpeek.gooninite;
 
-// ClientModEvents.java
-// Cameron Peek
-// 12/20/2025
-
 import net.cpeek.gooninite.particles.GoonJuiceDrippingParticle;
 import net.cpeek.gooninite.particles.GoonJuiceFallingParticle;
+import net.cpeek.gooninite.particles.GoonParticles;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

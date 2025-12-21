@@ -1,13 +1,9 @@
 package net.cpeek.gooninite.particles;
 
-import net.cpeek.gooninite.GoonParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 
-// GoonJuiceParticle.java
-// Cameron Peek
-// 12/20/2025
 public class GoonJuiceDrippingParticle extends TextureSheetParticle {
 
     private final int DRIP_HANG_TIME = 25;

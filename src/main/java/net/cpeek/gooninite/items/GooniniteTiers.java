@@ -5,9 +5,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.function.Supplier;
 
-// GooniniteTiers.java
-// Cameron Peek
-// 12/21/2025
 public enum GooniniteTiers implements Tier {
     GOONINITE(
             5,      // harvest level (netherite=4)

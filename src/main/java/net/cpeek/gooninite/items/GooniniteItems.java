@@ -13,9 +13,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 import static net.cpeek.gooninite.blocks.GooniniteBlocks.*;
 
-// GooniniteItems.java
-// Cameron Peek
-// 12/21/2025
 public class GooniniteItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Gooninite.MODID);
 
