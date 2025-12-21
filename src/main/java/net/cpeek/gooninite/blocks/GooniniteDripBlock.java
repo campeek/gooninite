@@ -1,7 +1,6 @@
 package net.cpeek.gooninite.blocks;
 
 import net.cpeek.gooninite.GoonParticles;
-import net.cpeek.gooninite.Gooninite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -157,7 +156,7 @@ public class GooniniteDripBlock extends PointedDripstoneBlock {
     }
 
     private static boolean isGoonMaterialWithDirection(BlockState block, Direction dir){
-        return block.is(Gooninite.GOONINITE_DRIP.get()) && block.getValue(TIP_DIRECTION) == dir;
+        return block.is(GooniniteBlocks.GOONINITE_DRIP.get()) && block.getValue(TIP_DIRECTION) == dir;
     }
 
     public static boolean canDrip(BlockState block){

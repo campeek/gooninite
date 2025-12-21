@@ -1,7 +1,10 @@
 package net.cpeek.gooninite;
 
 import com.mojang.logging.LogUtils;
+import net.cpeek.gooninite.blocks.GooniniteBlocks;
 import net.cpeek.gooninite.blocks.GooniniteDripBlock;
+import net.cpeek.gooninite.items.GooniniteCreativeTabs;
+import net.cpeek.gooninite.items.GooniniteItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -39,61 +42,7 @@ public class Gooninite {
     public static final String MODID = "gooninite";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "gooninite" namespace
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "gooninite" namespace
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "gooninite" namespace
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    // Creates a new Block with the id "gooninite:example_block", combining the namespace and path
-    public static final RegistryObject<Block> GOONINITE_ORE = BLOCKS.register("gooninite_ore",
-            () -> new DropExperienceBlock(
-                    BlockBehaviour.Properties.of()
-                            .mapColor(MapColor.STONE)
-                            .strength(3.0f, 3.0f)
-                            .sound(SoundType.AMETHYST)
-                            .requiresCorrectToolForDrops(),
-                    UniformInt.of(1,4)  // XP range
-            ));
-
-    public static final RegistryObject<Block> GOONINITE_DRIP = BLOCKS.register("gooninite_drip", ()-> new GooniniteDripBlock(
-            BlockBehaviour.Properties.of()
-                    .strength(1.0f, 1.0f)
-                    .sound(SoundType.AMETHYST_CLUSTER)
-                    .noOcclusion()
-                    .requiresCorrectToolForDrops())
-    );
-    public static final RegistryObject<Block> GOONINITE_DRIP_BLOCK = BLOCKS.register("gooninite_drip_block", () -> new DropExperienceBlock(
-            BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
-                    .strength(3.0f, 3.0f)
-                    .sound(SoundType.AMETHYST)
-                    .requiresCorrectToolForDrops(),
-            UniformInt.of(1,4)  // XP range the block drops
-    ));
-
-    // Creates a new BlockItem with the id "gooninite:example_block", combining the namespace and path
-    public static final RegistryObject<Item> GOONINITE_ORE_ITEM = ITEMS.register("gooninite_ore", () -> new BlockItem(GOONINITE_ORE.get(), new Item.Properties()));
-    public static final RegistryObject<Item> GOONINITE_NUGGET_ITEM = ITEMS.register("gooninite_nugget", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
-    public static final RegistryObject<Item> GOONINITE_DRIP_ITEM = ITEMS.register("gooninite_drip", () -> new BlockItem(GOONINITE_DRIP.get(), new Item.Properties()));
-    public static final RegistryObject<Item> GOONINITE_DRIP_BLOCK_ITEM = ITEMS.register("gooninite_drip_block", () -> new BlockItem(GOONINITE_DRIP_BLOCK.get(), new Item.Properties()));
-
-    // Creates a new food item with the id "gooninite:example_id", nutrition 1 and saturation 2
-    //public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().alwaysEat().nutrition(1).saturationMod(2f).build())));
-    public static final RegistryObject<Item> RAW_GOONINITE = ITEMS.register("raw_gooninite", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().alwaysEat().nutrition(1).saturationMod(2f).build())));
-    public static final RegistryObject<Item> GOONINITE_INGOT = ITEMS.register("gooninite_ingot", () -> new Item(new Item.Properties().fireResistant()));
-
-    // Creates a creative tab with the id "gooninite:example_tab" for the example item, that is placed after the combat tab
-    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("gooninite_tab", () -> CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.COMBAT).icon(() -> RAW_GOONINITE.get().getDefaultInstance()).displayItems((parameters, output) -> {
-        output.accept(RAW_GOONINITE.get());
-        output.accept(GOONINITE_ORE_ITEM.get());
-        output.accept(GOONINITE_INGOT.get());
-        //output.accept(GOONINITE_DRIP.get());
-        output.accept(GOONINITE_DRIP_ITEM.get());
-        output.accept(GOONINITE_DRIP_BLOCK_ITEM.get());
-        output.accept(GOONINITE_NUGGET_ITEM.get());
-    }).build());
 
     public Gooninite() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -101,20 +50,15 @@ public class Gooninite {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
-        // Register the Deferred Register to the mod event bus so blocks get registered
-        BLOCKS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so items get registered
-        ITEMS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so tabs get registered
-        CREATIVE_MODE_TABS.register(modEventBus);
-
         GoonParticles.register(modEventBus);
+        GooniniteBlocks.register(modEventBus);
+        GooniniteItems.register(modEventBus);
+        GooniniteCreativeTabs.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
         // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -130,11 +74,6 @@ public class Gooninite {
         LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
 
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
-    }
-
-    // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(GOONINITE_ORE_ITEM);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
