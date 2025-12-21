@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/pointed_dripstone_down_tip_merge",
+  "render_type": "cutout",
+  "textures": {
+    "cross": "gooninite:block/gooninite_drip_down_tip_merge"
+  }
+}

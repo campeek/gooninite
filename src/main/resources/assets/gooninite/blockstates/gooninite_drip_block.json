@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gooninite:block/gooninite_drip_block"
+    }
+  }
+}
