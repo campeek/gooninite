@@ -6,10 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -62,9 +59,10 @@ public class Gooninite {
 
     public static final RegistryObject<Block> GOONINITE_DRIP = BLOCKS.register("gooninite_drip", ()-> new GooniniteDripBlock(
             BlockBehaviour.Properties.of()
-                    .strength(1.5f)
-                    .sound(SoundType.POINTED_DRIPSTONE)
-                    .noOcclusion())
+                    .strength(1.0f, 1.0f)
+                    .sound(SoundType.AMETHYST_CLUSTER)
+                    .noOcclusion()
+                    .requiresCorrectToolForDrops())
     );
     public static final RegistryObject<Block> GOONINITE_DRIP_BLOCK = BLOCKS.register("gooninite_drip_block", () -> new DropExperienceBlock(
             BlockBehaviour.Properties.of()
@@ -77,6 +75,7 @@ public class Gooninite {
 
     // Creates a new BlockItem with the id "gooninite:example_block", combining the namespace and path
     public static final RegistryObject<Item> GOONINITE_ORE_ITEM = ITEMS.register("gooninite_ore", () -> new BlockItem(GOONINITE_ORE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> GOONINITE_NUGGET_ITEM = ITEMS.register("gooninite_nugget", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
     public static final RegistryObject<Item> GOONINITE_DRIP_ITEM = ITEMS.register("gooninite_drip", () -> new BlockItem(GOONINITE_DRIP.get(), new Item.Properties()));
     public static final RegistryObject<Item> GOONINITE_DRIP_BLOCK_ITEM = ITEMS.register("gooninite_drip_block", () -> new BlockItem(GOONINITE_DRIP_BLOCK.get(), new Item.Properties()));
 
@@ -93,6 +92,7 @@ public class Gooninite {
         //output.accept(GOONINITE_DRIP.get());
         output.accept(GOONINITE_DRIP_ITEM.get());
         output.accept(GOONINITE_DRIP_BLOCK_ITEM.get());
+        output.accept(GOONINITE_NUGGET_ITEM.get());
     }).build());
 
     public Gooninite() {
