@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "conditions": [
+        {"condition" : "minecraft:survives_explosion"},
+        {"condition" : "minecraft:match_tool", "predicate": {"items": ["minecraft:netherite_pickaxe"]}}
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "gooninite:gooninite_nugget",
+          "functions": [
+            {"function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 4
+              }}
+          ]}
+      ]
+    }
+  ]
+}
