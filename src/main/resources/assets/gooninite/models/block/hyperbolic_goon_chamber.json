@@ -1,0 +1,11 @@
+{
+  "parent" : "minecraft:block/cube",
+  "textures":{
+    "north": "gooninite:block/hyperbolic_goon_chamber_front",
+    "south": "gooninite:block/hyperbolic_goon_chamber_back",
+    "east": "gooninite:block/hyperbolic_goon_chamber_side",
+    "west": "gooninite:block/hyperbolic_goon_chamber_side",
+    "up": "gooninite:block/hyperbolic_goon_chamber_in",
+    "down": "gooninite:block/hyperbolic_goon_chamber_out"
+  }
+}

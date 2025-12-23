@@ -2,6 +2,7 @@ package net.cpeek.gooninite;
 
 import com.mojang.logging.LogUtils;
 import net.cpeek.gooninite.blocks.GooniniteBlocks;
+import net.cpeek.gooninite.blocks.GooniniteFluids;
 import net.cpeek.gooninite.items.GooniniteCreativeTabs;
 import net.cpeek.gooninite.items.GooniniteItems;
 import net.cpeek.gooninite.particles.GoonParticles;
@@ -42,6 +43,7 @@ public class Gooninite {
         GooniniteBlocks.register(modEventBus);
         GooniniteItems.register(modEventBus);
         GooniniteCreativeTabs.register(modEventBus);
+        GooniniteFluids.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

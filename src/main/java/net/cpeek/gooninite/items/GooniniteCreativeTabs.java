@@ -19,11 +19,13 @@ public class GooniniteCreativeTabs {
             .title(Component.literal("Gooninite"))
             .icon(() -> new ItemStack(GooniniteItems.GOONINITE_PICKAXE.get()))
             .displayItems((params, output) -> {
+                output.accept(GooniniteItems.HYPERBOLIC_GOON_CHAMBER_ITEM.get());
                 output.accept(GooniniteItems.GOONINITE_PICKAXE.get());
                 output.accept(GooniniteItems.GOONINITE_INGOT.get());
                 output.accept(GooniniteItems.GOONINITE_NUGGET_ITEM.get());
                 output.accept(GooniniteItems.GOONINITE_DRIP_ITEM.get());
                 output.accept(GooniniteItems.GOONINITE_DRIP_BLOCK_ITEM.get());
+                output.accept(GooniniteItems.GOON_JUICE_BUCKET.get());
             }).build());
 
     public static void register(IEventBus bus){
