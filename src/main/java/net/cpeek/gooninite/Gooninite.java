@@ -6,6 +6,7 @@ import net.cpeek.gooninite.blocks.GooniniteBlocks;
 import net.cpeek.gooninite.blocks.GooniniteFluids;
 import net.cpeek.gooninite.items.GooniniteCreativeTabs;
 import net.cpeek.gooninite.items.GooniniteItems;
+import net.cpeek.gooninite.menus.GooniniteMenus;
 import net.cpeek.gooninite.particles.GoonParticles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.Blocks;
@@ -46,6 +47,7 @@ public class Gooninite {
         GooniniteCreativeTabs.register(modEventBus);
         GooniniteFluids.register(modEventBus);
         GooniniteBlockEntities.register(modEventBus);
+        GooniniteMenus.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -76,7 +78,7 @@ public class Gooninite {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    /*@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
 
         @SubscribeEvent
@@ -85,5 +87,5 @@ public class Gooninite {
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }
-    }
+    }*/
 }

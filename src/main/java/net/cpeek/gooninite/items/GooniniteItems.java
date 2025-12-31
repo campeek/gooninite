@@ -21,6 +21,8 @@ public class GooniniteItems {
 
     public static final RegistryObject<Item> HYPERBOLIC_GOON_CHAMBER_ITEM = ITEMS.register("hyperbolic_goon_chamber", () ->new BlockItem(HYPERBOLIC_GOON_CHAMBER.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> MECHANICAL_SINTER_PRESS_ITEM = ITEMS.register("mechanical_sinter_press", () -> new BlockItem(MECHANICAL_SINTER_PRESS.get(), new Item.Properties()));
+
     // Normal Items
     public static final RegistryObject<Item> GOONINITE_NUGGET_ITEM = ITEMS.register("gooninite_nugget", () -> new Item(
             new Item.Properties()

@@ -26,6 +26,7 @@ public class GooniniteCreativeTabs {
                 output.accept(GooniniteItems.GOONINITE_DRIP_ITEM.get());
                 output.accept(GooniniteItems.GOONINITE_DRIP_BLOCK_ITEM.get());
                 output.accept(GooniniteItems.GOON_JUICE_BUCKET.get());
+                output.accept(GooniniteItems.MECHANICAL_SINTER_PRESS_ITEM.get());
             }).build());
 
     public static void register(IEventBus bus){

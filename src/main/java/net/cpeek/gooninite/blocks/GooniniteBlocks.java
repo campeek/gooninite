@@ -1,7 +1,6 @@
 package net.cpeek.gooninite.blocks;
 
 import net.cpeek.gooninite.Gooninite;
-import net.minecraft.client.resources.model.Material;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -53,6 +52,11 @@ public class GooniniteBlocks {
 
     public static final RegistryObject<Block> HYPERBOLIC_GOON_CHAMBER = BLOCKS.register("hyperbolic_goon_chamber",
             () -> new HyperbolicGoonChamberBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    public static final RegistryObject<Block> MECHANICAL_SINTER_PRESS = BLOCKS.register("mechanical_sinter_press",
+            () -> new MechanicalSinteringPressBlock(BlockBehaviour.Properties.of()
+                    .strength(3.0f)
+                    .noOcclusion()));
 
     public static void register(IEventBus bus){
         BLOCKS.register(bus);
