@@ -36,7 +36,9 @@ public class MechanicalSinteringPressBlock extends BaseEntityBlock {
     }
 
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type){
-        return level.isClientSide ? null : createTickerHelper(type, GooniniteBlockEntities.PRESS_BE.get(), MechanicalSinteringPressBE::serverTick);
+        //return level.isClientSide ? null : createTickerHelper(type, GooniniteBlockEntities.PRESS_BE.get(), MechanicalSinteringPressBE::serverTick);
+        return createTickerHelper(type, GooniniteBlockEntities.PRESS_BE.get(),
+                level.isClientSide ? MechanicalSinteringPressBE::clientTick : MechanicalSinteringPressBE::serverTick);
     }
 
     @Override

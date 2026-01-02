@@ -18,10 +18,12 @@ import net.minecraft.world.level.block.state.BlockState;
 public class MechanicalSinteringPressBER implements BlockEntityRenderer<MechanicalSinteringPressBE> {
 
     //private static final ResourceLocation STATIC_MODEL = ResourceLocation.fromNamespaceAndPath("gooninite", "block/mechanical_sinter_press_static");
+    private float pistonProgress = 0;
 
     public MechanicalSinteringPressBER(BlockEntityRendererProvider.Context context){
 
     }
+
 
     @Override
     public void render(MechanicalSinteringPressBE be, float partialTick, PoseStack poseStack,
@@ -41,9 +43,18 @@ public class MechanicalSinteringPressBER implements BlockEntityRenderer<Mechanic
         poseStack.popPose();*/
 
         float travelUnits = 5.0f;
-        float p = be.getProgress(partialTick);
-        float y = -(p*travelUnits) / 16f;
+        //float y = -(p*travelUnits) / 16f;
 
+        if(be.getPhase() == PressPhase.DESCEND){
+            pistonProgress = (float)be.getTicksSinceLast() / (float)be.pistonMoveTicks;
+        } else if(be.getPhase() == PressPhase.ASCEND){
+            pistonProgress = 1f-((float)be.getTicksSinceLast()/(float)be.pistonMoveTicks);
+        } else if(be.getPhase() == PressPhase.DWELL){
+            pistonProgress = 1f;
+        }
+
+        System.out.println(be.getTicksSinceLast());
+        float y = -(pistonProgress*travelUnits)/16f;
         poseStack.pushPose();
         poseStack.translate(0, y, 0);
         var vc = buffer.getBuffer(RenderType.solid());
