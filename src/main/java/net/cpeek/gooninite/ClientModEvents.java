@@ -1,12 +1,18 @@
 package net.cpeek.gooninite;
 
+import net.cpeek.gooninite.blocks.GooniniteBlockEntities;
+import net.cpeek.gooninite.blocks.MechanicalSinteringPressBER;
 import net.cpeek.gooninite.menus.GooniniteMenus;
 import net.cpeek.gooninite.menus.HyperbolicGoonChamberScreen;
 import net.cpeek.gooninite.particles.GoonJuiceDrippingParticle;
 import net.cpeek.gooninite.particles.GoonJuiceFallingParticle;
 import net.cpeek.gooninite.particles.GoonParticles;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,6 +30,29 @@ public class ClientModEvents {
     public static void onClientSetup(FMLClientSetupEvent event){
         event.enqueueWork(() -> {
             MenuScreens.register(GooniniteMenus.HYPERBOLIC_GOON_CHAMBER_MENU.get(), HyperbolicGoonChamberScreen::new);
+            BlockEntityRenderers.register(GooniniteBlockEntities.PRESS_BE.get(), MechanicalSinteringPressBER::new);
         });
+
+        var rm = Minecraft.getInstance().getResourceManager();
+        //var resId = new ResourceLocation(Gooninite.MODID, "block/mechanical_sinter_press_ram");
+        var resId = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "models/block/mechanical_sinter_press_ram.json");
+
+        rm.getResource(resId).ifPresentOrElse(
+                r-> System.out.println("FOUND RAM RESOURCE " + r.sourcePackId()),
+                () -> System.out.println("MISSING RAM RESOURCE")
+        );
+
+
+        var staticId = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "models/block/mechanical_sinter_press_static.json");
+        rm.getResource(staticId).ifPresentOrElse(
+                r-> System.out.println("FOUND STATIC RESOURCE " + r.sourcePackId()),
+                () -> System.out.println("MISSING STATIC RESOURCE")
+        );
+    }
+
+    @SubscribeEvent
+    public static void registerAdditionalModels(ModelEvent.RegisterAdditional event){
+        //event.register(new ResourceLocation(Gooninite.MODID, "block/mechanical_sinter_press_ram"));
+        event.register(ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "block/mechanical_sinter_press_ram"));
     }
 }

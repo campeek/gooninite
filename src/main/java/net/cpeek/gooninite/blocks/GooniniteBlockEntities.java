@@ -19,7 +19,15 @@ public class GooniniteBlockEntities {
                     GooniniteBlocks.HYPERBOLIC_GOON_CHAMBER.get()
             ).build(null));
 
+    public static final RegistryObject<BlockEntityType<MechanicalSinteringPressBE>> PRESS_BE = BLOCK_ENTITIES.register(
+            "mechanical_press",
+            () -> BlockEntityType.Builder.of(
+                    MechanicalSinteringPressBE::new,
+                    GooniniteBlocks.MECHANICAL_SINTER_PRESS.get()
+            ).build(null));
+
     public static void register(IEventBus bus){
+
         BLOCK_ENTITIES.register(bus);
     }
 }

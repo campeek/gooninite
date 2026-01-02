@@ -58,6 +58,9 @@ public class GooniniteBlocks {
                     .strength(3.0f)
                     .noOcclusion()));
 
+    public static final RegistryObject<Block> PRESS_RAM = BLOCKS.register("mechanical_sinter_press_ram",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
     public static void register(IEventBus bus){
         BLOCKS.register(bus);
     }

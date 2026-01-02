@@ -9,10 +9,10 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -20,7 +20,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class MechanicalSinteringPressBlock extends Block {
+public class MechanicalSinteringPressBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     private static final VoxelShape SHAPE = Block.box(  // 1x2x1 collision shape
@@ -33,6 +33,10 @@ public class MechanicalSinteringPressBlock extends Block {
         this.registerDefaultState(
                 this.getStateDefinition().any().setValue(FACING, Direction.NORTH)
         );
+    }
+
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type){
+        return level.isClientSide ? null : createTickerHelper(type, GooniniteBlockEntities.PRESS_BE.get(), MechanicalSinteringPressBE::serverTick);
     }
 
     @Override
@@ -66,6 +70,11 @@ public class MechanicalSinteringPressBlock extends Block {
         if(!level.getBlockState(pos.above()).canBeReplaced(context)) return null;
 
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state){
+        return new MechanicalSinteringPressBE(pos, state);
     }
 
     @Override
