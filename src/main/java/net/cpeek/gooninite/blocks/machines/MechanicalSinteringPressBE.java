@@ -1,6 +1,7 @@
-package net.cpeek.gooninite.blocks;
+package net.cpeek.gooninite.blocks.machines;
 
 
+import net.cpeek.gooninite.blocks.GooniniteBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -8,6 +9,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class MechanicalSinteringPressBE extends BlockEntity {
 
@@ -33,6 +35,8 @@ public class MechanicalSinteringPressBE extends BlockEntity {
     private final float pistonSpeed = 1f/(pistonTime*tickrate);
 
     private PressPhase phase = PressPhase.IDLE;
+
+    private float RPM = 0f;
 
     public MechanicalSinteringPressBE(BlockPos pos, BlockState state) {
         super(GooniniteBlockEntities.PRESS_BE.get(), pos, state);
@@ -109,6 +113,10 @@ public class MechanicalSinteringPressBE extends BlockEntity {
         return phase;
     }
 
+    public void setRPM(float rpm){
+        this.RPM = rpm;
+    }
+
     public long getTicksSinceLast(){
         if(level == null) return 0;
         return level.getGameTime() - lastPhaseChange;
@@ -139,6 +147,7 @@ public class MechanicalSinteringPressBE extends BlockEntity {
     }
 
     @Override
+    @NotNull
     public CompoundTag getUpdateTag() {
         CompoundTag tag = super.getUpdateTag();
         tag.putFloat("Progress", progress);

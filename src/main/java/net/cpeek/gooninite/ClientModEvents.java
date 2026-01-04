@@ -1,7 +1,7 @@
 package net.cpeek.gooninite;
 
 import net.cpeek.gooninite.blocks.GooniniteBlockEntities;
-import net.cpeek.gooninite.blocks.MechanicalSinteringPressBER;
+import net.cpeek.gooninite.blocks.machines.MechanicalSinteringPressBER;
 import net.cpeek.gooninite.menus.GooniniteMenus;
 import net.cpeek.gooninite.menus.HyperbolicGoonChamberScreen;
 import net.cpeek.gooninite.particles.GoonJuiceDrippingParticle;

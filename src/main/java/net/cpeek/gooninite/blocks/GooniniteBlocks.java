@@ -1,6 +1,8 @@
 package net.cpeek.gooninite.blocks;
 
 import net.cpeek.gooninite.Gooninite;
+import net.cpeek.gooninite.blocks.machines.MechanicalSinteringPressBlock;
+import net.cpeek.gooninite.blocks.machines.PressPowerPortBlock;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -60,6 +62,10 @@ public class GooniniteBlocks {
 
     public static final RegistryObject<Block> PRESS_RAM = BLOCKS.register("mechanical_sinter_press_ram",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    public static final RegistryObject<Block> PRESS_PORT = BLOCKS.register("press_port",
+            () -> new PressPowerPortBlock(BlockBehaviour.Properties.of()
+                    .noParticlesOnBreak()));
 
     public static void register(IEventBus bus){
         BLOCKS.register(bus);

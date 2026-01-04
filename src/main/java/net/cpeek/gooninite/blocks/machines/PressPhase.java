@@ -1,4 +1,4 @@
-package net.cpeek.gooninite.blocks;
+package net.cpeek.gooninite.blocks.machines;
 
 
 public enum PressPhase {
