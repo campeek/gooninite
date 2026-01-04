@@ -51,7 +51,6 @@ public class MechanicalSinteringPressBER implements BlockEntityRenderer<Mechanic
             pistonProgress = 1f;
         }
 
-        System.out.println(be.getTicksSinceLast());
         float y = -(pistonProgress*travelUnits)/16f;
         poseStack.pushPose();
         poseStack.translate(0, y, 0);

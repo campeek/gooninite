@@ -7,6 +7,7 @@ import net.cpeek.gooninite.blocks.GooniniteBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class PressPowerPortBE extends KineticBlockEntity {
@@ -24,14 +25,15 @@ public class PressPowerPortBE extends KineticBlockEntity {
             level.destroyBlock(worldPosition, false);
             return;
         }
+    }
 
-        if(level == null || level.isClientSide) return; //serverside only
-
-
-        BlockEntity press = level.getBlockEntity(pressPos);
-        if(press instanceof MechanicalSinteringPressBE){
-            float rpm = Math.abs(getSpeed());
-            ((MechanicalSinteringPressBE) press).setRPM(rpm);
+    public static void serverTick(Level level, BlockPos pos, BlockState state, PressPowerPortBE be){
+        BlockPos pressPos = pos.below();
+        BlockEntity pressBE = level.getBlockEntity(pressPos);
+        if(pressBE instanceof MechanicalSinteringPressBE press){
+            float rpm = Math.abs(be.getSpeed());
+            System.out.println("Port RPM: " + rpm);
+            press.setRPM(rpm);
         }
     }
 }

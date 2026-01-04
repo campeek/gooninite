@@ -2,6 +2,8 @@ package net.cpeek.gooninite.blocks.machines;
 
 
 import com.simibubi.create.content.kinetics.base.KineticBlock;
+import net.cpeek.gooninite.blocks.GooniniteBlockEntities;
+import net.cpeek.gooninite.blocks.GooniniteBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -13,6 +15,8 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -39,6 +43,18 @@ public class PressPowerPortBlock extends KineticBlock implements EntityBlock {
     @Override
     public Direction.Axis getRotationAxis(BlockState state) {
         return state.getValue(HORIZONTAL_FACING).getAxis();
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        if(type != GooniniteBlockEntities.PRESS_PORT_BE.get()) return null;
+
+        return(lvl, pos, st, be) ->{
+            if(!(be instanceof PressPowerPortBE port)) return;
+            if(!lvl.isClientSide){
+                PressPowerPortBE.serverTick(lvl, pos, st, port);
+            }
+        };
     }
 
     @Override

@@ -72,15 +72,12 @@ public class MechanicalSinteringPressBE extends BlockEntity {
             long phaseTicks = level.getGameTime() - be.lastPhaseChange;
 
 
-            //System.out.println(be.progress);
             if(phaseTicks >= be.pistonMoveTicks && be.phase == PressPhase.DESCEND){
-                System.out.println("Phase lasts " + be.pistonDwellTicks + " ticks");
                 be.phase = PressPhase.PRESS;
                 be.lastPhaseChange = level.getGameTime();
                 be.setChanged();
                 level.sendBlockUpdated(pos, state, state, 3);
             } else if (phaseTicks >= be.pistonDwellTicks && be.phase == PressPhase.PRESS){
-                System.out.println("Phase lasts " + be.pistonMoveTicks + " ticks");
                 be.phase = PressPhase.ASCEND;
                 be.lastPhaseChange = level.getGameTime();
                 be.setChanged();
@@ -115,6 +112,7 @@ public class MechanicalSinteringPressBE extends BlockEntity {
 
     public void setRPM(float rpm){
         this.RPM = rpm;
+        System.out.println("Press RPM: " + rpm);
     }
 
     public long getTicksSinceLast(){
