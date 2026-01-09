@@ -8,6 +8,7 @@ import net.cpeek.gooninite.items.GooniniteCreativeTabs;
 import net.cpeek.gooninite.items.GooniniteItems;
 import net.cpeek.gooninite.menus.GooniniteMenus;
 import net.cpeek.gooninite.particles.GoonParticles;
+import net.cpeek.gooninite.recipes.GooniniteRecipes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
@@ -48,6 +49,7 @@ public class Gooninite {
         GooniniteFluids.register(modEventBus);
         GooniniteBlockEntities.register(modEventBus);
         GooniniteMenus.register(modEventBus);
+        GooniniteRecipes.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

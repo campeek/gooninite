@@ -31,9 +31,14 @@ public class PressPowerPortBE extends KineticBlockEntity {
         BlockPos pressPos = pos.below();
         BlockEntity pressBE = level.getBlockEntity(pressPos);
         if(pressBE instanceof MechanicalSinteringPressBE press){
-            float rpm = Math.abs(be.getSpeed());
-            System.out.println("Port RPM: " + rpm);
-            press.setRPM(rpm);
+            int rpm = (int)Math.abs(be.getSpeed());
+            if(press.getRPM() != rpm) {
+                // only update if we need to
+                System.out.println("Updating RPM");
+                System.out.println("Old RPM: " + press.getRPM());
+                System.out.println("New RPM: " + rpm);
+                press.setRPM(rpm);
+            }
         }
     }
 }

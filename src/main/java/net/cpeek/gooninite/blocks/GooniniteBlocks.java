@@ -65,7 +65,9 @@ public class GooniniteBlocks {
 
     public static final RegistryObject<Block> PRESS_PORT = BLOCKS.register("press_port",
             () -> new PressPowerPortBlock(BlockBehaviour.Properties.of()
-                    .noParticlesOnBreak()));
+                    .strength(-1.0f, 3600000.0f)
+                    .noLootTable()
+                    .noOcclusion()));
 
     public static void register(IEventBus bus){
         BLOCKS.register(bus);

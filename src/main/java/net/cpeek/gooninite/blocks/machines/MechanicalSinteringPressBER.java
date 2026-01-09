@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MechanicalSinteringPressBER implements BlockEntityRenderer<MechanicalSinteringPressBE> {
@@ -27,29 +28,26 @@ public class MechanicalSinteringPressBER implements BlockEntityRenderer<Mechanic
     public void render(MechanicalSinteringPressBE be, float partialTick, PoseStack poseStack,
                        MultiBufferSource buffer, int packedLight, int packedOverlay){
         Minecraft mc = Minecraft.getInstance();
-        ModelManager modelManager = mc.getModelManager();
 
-        //BakedModel staticModel = modelManager.getModel(new ModelResourceLocation(STATIC_MODEL, ""));
         BlockState ramState = GooniniteBlocks.PRESS_RAM.get().defaultBlockState();
         BakedModel ramModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(ramState);
 
         var dispatcher = mc.getBlockRenderer();
         ModelBlockRenderer modelRenderer = dispatcher.getModelRenderer();
 
-        /*poseStack.pushPose();
-        renderBaked(modelRenderer, staticModel, poseStack, buffer, packedLight, packedOverlay);
-        poseStack.popPose();*/
 
         float travelUnits = 5.0f;
-        //float y = -(p*travelUnits) / 16f;
 
+        float time = be.getTicksSinceLast() + partialTick;
         if(be.getPhase() == PressPhase.DESCEND){
-            pistonProgress = (float)be.getTicksSinceLast() / (float)be.pistonMoveTicks;
+            pistonProgress = Mth.clamp(time/be.pistonMoveTicks, 0f, 1f);
         } else if(be.getPhase() == PressPhase.ASCEND){
-            pistonProgress = 1f-((float)be.getTicksSinceLast()/(float)be.pistonMoveTicks);
+            pistonProgress = 1f-Mth.clamp(time/be.pistonMoveTicks, 0f, 1f);
         } else if(be.getPhase() == PressPhase.DWELL){
             pistonProgress = 1f;
         }
+
+        //System.out.println("BER move ticks: " + be.pistonMoveTicks);
 
         float y = -(pistonProgress*travelUnits)/16f;
         poseStack.pushPose();

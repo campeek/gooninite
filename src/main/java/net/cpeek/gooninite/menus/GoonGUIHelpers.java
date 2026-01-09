@@ -1,10 +1,15 @@
 package net.cpeek.gooninite.menus;
 
 
+import net.cpeek.gooninite.Gooninite;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
 public class GoonGUIHelpers {
+
+    public static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "textures/gui/gui_base.png");
+    public static final ResourceLocation SLOTS_OVERLAY = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "textures/gui/slots_overlay.png");
+
     public static void blit9Slice(GuiGraphics gg, ResourceLocation tex,
                                   int x, int y, int w, int h,               // position + window size
                                   int u, int v, int regionW, int regionH,   // UV position in texture + how big slices are (64x64px)

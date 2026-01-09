@@ -6,20 +6,18 @@ import net.cpeek.gooninite.blocks.GooniniteBlockEntities;
 import net.cpeek.gooninite.blocks.GooniniteBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -33,8 +31,10 @@ public class PressPowerPortBlock extends KineticBlock implements EntityBlock {
 
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-    public PressPowerPortBlock(Properties pProperties) {
-        super(pProperties);
+    private BlockPos press;
+
+    public PressPowerPortBlock(Properties properties) {
+        super(properties);
         this.registerDefaultState(
                 this.getStateDefinition().any().setValue(FACING, Direction.NORTH)
         );
@@ -64,8 +64,30 @@ public class PressPowerPortBlock extends KineticBlock implements EntityBlock {
     }
 
     @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+
+        // check to see if press is still alive when neighbors update
+
+        if(!level.isClientSide()){ // run only on server
+            if(neighborPos.equals(press)){
+                if(!level.getBlockState(press).is(GooniniteBlocks.MECHANICAL_SINTER_PRESS.get())){
+                    level.destroyBlock(pos, false);
+                }
+            }
+        }
+
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
+
+    @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+    }
+
+    @Override
+    public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        if(worldIn.isClientSide) return; // server only
+        press = pos.below();
     }
 
     @Override
@@ -75,7 +97,7 @@ public class PressPowerPortBlock extends KineticBlock implements EntityBlock {
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Shapes.empty();
+        return Shapes.block();
     }
 
     @Override
@@ -96,5 +118,10 @@ public class PressPowerPortBlock extends KineticBlock implements EntityBlock {
     @Override
     public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation direction) {
         return state.setValue(FACING, direction.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    public RenderShape getRenderShape(BlockState pState) {
+        return RenderShape.INVISIBLE;
     }
 }

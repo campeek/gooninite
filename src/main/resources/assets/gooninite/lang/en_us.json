@@ -3,6 +3,9 @@
 
   "block.gooninite.gooninite_ore": "Gooninite Ore",
   "item.gooninite.raw_gooninite": "Raw Gooninite",
-  "block.gooninite.hyperbolic_goon_chamber": "Hyperbolic Goon Chamber"
+  "item.gooninite.gooninite_nugget": "Gooninite Nugget",
+  "item.gooninite.gooninite_pellet": "Gooninite Pellet",
+  "block.gooninite.hyperbolic_goon_chamber": "Hyperbolic Goon Chamber",
+  "block.gooninite.mechanical_press": "Mechanical Sintering Press"
 
 }

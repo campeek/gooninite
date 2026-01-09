@@ -15,6 +15,9 @@ public class GooniniteMenus {
     public static final RegistryObject<MenuType<HyperbolicGoonChamberMenu>> HYPERBOLIC_GOON_CHAMBER_MENU = MENUS.register("hyperbolic_goon_chamber_menu",
             () -> IForgeMenuType.create(HyperbolicGoonChamberMenu::new));
 
+    public static final RegistryObject<MenuType<MechanicalPressMenu>> MECHANICAL_PRESS_MENU = MENUS.register("mechanical_press_menu",
+            () -> IForgeMenuType.create(MechanicalPressMenu::new));
+
     public static void register(IEventBus bus){
         MENUS.register(bus);
     }

@@ -1,0 +1,8 @@
+{
+  "type": "gooninite:goon_pressing",
+  "ingredient": { "item" :  "gooninite:gooninite_nugget" },
+  "result": { "item":  "gooninite:gooninite_pellet", "count":  1},
+  "processingTime": 240,
+  "minRpm": 64,
+  "requiresHeat" : true
+}

@@ -28,6 +28,11 @@ public class GooniniteItems {
             new Item.Properties()
                     .rarity(Rarity.EPIC)
                     .stacksTo(16)));
+    public static final RegistryObject<Item> GOONINITE_PELLET_ITEM = ITEMS.register("gooninite_pellet", () -> new Item(
+            new Item.Properties()
+                    .rarity(Rarity.EPIC)
+                    .stacksTo(16)
+    ));
     public static final RegistryObject<Item> RAW_GOONINITE = ITEMS.register("raw_gooninite", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().alwaysEat().nutrition(1).saturationMod(2f).build())));
     public static final RegistryObject<Item> GOONINITE_INGOT = ITEMS.register("gooninite_ingot", () -> new Item(new Item.Properties().fireResistant()));
 
