@@ -137,13 +137,6 @@ public class MechanicalSinteringPressBE extends BlockEntity implements MenuProvi
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, MechanicalSinteringPressBE be){
-        /*float speed = 0.05f;
-        be.progress += speed;
-        if(be.progress > 1f) be.progress = 0f;
-
-        be.setChanged();
-        level.sendBlockUpdated(pos, state, state, 3);
-         */
 
         var recipeOptional = be.getCurrentRecipe();
 
