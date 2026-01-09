@@ -118,11 +118,6 @@ public class MechanicalSinteringPressBE extends BlockEntity implements MenuProvi
         this.pistonMoveTicks = (int)(totalTicks*pistonRatio);
         this.pistonDwellTicks = (int)(totalTicks*dwellRatio);
         this.pistonSpeed = 1f/pistonMoveTicks;
-
-        /*System.out.println("Animation times computed");
-        System.out.println("Move ticks: " + pistonMoveTicks);
-        System.out.println("Dwell ticks: "+ pistonDwellTicks);
-        System.out.println("Piston speed: " + pistonSpeed);*/
     }
 
     private static double getTicksToComplete(int rpm, float k, float a, float b){
@@ -137,13 +132,6 @@ public class MechanicalSinteringPressBE extends BlockEntity implements MenuProvi
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, MechanicalSinteringPressBE be){
-        /*float speed = 0.05f;
-        be.progress += speed;
-        if(be.progress > 1f) be.progress = 0f;
-
-        be.setChanged();
-        level.sendBlockUpdated(pos, state, state, 3);
-         */
 
         var recipeOptional = be.getCurrentRecipe();
 
