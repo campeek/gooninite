@@ -52,8 +52,8 @@ public class GooniniteBlocks {
             () -> new LiquidBlock(GOON_JUICE, BlockBehaviour.Properties.copy(Blocks.WATER))
     );
 
-    public static final RegistryObject<Block> HYPERBOLIC_GOON_CHAMBER = BLOCKS.register("hyperbolic_goon_chamber",
-            () -> new HyperbolicGoonChamberBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistryObject<Block> PHASE_DESTABILIZER = BLOCKS.register("phase_destabilizer",
+            () -> new PhaseDestabilizerBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
 
     public static final RegistryObject<Block> MECHANICAL_SINTER_PRESS = BLOCKS.register("mechanical_sinter_press",
             () -> new MechanicalSinteringPressBlock(BlockBehaviour.Properties.of()

@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": {"model": "gooninite:block/hyperbolic_goon_chamber"},
-    "facing=south": {"model": "gooninite:block/hyperbolic_goon_chamber", "y":  180},
-    "facing=west": {"model": "gooninite:block/hyperbolic_goon_chamber","y": 270},
-    "facing=east": {"model": "gooninite:block/hyperbolic_goon_chamber", "y": 90}
-  }
-}

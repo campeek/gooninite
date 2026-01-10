@@ -3,7 +3,7 @@ package net.cpeek.gooninite;
 import net.cpeek.gooninite.blocks.GooniniteBlockEntities;
 import net.cpeek.gooninite.blocks.machines.MechanicalSinteringPressBER;
 import net.cpeek.gooninite.menus.GooniniteMenus;
-import net.cpeek.gooninite.menus.HyperbolicGoonChamberScreen;
+import net.cpeek.gooninite.menus.PhaseDestabilizerScreen;
 import net.cpeek.gooninite.menus.MechanicalPressScreen;
 import net.cpeek.gooninite.particles.GoonJuiceDrippingParticle;
 import net.cpeek.gooninite.particles.GoonJuiceFallingParticle;
@@ -30,7 +30,7 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event){
         event.enqueueWork(() -> {
-            MenuScreens.register(GooniniteMenus.HYPERBOLIC_GOON_CHAMBER_MENU.get(), HyperbolicGoonChamberScreen::new);
+            MenuScreens.register(GooniniteMenus.HYPERBOLIC_GOON_CHAMBER_MENU.get(), PhaseDestabilizerScreen::new);
             MenuScreens.register(GooniniteMenus.MECHANICAL_PRESS_MENU.get(), MechanicalPressScreen::new);
             BlockEntityRenderers.register(GooniniteBlockEntities.PRESS_BE.get(), MechanicalSinteringPressBER::new);
         });

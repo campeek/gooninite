@@ -21,10 +21,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class HyperbolicGoonChamberBlock extends Block implements EntityBlock {
+public class PhaseDestabilizerBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;   // horizontal restricts it to NSEW
 
-    public HyperbolicGoonChamberBlock(Properties props){
+    public PhaseDestabilizerBlock(Properties props){
         super(props);
         this.registerDefaultState(                             // Set a default for the property otherwise game will crash
                 this.getStateDefinition().any()
@@ -37,7 +37,7 @@ public class HyperbolicGoonChamberBlock extends Block implements EntityBlock {
         if(level.isClientSide) return InteractionResult.SUCCESS;
 
         BlockEntity entity = level.getBlockEntity(pos);
-        if(entity instanceof HyperbolicGoonChamberBlockEntity chamberBlockEntity &&
+        if(entity instanceof PhaseDestabilizerBlockEntity chamberBlockEntity &&
                 player instanceof ServerPlayer sp){
             NetworkHooks.openScreen(sp, chamberBlockEntity, pos);
             return InteractionResult.CONSUME;
@@ -66,6 +66,6 @@ public class HyperbolicGoonChamberBlock extends Block implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new HyperbolicGoonChamberBlockEntity(pos, state);
+        return new PhaseDestabilizerBlockEntity(pos, state);
     }
 }

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model": "gooninite:block/phase_destabilizer"},
+    "facing=south": {"model": "gooninite:block/phase_destabilizer", "y":  180},
+    "facing=west": {"model": "gooninite:block/phase_destabilizer","y": 270},
+    "facing=east": {"model": "gooninite:block/phase_destabilizer", "y": 90}
+  }
+}

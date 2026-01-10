@@ -19,7 +19,7 @@ public class GooniniteItems {
     public static final RegistryObject<Item> GOONINITE_DRIP_ITEM = ITEMS.register("gooninite_drip", () -> new BlockItem(GOONINITE_DRIP.get(), new Item.Properties()));
     public static final RegistryObject<Item> GOONINITE_DRIP_BLOCK_ITEM = ITEMS.register("gooninite_drip_block", () -> new BlockItem(GOONINITE_DRIP_BLOCK.get(), new Item.Properties()));
 
-    public static final RegistryObject<Item> HYPERBOLIC_GOON_CHAMBER_ITEM = ITEMS.register("hyperbolic_goon_chamber", () ->new BlockItem(HYPERBOLIC_GOON_CHAMBER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PHASE_DESTABILIZER_ITEM = ITEMS.register("phase_destabilizer", () ->new BlockItem(PHASE_DESTABILIZER.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> MECHANICAL_SINTER_PRESS_ITEM = ITEMS.register("mechanical_sinter_press", () -> new BlockItem(MECHANICAL_SINTER_PRESS.get(), new Item.Properties()));
 

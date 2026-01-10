@@ -1,6 +1,6 @@
 package net.cpeek.gooninite.blocks;
 
-import net.cpeek.gooninite.menus.HyperbolicGoonChamberMenu;
+import net.cpeek.gooninite.menus.PhaseDestabilizerMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -9,8 +9,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.CraftingMenu;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -26,8 +24,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class HyperbolicGoonChamberBlockEntity extends BlockEntity implements MenuProvider {
-    public HyperbolicGoonChamberBlockEntity(BlockPos pos, BlockState state){
+public class PhaseDestabilizerBlockEntity extends BlockEntity implements MenuProvider {
+    public PhaseDestabilizerBlockEntity(BlockPos pos, BlockState state){
         super(GooniniteBlockEntities.HYPERBOLIC_GOON_CHAMBER.get(), pos, state);
     }
 
@@ -120,7 +118,7 @@ public class HyperbolicGoonChamberBlockEntity extends BlockEntity implements Men
         @Nullable Direction side
     ){
         if(cap == ForgeCapabilities.ENERGY      // requesting energy capabilities
-                && side == getBlockState().getValue(HyperbolicGoonChamberBlock.FACING).getOpposite()){ // where the requested capability is allowed to hook up
+                && side == getBlockState().getValue(PhaseDestabilizerBlock.FACING).getOpposite()){ // where the requested capability is allowed to hook up
             return energyCap.cast();                                                                   // opposite of the direction the block is facing = the back
         } else if(cap == ForgeCapabilities.FLUID_HANDLER
                         && side == Direction.UP){
@@ -135,12 +133,12 @@ public class HyperbolicGoonChamberBlockEntity extends BlockEntity implements Men
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("block.gooninite.hyperbolic_goon_chamber");
+        return Component.translatable("block.gooninite.phase_destabilizer");
     }
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
-        return new HyperbolicGoonChamberMenu(id, inv, this, data);
+        return new PhaseDestabilizerMenu(id, inv, this, data);
     }
 
     public IItemHandler getItemHandler(){

@@ -12,8 +12,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class GooniniteMenus {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Gooninite.MODID);
 
-    public static final RegistryObject<MenuType<HyperbolicGoonChamberMenu>> HYPERBOLIC_GOON_CHAMBER_MENU = MENUS.register("hyperbolic_goon_chamber_menu",
-            () -> IForgeMenuType.create(HyperbolicGoonChamberMenu::new));
+    public static final RegistryObject<MenuType<PhaseDestabilizerMenu>> HYPERBOLIC_GOON_CHAMBER_MENU = MENUS.register("phase_destabilizer_menu",
+            () -> IForgeMenuType.create(PhaseDestabilizerMenu::new));
 
     public static final RegistryObject<MenuType<MechanicalPressMenu>> MECHANICAL_PRESS_MENU = MENUS.register("mechanical_press_menu",
             () -> IForgeMenuType.create(MechanicalPressMenu::new));

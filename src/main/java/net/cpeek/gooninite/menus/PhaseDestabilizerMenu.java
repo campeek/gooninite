@@ -1,7 +1,7 @@
 package net.cpeek.gooninite.menus;
 
 
-import net.cpeek.gooninite.blocks.HyperbolicGoonChamberBlockEntity;
+import net.cpeek.gooninite.blocks.PhaseDestabilizerBlockEntity;
 import net.cpeek.gooninite.items.GooniniteItems;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -10,18 +10,18 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class HyperbolicGoonChamberMenu extends AbstractContainerMenu {
+public class PhaseDestabilizerMenu extends AbstractContainerMenu {
 
-    private final HyperbolicGoonChamberBlockEntity entity;
+    private final PhaseDestabilizerBlockEntity entity;
     private final ContainerData data;
 
-    public HyperbolicGoonChamberMenu(int id, Inventory playerInv, FriendlyByteBuf buf){
+    public PhaseDestabilizerMenu(int id, Inventory playerInv, FriendlyByteBuf buf){
         this(id, playerInv,
-                (HyperbolicGoonChamberBlockEntity) playerInv.player.level().getBlockEntity(buf.readBlockPos()),
+                (PhaseDestabilizerBlockEntity) playerInv.player.level().getBlockEntity(buf.readBlockPos()),
                 new SimpleContainerData(4));
     }
 
-    public HyperbolicGoonChamberMenu(int id, Inventory playerInv, HyperbolicGoonChamberBlockEntity entity, ContainerData data){
+    public PhaseDestabilizerMenu(int id, Inventory playerInv, PhaseDestabilizerBlockEntity entity, ContainerData data){
         super(GooniniteMenus.HYPERBOLIC_GOON_CHAMBER_MENU.get(), id);
         this.entity = entity;
         this.data = data;

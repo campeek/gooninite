@@ -1,0 +1,11 @@
+{
+  "parent" : "minecraft:block/cube",
+  "textures":{
+    "north": "gooninite:block/phase_destabilizer_front",
+    "south": "gooninite:block/phase_destabilizer_back",
+    "east": "gooninite:block/phase_destabilizer_side",
+    "west": "gooninite:block/phase_destabilizer_side",
+    "up": "gooninite:block/phase_destabilizer_in",
+    "down": "gooninite:block/phase_destabilizer_out"
+  }
+}
