@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PPP",
+    "III"
+  ],
+  "key": {
+    "P": { "item": "gooninite:gooninite_pellet"},
+    "I": { "item": "minecraft:iron_ingot"}
+  },
+  "result":{
+    "item": "gooninite:gooninite_liner",
+    "count": 1
+  }
+}

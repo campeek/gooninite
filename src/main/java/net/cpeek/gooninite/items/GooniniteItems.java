@@ -33,6 +33,14 @@ public class GooniniteItems {
                     .rarity(Rarity.EPIC)
                     .stacksTo(16)
     ));
+
+    public static final RegistryObject<Item> GOONINITE_LINER_ITEM = ITEMS.register("gooninite_liner", () -> new Item(
+            new Item.Properties()
+                    .stacksTo(1)
+                    .rarity(Rarity.RARE)
+                    .durability(64)
+    ));
+
     public static final RegistryObject<Item> RAW_GOONINITE = ITEMS.register("raw_gooninite", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().alwaysEat().nutrition(1).saturationMod(2f).build())));
     public static final RegistryObject<Item> GOONINITE_INGOT = ITEMS.register("gooninite_ingot", () -> new Item(new Item.Properties().fireResistant()));
 
