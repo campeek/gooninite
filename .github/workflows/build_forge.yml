@@ -1,0 +1,53 @@
+name: Build Forge Mod (1.20.1)
+
+on:
+  push:
+    branches: [ "**" ]
+    tags: [ "v*" ]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      # Optional but helpful: validates wrapper isn't tampered with
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v2
+
+      # Build (includes jar + reobfJar in typical Forge setups)
+      - name: Build
+        run: ./gradlew build --no-daemon
+
+      # Upload the built jars as workflow artifacts (so you can download from Actions UI)
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mod-jars
+          path: |
+            build/libs/*.jar
+          if-no-files-found: error
+
+      # If this was a tag like v1.2.3, publish those jars to a GitHub Release automatically
+      - name: Create GitHub Release (tags only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/libs/*.jar
