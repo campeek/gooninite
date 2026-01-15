@@ -13,11 +13,18 @@ import net.minecraftforge.registries.RegistryObject;
 public class GooniniteBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Gooninite.MODID);
 
-    public static final RegistryObject<BlockEntityType<PhaseDestabilizerBlockEntity>> HYPERBOLIC_GOON_CHAMBER = BLOCK_ENTITIES.register(
-            "hyperbolic_goon_chamber",
+    public static final RegistryObject<BlockEntityType<PhaseDestabilizerBlockEntity>> PHASE_DESTABILIZER = BLOCK_ENTITIES.register(
+            "phase_destabilizer",
             ()-> BlockEntityType.Builder.of(
                     PhaseDestabilizerBlockEntity::new,
                     GooniniteBlocks.PHASE_DESTABILIZER.get()
+            ).build(null));
+
+    public static final RegistryObject<BlockEntityType<LatticeRecrystallizerBlockEntity>> LATTICE_RECRYSTALLIZER = BLOCK_ENTITIES.register(
+            "lattice_recrystallizer",
+            () -> BlockEntityType.Builder.of(
+                    LatticeRecrystallizerBlockEntity::new,
+                    GooniniteBlocks.LATTICE_RECRYSTALLIZER.get()
             ).build(null));
 
     public static final RegistryObject<BlockEntityType<MechanicalSinteringPressBE>> PRESS_BE = BLOCK_ENTITIES.register(

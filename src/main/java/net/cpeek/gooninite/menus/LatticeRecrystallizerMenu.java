@@ -1,8 +1,7 @@
 package net.cpeek.gooninite.menus;
 
 
-import net.cpeek.gooninite.blocks.PhaseDestabilizerBlockEntity;
-import net.cpeek.gooninite.items.GooniniteItems;
+import net.cpeek.gooninite.blocks.LatticeRecrystallizerBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -10,29 +9,31 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class PhaseDestabilizerMenu extends AbstractContainerMenu {
+public class LatticeRecrystallizerMenu extends AbstractContainerMenu {
 
-    private final PhaseDestabilizerBlockEntity entity;
+    private final LatticeRecrystallizerBlockEntity entity;
     private final ContainerData data;
 
-    public PhaseDestabilizerMenu(int id, Inventory playerInv, FriendlyByteBuf buf){
-        this(id, playerInv,
-                (PhaseDestabilizerBlockEntity) playerInv.player.level().getBlockEntity(buf.readBlockPos()),
-                new SimpleContainerData(4));
+    public LatticeRecrystallizerMenu(int id, Inventory inv, FriendlyByteBuf buf){
+        this(id, inv,
+                (LatticeRecrystallizerBlockEntity)inv.player.level().getBlockEntity(buf.readBlockPos()),
+        new SimpleContainerData(6));
     }
 
-    public PhaseDestabilizerMenu(int id, Inventory playerInv, PhaseDestabilizerBlockEntity entity, ContainerData data){
-        super(GooniniteMenus.PHASE_DESTABILIZER_MENU.get(), id);
+    public LatticeRecrystallizerMenu(int id, Inventory inv, LatticeRecrystallizerBlockEntity entity, ContainerData data){
+        super(GooniniteMenus.LATTICE_RECRYSTALLIZER_MENU.get(), id);
         this.entity = entity;
         this.data = data;
 
-        this.addSlot(new SlotItemHandler(entity.getItemHandler(), 0, 56, 35));
+        this.addSlot(new SlotItemHandler(entity.getItemHandler(), 0, 58, 35));
+        this.addSlot(new SlotItemHandler(entity.getItemHandler(), 1, 103, 35));
 
-        addPlayerInventory(playerInv);
-        addPlayerHotbar(playerInv);
+        addPlayerInventory(inv);
+        addPlayerHotbar(inv);
 
         addDataSlots(data);
     }
+
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
@@ -57,7 +58,7 @@ public class PhaseDestabilizerMenu extends AbstractContainerMenu {
                 }
             } else {
                 // from player -> machine (if valid item aka GOON NUGGET)
-                if(isGoonNugget(stackInSlot)){
+                if(isValidItem()){
                     if(!this.moveItemStackTo(stackInSlot, 0, MACHINE_SLOTS, false)){
                         return ItemStack.EMPTY;
                     }
@@ -74,7 +75,6 @@ public class PhaseDestabilizerMenu extends AbstractContainerMenu {
                     }
                 }
             }
-
             if(stackInSlot.isEmpty()){
                 slot.set(ItemStack.EMPTY);
             } else {
@@ -91,8 +91,8 @@ public class PhaseDestabilizerMenu extends AbstractContainerMenu {
         return stack;
     }
 
-    private boolean isGoonNugget(ItemStack stack){
-        return stack.is(GooniniteItems.GOONINITE_NUGGET_ITEM.get());
+    private boolean isValidItem() {
+        return true;
     }
 
     @Override
@@ -101,19 +101,12 @@ public class PhaseDestabilizerMenu extends AbstractContainerMenu {
                 player, entity.getBlockState().getBlock());
     }
 
-    public int getProgress(){
-        return data.get(0);
-    }
-    public int getMaxProgress(){
-        return data.get(1);
-    }
-    public int getEnergy(){
-        return data.get(2);
-    }
-    public int getMaxEnergy(){
-        return data.get(3);
-    }
-
+    public int getProgress(){ return data.get(0);}
+    public int getMaxProgress(){ return data.get(1); }
+    public int getEnergy() { return data.get(2); }
+    public int getMaxEnergy(){ return data.get(3); }
+    public int getFluid(){ return data.get(4); }
+    public int getMaxFluid(){ return data.get(5); }
 
     private void addPlayerInventory(Inventory inv){
         for(int row=0; row<3; row++){
@@ -125,7 +118,6 @@ public class PhaseDestabilizerMenu extends AbstractContainerMenu {
             }
         }
     }
-
     private void addPlayerHotbar(Inventory inv){
         for(int col=0; col<9; col++){
             this.addSlot(new Slot(inv, col, 8+col*18, 142));

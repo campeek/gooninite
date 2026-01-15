@@ -21,15 +21,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class PhaseDestabilizerBlock extends Block implements EntityBlock {
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;   // horizontal restricts it to NSEW
+public class PhaseDestabilizerBlock extends GooniniteMachineBlock implements EntityBlock {
 
     public PhaseDestabilizerBlock(Properties props){
-        super(props);
-        this.registerDefaultState(                             // Set a default for the property otherwise game will crash
-                this.getStateDefinition().any()
-                        .setValue(FACING, Direction.NORTH)
-        );
+        super(props, PhaseDestabilizerBlockEntity::new);
     }
 
     @Override
@@ -44,28 +39,5 @@ public class PhaseDestabilizerBlock extends Block implements EntityBlock {
         }
 
         return InteractionResult.PASS;
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { // override block creation to add state
-        builder.add(FACING);
-    }
-
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {   // set the state correctly when the block is placed
-        return this.defaultBlockState()
-                .setValue(FACING, context.getHorizontalDirection().getOpposite());  // player faces the block, the front should face the player
-    }
-
-    @Override
-    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation direction) {
-        return state.setValue(FACING,                       // let the block rotation be updated
-                direction.rotate(state.getValue(FACING))
-        );
-    }
-
-    @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new PhaseDestabilizerBlockEntity(pos, state);
     }
 }

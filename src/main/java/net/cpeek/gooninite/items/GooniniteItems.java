@@ -20,7 +20,7 @@ public class GooniniteItems {
     public static final RegistryObject<Item> GOONINITE_DRIP_BLOCK_ITEM = ITEMS.register("gooninite_drip_block", () -> new BlockItem(GOONINITE_DRIP_BLOCK.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> PHASE_DESTABILIZER_ITEM = ITEMS.register("phase_destabilizer", () ->new BlockItem(PHASE_DESTABILIZER.get(), new Item.Properties()));
-
+    public static final RegistryObject<Item> LATTICE_RECRYSTALLIZER_ITEM = ITEMS.register("lattice_recrystallizer", () -> new BlockItem(LATTICE_RECRYSTALLIZER.get(), new Item.Properties()));
     public static final RegistryObject<Item> MECHANICAL_SINTER_PRESS_ITEM = ITEMS.register("mechanical_sinter_press", () -> new BlockItem(MECHANICAL_SINTER_PRESS.get(), new Item.Properties()));
 
     // Normal Items

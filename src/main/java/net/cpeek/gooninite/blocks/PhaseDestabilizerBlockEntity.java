@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class PhaseDestabilizerBlockEntity extends BlockEntity implements MenuProvider {
     public PhaseDestabilizerBlockEntity(BlockPos pos, BlockState state){
-        super(GooniniteBlockEntities.HYPERBOLIC_GOON_CHAMBER.get(), pos, state);
+        super(GooniniteBlockEntities.PHASE_DESTABILIZER.get(), pos, state);
     }
 
     private final EnergyStorage energy = new EnergyStorage(

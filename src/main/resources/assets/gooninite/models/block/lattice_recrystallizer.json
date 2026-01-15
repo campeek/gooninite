@@ -1,0 +1,11 @@
+{
+  "parent" : "minecraft:block/cube",
+  "textures":{
+    "north": "gooninite:block/lattice_recrystallizer_front",
+    "south": "gooninite:block/lattice_recrystallizer_back",
+    "east": "gooninite:block/lattice_recrystallizer_side",
+    "west": "gooninite:block/lattice_recrystallizer_side",
+    "up": "gooninite:block/lattice_recrystallizer_top",
+    "down": "gooninite:block/phase_destabilizer_out"
+  }
+}

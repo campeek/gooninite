@@ -55,6 +55,9 @@ public class GooniniteBlocks {
     public static final RegistryObject<Block> PHASE_DESTABILIZER = BLOCKS.register("phase_destabilizer",
             () -> new PhaseDestabilizerBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
 
+    public static final RegistryObject<Block> LATTICE_RECRYSTALLIZER = BLOCKS.register("lattice_recrystallizer",
+            () -> new LatticeRecrystallizerBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
     public static final RegistryObject<Block> MECHANICAL_SINTER_PRESS = BLOCKS.register("mechanical_sinter_press",
             () -> new MechanicalSinteringPressBlock(BlockBehaviour.Properties.of()
                     .strength(3.0f)

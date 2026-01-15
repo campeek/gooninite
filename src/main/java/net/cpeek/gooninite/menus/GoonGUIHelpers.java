@@ -51,4 +51,29 @@ public class GoonGUIHelpers {
                 regionH, regionW, edgeWidth, edgeHeight, texW, texH);
 
     }
+
+    public static void blitTiledTexture(GuiGraphics gg, ResourceLocation tex,
+                                        int x, int y,
+                                        int w, int h,
+                                        int texW, int texH){
+        for(int xPixels = w; xPixels>=0; xPixels=xPixels-texW){
+            for(int yPixels = h; yPixels>=0; yPixels=yPixels-texH){
+                int xPos, yPos;
+                xPos=x+Math.abs(w-xPixels);
+                yPos=y+Math.abs(h-yPixels);
+
+                int bW, bH;
+                bW = Math.min(xPixels, texW);
+                bH = Math.min(yPixels, texH);
+
+                gg.blit(tex,
+                        xPos, yPos,
+                        2,
+                        0,0,
+                        bW, bH,
+                        texW, texH);
+            }
+        }
+
+    }
 }

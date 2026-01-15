@@ -20,6 +20,7 @@ public class GooniniteCreativeTabs {
             .icon(() -> new ItemStack(GooniniteItems.GOONINITE_PICKAXE.get()))
             .displayItems((params, output) -> {
                 output.accept(GooniniteItems.PHASE_DESTABILIZER_ITEM.get());
+                output.accept(GooniniteItems.LATTICE_RECRYSTALLIZER_ITEM.get());
                 output.accept(GooniniteItems.GOONINITE_PICKAXE.get());
                 output.accept(GooniniteItems.GOONINITE_INGOT.get());
                 output.accept(GooniniteItems.GOONINITE_NUGGET_ITEM.get());

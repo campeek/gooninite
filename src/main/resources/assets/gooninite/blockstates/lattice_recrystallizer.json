@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model": "gooninite:block/lattice_recrystallizer"},
+    "facing=south": {"model": "gooninite:block/lattice_recrystallizer", "y":  180},
+    "facing=west": {"model": "gooninite:block/lattice_recrystallizer","y": 270},
+    "facing=east": {"model": "gooninite:block/lattice_recrystallizer", "y": 90}
+  }
+}
