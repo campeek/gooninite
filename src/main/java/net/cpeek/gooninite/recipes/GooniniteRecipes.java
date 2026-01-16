@@ -19,6 +19,9 @@ public class GooniniteRecipes {
     public static final RegistryObject<RecipeSerializer<LatticeRecrystallizingRecipe>> RECRYSTALLIZING_SERIALIZER = SERIALIZERS.register("lattice_recrystallizing", LatticeRecipeSerializer::new);
     public static final RegistryObject<RecipeType<LatticeRecrystallizingRecipe>> LATTICE_RECRYSTALLIZING_RECIPE = TYPES.register("lattice_recrystallizing", ()-> new RecipeType<>() {});
 
+    public static final RegistryObject<RecipeSerializer<PhaseDestabilizingRecipe>> DESTABILIZING_SERIALIZER = SERIALIZERS.register("phase_destabilizing", DestabilizingRecipeSerializer::new);
+    public static final RegistryObject<RecipeType<PhaseDestabilizingRecipe>> PHASE_DESTABILIZING_RECIPE = TYPES.register("phase_destabilizing", () -> new RecipeType<>() {});
+
     public static void register(IEventBus bus){
         SERIALIZERS.register(bus);
         TYPES.register(bus);

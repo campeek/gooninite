@@ -1,11 +1,9 @@
 package net.cpeek.gooninite.blocks;
 
 
-import net.cpeek.gooninite.Gooninite;
 import net.cpeek.gooninite.fluids.GoonFluidHandler;
 import net.cpeek.gooninite.items.GooniniteItems;
 import net.cpeek.gooninite.menus.LatticeRecrystallizerMenu;
-import net.cpeek.gooninite.menus.PhaseDestabilizerMenu;
 import net.cpeek.gooninite.recipes.GooniniteRecipes;
 import net.cpeek.gooninite.recipes.LatticeRecrystallizingRecipe;
 import net.minecraft.core.BlockPos;
@@ -49,7 +47,7 @@ public class LatticeRecrystallizerBlockEntity extends BlockEntity implements Men
                     Optional<LatticeRecrystallizingRecipe> recipeOpt = getCurrentRecipe();
                     if(recipeOpt.isPresent()){
                         currentRecipe = recipeOpt.get();
-                        maxProgress = currentRecipe.processsingTime();
+                        maxProgress = currentRecipe.processingTime();
                     } else {
                         System.out.println("recipe not loaded");
                     }
@@ -125,7 +123,6 @@ public class LatticeRecrystallizerBlockEntity extends BlockEntity implements Men
             be.fluidHandler.drain(be.currentRecipe.fluid(), IFluidHandler.FluidAction.EXECUTE);
         }
 
-        // TODO: stall progress if output is full
         if(be.running){
             be.progress++;
             if(be.progress >= be.maxProgress){

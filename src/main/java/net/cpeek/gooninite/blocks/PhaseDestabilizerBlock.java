@@ -14,6 +14,8 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -39,5 +41,18 @@ public class PhaseDestabilizerBlock extends GooniniteMachineBlock implements Ent
         }
 
         return InteractionResult.PASS;
+    }
+
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type){
+        return !level.isClientSide
+                ? createTicker(type, GooniniteBlockEntities.PHASE_DESTABILIZER.get(), PhaseDestabilizerBlockEntity::serverTick)
+                : null;
+    }
+
+    private static <T extends BlockEntity> BlockEntityTicker<T> createTicker(
+            BlockEntityType<T> type,
+            BlockEntityType<? extends BlockEntity> expectedType,
+            BlockEntityTicker<? extends PhaseDestabilizerBlockEntity> ticker) {
+        return type == expectedType? (BlockEntityTicker<T>) ticker : null;
     }
 }

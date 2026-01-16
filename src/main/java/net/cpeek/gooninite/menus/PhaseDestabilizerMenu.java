@@ -113,6 +113,8 @@ public class PhaseDestabilizerMenu extends AbstractContainerMenu {
     public int getMaxEnergy(){
         return data.get(3);
     }
+    public int getFluid(){ return data.get(4);}
+    public int getMaxFluid(){ return data.get(5);}
 
 
     private void addPlayerInventory(Inventory inv){

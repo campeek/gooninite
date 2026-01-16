@@ -32,7 +32,6 @@ public class LatticeRecrystallizerScreen extends AbstractContainerScreen<Lattice
         this.imageHeight = 166;
         this.imageWidth = 205;
 
-
     }
 
     @Override

@@ -12,9 +12,9 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("removal")
-public class LatticeRecipeSerializer implements RecipeSerializer<LatticeRecrystallizingRecipe> {
+public class DestabilizingRecipeSerializer implements RecipeSerializer<PhaseDestabilizingRecipe> {
     @Override
-    public LatticeRecrystallizingRecipe fromJson(ResourceLocation id, JsonObject json) {
+    public PhaseDestabilizingRecipe fromJson(ResourceLocation id, JsonObject json) {
         Ingredient ingredient = Ingredient.fromJson(json.get("ingredient"));
 
         JsonObject resultObject = GsonHelper.getAsJsonObject(json, "result");
@@ -27,24 +27,22 @@ public class LatticeRecipeSerializer implements RecipeSerializer<LatticeRecrysta
         int energy = GsonHelper.getAsInt(json, "energy", 1000);
         int fluid = GsonHelper.getAsInt(json, "fluid");
 
-        return new LatticeRecrystallizingRecipe(id, ingredient, result, time, energy, fluid);
+        return new PhaseDestabilizingRecipe(id, ingredient, time, energy, fluid);
     }
 
     @Override
-    public @Nullable LatticeRecrystallizingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+    public @Nullable PhaseDestabilizingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
         Ingredient ingredient = Ingredient.fromNetwork(buf);
-        ItemStack result = buf.readItem();
         int time = buf.readVarInt();
         int energy = buf.readVarInt();
         int fluid = buf.readVarInt();
 
-        return new LatticeRecrystallizingRecipe(id, ingredient, result, time, energy, fluid);
+        return new PhaseDestabilizingRecipe(id, ingredient, time, energy, fluid);
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buf, LatticeRecrystallizingRecipe recipe) {
+    public void toNetwork(FriendlyByteBuf buf, PhaseDestabilizingRecipe recipe) {
         recipe.ingredient().toNetwork(buf);
-        buf.writeItem(recipe.result());
         buf.writeVarInt(recipe.processingTime());
         buf.writeVarInt(recipe.energy());
         buf.writeVarInt(recipe.fluid());

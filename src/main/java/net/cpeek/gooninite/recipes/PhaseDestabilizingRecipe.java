@@ -11,10 +11,9 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-public record LatticeRecrystallizingRecipe(
+public record PhaseDestabilizingRecipe(
         ResourceLocation id,
         Ingredient ingredient,
-        ItemStack result,
         int processingTime,
         int energy,
         int fluid) implements Recipe<SimpleContainer> {
@@ -25,7 +24,7 @@ public record LatticeRecrystallizingRecipe(
 
     @Override
     public ItemStack assemble(SimpleContainer pContainer, RegistryAccess pRegistryAccess) {
-        return result.copy();
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -35,7 +34,7 @@ public record LatticeRecrystallizingRecipe(
 
     @Override
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
-        return result;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -45,11 +44,11 @@ public record LatticeRecrystallizingRecipe(
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return GooniniteRecipes.RECRYSTALLIZING_SERIALIZER.get();
+        return GooniniteRecipes.DESTABILIZING_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
-        return GooniniteRecipes.LATTICE_RECRYSTALLIZING_RECIPE.get();
+        return GooniniteRecipes.PHASE_DESTABILIZING_RECIPE.get();
     }
 }
