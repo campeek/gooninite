@@ -26,6 +26,13 @@ public class PhaseDestabilizerScreen extends AbstractContainerScreen<PhaseDestab
         this.imageHeight = 166;
     }
 
+    @Override
+    public void render(GuiGraphics gg, int pMouseX, int pMouseY, float pPartialTick) {
+        renderBackground(gg);
+        super.render(gg, pMouseX, pMouseY, pPartialTick);
+        renderTooltip(gg, pMouseX, pMouseY);
+    }
+
     protected void renderBg(GuiGraphics gg, float partialTick, int mouseX, int mouseY){
         int x = leftPos;
         int y = topPos;

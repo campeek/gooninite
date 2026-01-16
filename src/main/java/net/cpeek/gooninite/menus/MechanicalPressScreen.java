@@ -9,6 +9,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 
+import static net.cpeek.gooninite.menus.GoonGUIHelpers.SLOTS_OVERLAY;
+
 @SuppressWarnings("removal")
 public class MechanicalPressScreen extends AbstractContainerScreen<MechanicalPressMenu> {
 
@@ -48,6 +50,13 @@ public class MechanicalPressScreen extends AbstractContainerScreen<MechanicalPre
         else return Integer.toString(rpm);
     }
 
+    @Override
+    public void render(GuiGraphics gg, int pMouseX, int pMouseY, float pPartialTick) {
+        renderBackground(gg);
+        super.render(gg, pMouseX, pMouseY, pPartialTick);
+        renderTooltip(gg, pMouseX, pMouseY);
+    }
+
     protected void renderBg(GuiGraphics gg, float partialTick, int mouseX, int mouseY){
         int x = leftPos;
         int y = topPos;
@@ -61,12 +70,6 @@ public class MechanicalPressScreen extends AbstractContainerScreen<MechanicalPre
                 8,
                 256, 256);
 
-        gg.blit(GoonGUIHelpers.SLOTS_OVERLAY,
-                leftPos, topPos,
-                1,
-                0,0,
-                imageWidth, imageHeight,
-                imageWidth, imageHeight);
 
         // Blit overlay
         gg.blit(PRESS_OVERLAY,
@@ -75,6 +78,8 @@ public class MechanicalPressScreen extends AbstractContainerScreen<MechanicalPre
                 0, 0,
                 imageWidth, imageHeight,
                 221, imageHeight);
+
+        gg.blit(SLOTS_OVERLAY, leftPos, topPos, 1, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
 
         /*gg.drawString(this.font,
                 makeRPMString(menu.getRPM()),

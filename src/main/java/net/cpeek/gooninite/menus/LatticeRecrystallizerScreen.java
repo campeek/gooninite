@@ -8,6 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+import static net.cpeek.gooninite.menus.GoonGUIHelpers.SLOTS_OVERLAY;
+
 @SuppressWarnings("removal")
 public class LatticeRecrystallizerScreen extends AbstractContainerScreen<LatticeRecrystallizerMenu> {
 
@@ -19,11 +21,45 @@ public class LatticeRecrystallizerScreen extends AbstractContainerScreen<Lattice
     private static final int BAR_HEIGHT = 45;
     private static final int PROGRESS_ARROW_WIDTH = 22;
 
+    private static final HoverRegion FLUID_BAR_REGION = new HoverRegion(12, 20, 29, 64);
+    private static final HoverRegion ENERGY_BAR_REGION = new HoverRegion(159, 20, 165, 64);
+
+    private int animTick = 0;
+
 
     public LatticeRecrystallizerScreen(LatticeRecrystallizerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         this.imageHeight = 166;
         this.imageWidth = 205;
+
+
+    }
+
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+        animTick++;
+    }
+
+    @Override
+    public void render(GuiGraphics gg, int mX, int mY, float pPartialTick) {
+        renderBackground(gg);
+        super.render(gg, mX, mY, pPartialTick);
+        renderTooltip(gg, mX, mY);
+
+        int guiMX = mX - leftPos;
+        int guiMY = mY - topPos;
+        if(FLUID_BAR_REGION.isInside(guiMX, guiMY)){
+            gg.renderTooltip(font,
+                    Component.literal("Liquid Gooninite: " + menu.getFluid() + "/"+menu.getMaxFluid() + " mB"),
+                    mX,
+                    mY);
+        } else if(ENERGY_BAR_REGION.isInside(guiMX, guiMY)){
+            gg.renderTooltip(font,
+                    Component.literal("Energy: " + menu.getEnergy() + "/" + menu.getMaxEnergy() + " FE"),
+                    mX,
+                    mY);
+        }
     }
 
     @Override
@@ -38,13 +74,6 @@ public class LatticeRecrystallizerScreen extends AbstractContainerScreen<Lattice
                 8,
                 256, 256);
 
-        gg.blit(GoonGUIHelpers.SLOTS_OVERLAY,
-                leftPos, topPos,
-                1,
-                0, 0,
-                176, imageHeight,
-                176, imageHeight);
-
         gg.blit(RECRYSTALLIZER_OVERLAY,
                 leftPos, topPos,
                 1,
@@ -52,7 +81,7 @@ public class LatticeRecrystallizerScreen extends AbstractContainerScreen<Lattice
                 176, imageHeight,
                 imageWidth, imageHeight);
 
-        //gg.
+        gg.blit(SLOTS_OVERLAY, leftPos, topPos, 1, 0, 0, 176, imageHeight, 176, imageHeight);
 
         float progressRatio = (float)menu.getProgress()/menu.getMaxProgress();
         int progressArrowPixels = (int)(PROGRESS_ARROW_WIDTH * progressRatio);
@@ -79,11 +108,13 @@ public class LatticeRecrystallizerScreen extends AbstractContainerScreen<Lattice
         float fluidRatio = (float)menu.getFluid()/ menu.getMaxFluid();
         int fluidBarPixels = (int)(BAR_HEIGHT*fluidRatio);
 
+
+        int frame = (animTick/2)%32;
         int fluidBarRootY = topPos+65-fluidBarPixels;
         GoonGUIHelpers.blitTiledTextureAnimated(gg, FLUID_TEXTURE,
                 leftPos+12, fluidBarRootY,
                 FLUID_BAR_WIDTH, fluidBarPixels,
-                16, 16, 1);
+                16, 512, frame, 16);
 
     }
 }

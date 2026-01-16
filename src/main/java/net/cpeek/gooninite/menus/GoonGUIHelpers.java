@@ -56,19 +56,19 @@ public class GoonGUIHelpers {
     public static void blitTiledTextureAnimated(GuiGraphics gg, ResourceLocation tex,
                                         int x, int y,
                                         int w, int h,
-                                        int texW, int texH, int frame){
+                                        int texW, int texH, int frame, int frameSize){
 
-        int framePixels = texH*frame;
+        int framePixels = frameSize*frame;
 
-        for(int xPixels = w; xPixels>=0; xPixels=xPixels-texW){
-            for(int yPixels = h; yPixels>=0; yPixels=yPixels-texH){
+        for(int xPixels = w; xPixels>0; xPixels=xPixels-texW){
+            for(int yPixels = h; yPixels>0; yPixels=yPixels-frameSize){
                 int xPos, yPos;
                 xPos=x+Math.abs(w-xPixels);
                 yPos=y+Math.abs(h-yPixels);
 
                 int bW, bH;
                 bW = Math.min(xPixels, texW);
-                bH = Math.min(yPixels, texH);
+                bH = Math.min(yPixels, frameSize);
 
                 gg.blit(tex,
                         xPos, yPos,
@@ -78,6 +78,5 @@ public class GoonGUIHelpers {
                         texW, texH);
             }
         }
-
     }
 }
