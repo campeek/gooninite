@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 public class MechanicalPressScreen extends AbstractContainerScreen<MechanicalPressMenu> {
 
     // Resources
-    private static final ResourceLocation PRESS_OVERLAY = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID,"textures/gui/mechanical_press_overlay.png");
+    private static final ResourceLocation PRESS_OVERLAY = new ResourceLocation(Gooninite.MODID, "textures/gui/mechanical_press_overlay.png");
 
     /*
     Important numbers

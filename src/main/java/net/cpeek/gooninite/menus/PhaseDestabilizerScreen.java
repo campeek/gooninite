@@ -8,10 +8,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+import static net.cpeek.gooninite.menus.GoonGUIHelpers.GUI_TEXTURE;
+import static net.cpeek.gooninite.menus.GoonGUIHelpers.SLOTS_OVERLAY;
+
 public class PhaseDestabilizerScreen extends AbstractContainerScreen<PhaseDestabilizerMenu> {
-    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "textures/gui/gui_base.png");
-    private static final ResourceLocation BARS_OVERLAY = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "textures/gui/hyperbolic_goon_chamber_bars_overlay.png");
-    private static final ResourceLocation SLOTS_OVERLAY = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "textures/gui/slots_overlay.png");
+
+    private static final ResourceLocation BARS_OVERLAY = new ResourceLocation(Gooninite.MODID, "textures/gui/phase_destabilizer_overlay.png");
 
     private static final int FLUID_BAR_WIDTH = 18;
     private static final int ENERGY_BAR_WIDTH = 7;

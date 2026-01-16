@@ -39,8 +39,7 @@ public class ClientModEvents {
         });
 
         var rm = Minecraft.getInstance().getResourceManager();
-        //var resId = new ResourceLocation(Gooninite.MODID, "block/mechanical_sinter_press_ram");
-        var resId = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "models/block/mechanical_sinter_press_ram.json");
+        var resId = new ResourceLocation(Gooninite.MODID, "block/mechanical_sinter_press_ram");
 
         rm.getResource(resId).ifPresentOrElse(
                 r-> System.out.println("FOUND RAM RESOURCE " + r.sourcePackId()),
@@ -48,7 +47,7 @@ public class ClientModEvents {
         );
 
 
-        var staticId = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "models/block/mechanical_sinter_press_static.json");
+        var staticId = new ResourceLocation(Gooninite.MODID, "models/block/mechanical_sinter_press_static.json");
         rm.getResource(staticId).ifPresentOrElse(
                 r-> System.out.println("FOUND STATIC RESOURCE " + r.sourcePackId()),
                 () -> System.out.println("MISSING STATIC RESOURCE")
@@ -57,7 +56,6 @@ public class ClientModEvents {
 
     @SubscribeEvent
     public static void registerAdditionalModels(ModelEvent.RegisterAdditional event){
-        //event.register(new ResourceLocation(Gooninite.MODID, "block/mechanical_sinter_press_ram"));
-        event.register(ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "block/mechanical_sinter_press_ram"));
+        event.register(new ResourceLocation(Gooninite.MODID, "block/mechanical_sinter_press_ram"));
     }
 }

@@ -128,27 +128,28 @@ public class LatticeRecrystallizerBlockEntity extends BlockEntity implements Men
         // TODO: stall progress if output is full
         if(be.running){
             be.progress++;
-            System.out.println(be.progress);
             if(be.progress >= be.maxProgress){
-                be.running = false;
-                be.progress = 0;
+                if(be.itemHandler.getStackInSlot(SLOT_OUT).isEmpty()) {
+                    be.running = false;
+                    be.progress = 0;
 
-                ItemStack result = be.currentRecipe.result();
+                    ItemStack result = be.currentRecipe.result();
 
-                ItemStack in = be.itemHandler.getStackInSlot(SLOT_IN);
-                ItemStack out = be.itemHandler.getStackInSlot(SLOT_OUT);
-                in.shrink(1);
+                    ItemStack in = be.itemHandler.getStackInSlot(SLOT_IN);
+                    ItemStack out = be.itemHandler.getStackInSlot(SLOT_OUT);
+                    in.shrink(1);
 
-                be.itemHandler.setStackInSlot(SLOT_IN, in);
+                    be.itemHandler.setStackInSlot(SLOT_IN, in);
 
-                if(out.isEmpty()){
-                    be.itemHandler.setStackInSlot(SLOT_OUT, result.copy());
-                } else {
-                    out.grow(result.getCount());
-                    be.itemHandler.setStackInSlot(SLOT_OUT, out);
+                    if (out.isEmpty()) {
+                        be.itemHandler.setStackInSlot(SLOT_OUT, result.copy());
+                    } else {
+                        out.grow(result.getCount());
+                        be.itemHandler.setStackInSlot(SLOT_OUT, out);
+                    }
+                    be.setChanged();
+                    level.sendBlockUpdated(pos, state, state, 3);
                 }
-                be.setChanged();
-                level.sendBlockUpdated(pos, state, state, 3);
             }
         }
     }

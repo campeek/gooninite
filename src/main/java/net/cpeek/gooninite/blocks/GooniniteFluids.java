@@ -26,8 +26,8 @@ public class GooniniteFluids {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Gooninite.MODID);
 
-    private static final ResourceLocation STILL = ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_still");
-    private static final ResourceLocation FLOW = ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_flow");
+    private static final ResourceLocation STILL = new ResourceLocation("minecraft", "block/water_still");
+    private static final ResourceLocation FLOW = new ResourceLocation("minecraft", "block/water_flow");
 
 
     public static final RegistryObject<FluidType> GOON_JUICE_TYPE = FLUID_TYPES.register("goon_juice", () ->

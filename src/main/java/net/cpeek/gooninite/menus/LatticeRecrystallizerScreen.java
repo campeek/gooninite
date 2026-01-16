@@ -10,8 +10,8 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class LatticeRecrystallizerScreen extends AbstractContainerScreen<LatticeRecrystallizerMenu> {
 
-    private static final ResourceLocation RECRYSTALLIZER_OVERLAY = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "textures/gui/lattice_recrystallizer_overlay.png");
-    private static final ResourceLocation FLUID_TEXTURE = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "textures/gui/goon_fluid_gui.png");
+    private static final ResourceLocation RECRYSTALLIZER_OVERLAY = new ResourceLocation(Gooninite.MODID, "textures/gui/lattice_recrystallizer_overlay.png");
+    private static final ResourceLocation FLUID_TEXTURE = new ResourceLocation("minecraft", "textures/block/water_still.png");
 
     private static final int FLUID_BAR_WIDTH = 18;
     private static final int ENERGY_BAR_WIDTH = 7;
@@ -27,7 +27,6 @@ public class LatticeRecrystallizerScreen extends AbstractContainerScreen<Lattice
 
     @Override
     protected void renderBg(GuiGraphics gg, float pPartialTick, int pMouseX, int pMouseY) {
-
 
         // draw grey GUI base
         GoonGUIHelpers.blit9Slice(gg, GoonGUIHelpers.GUI_TEXTURE,
@@ -52,6 +51,8 @@ public class LatticeRecrystallizerScreen extends AbstractContainerScreen<Lattice
                 176, imageHeight,
                 imageWidth, imageHeight);
 
+        //gg.
+
         float progressRatio = (float)menu.getProgress()/menu.getMaxProgress();
         int progressArrowPixels = (int)(PROGRESS_ARROW_WIDTH * progressRatio);
 
@@ -65,21 +66,23 @@ public class LatticeRecrystallizerScreen extends AbstractContainerScreen<Lattice
         float energyRatio = (float)menu.getEnergy()/menu.getMaxEnergy();
         int energyBarPixels = (int)(BAR_HEIGHT*energyRatio);
 
-        int barRootY;
-        barRootY = topPos+64-energyBarPixels;
-        System.out.println(barRootY);
-
+        int energyBarRootY = topPos+65-energyBarPixels;
         gg.blit(RECRYSTALLIZER_OVERLAY,
-                leftPos+159, barRootY,
+                leftPos+159, energyBarRootY,
                 2,
                 176, 165-energyBarPixels,
                 ENERGY_BAR_WIDTH, energyBarPixels,
                 imageWidth, imageHeight);
 
-        GoonGUIHelpers.blitTiledTexture(gg, FLUID_TEXTURE,
-                leftPos+12, topPos+20,
-                FLUID_BAR_WIDTH, BAR_HEIGHT,
-                16, 16);
+
+        float fluidRatio = (float)menu.getFluid()/ menu.getMaxFluid();
+        int fluidBarPixels = (int)(BAR_HEIGHT*fluidRatio);
+
+        int fluidBarRootY = topPos+65-fluidBarPixels;
+        GoonGUIHelpers.blitTiledTextureAnimated(gg, FLUID_TEXTURE,
+                leftPos+12, fluidBarRootY,
+                FLUID_BAR_WIDTH, fluidBarPixels,
+                16, 16, 1);
 
     }
 }

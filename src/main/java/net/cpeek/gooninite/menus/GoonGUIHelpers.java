@@ -7,8 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GoonGUIHelpers {
 
-    public static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "textures/gui/gui_base.png");
-    public static final ResourceLocation SLOTS_OVERLAY = ResourceLocation.fromNamespaceAndPath(Gooninite.MODID, "textures/gui/slots_overlay.png");
+    public static final ResourceLocation GUI_TEXTURE = new ResourceLocation(Gooninite.MODID, "textures/gui/gui_base.png");
+    public static final ResourceLocation SLOTS_OVERLAY = new ResourceLocation(Gooninite.MODID, "textures/gui/slots_overlay.png");
 
     public static void blit9Slice(GuiGraphics gg, ResourceLocation tex,
                                   int x, int y, int w, int h,               // position + window size
@@ -52,10 +52,13 @@ public class GoonGUIHelpers {
 
     }
 
-    public static void blitTiledTexture(GuiGraphics gg, ResourceLocation tex,
+    public static void blitTiledTextureAnimated(GuiGraphics gg, ResourceLocation tex,
                                         int x, int y,
                                         int w, int h,
-                                        int texW, int texH){
+                                        int texW, int texH, int frame){
+
+        int framePixels = texH*frame;
+
         for(int xPixels = w; xPixels>=0; xPixels=xPixels-texW){
             for(int yPixels = h; yPixels>=0; yPixels=yPixels-texH){
                 int xPos, yPos;
@@ -69,7 +72,7 @@ public class GoonGUIHelpers {
                 gg.blit(tex,
                         xPos, yPos,
                         2,
-                        0,0,
+                        0,framePixels,
                         bW, bH,
                         texW, texH);
             }
