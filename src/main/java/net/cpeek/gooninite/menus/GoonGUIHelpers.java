@@ -5,6 +5,7 @@ import net.cpeek.gooninite.Gooninite;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
+@SuppressWarnings("removal")
 public class GoonGUIHelpers {
 
     public static final ResourceLocation GUI_TEXTURE = new ResourceLocation(Gooninite.MODID, "textures/gui/gui_base.png");

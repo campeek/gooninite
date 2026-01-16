@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 import static net.cpeek.gooninite.blocks.GooniniteBlocks.GOON_JUICE_BLOCK;
 import static net.cpeek.gooninite.items.GooniniteItems.GOON_JUICE_BUCKET;
 
+@SuppressWarnings("removal")
 public class GooniniteFluids {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Gooninite.MODID);
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, Gooninite.MODID);

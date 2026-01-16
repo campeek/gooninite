@@ -12,6 +12,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("removal")
 public class PressingRecipeSerializer implements RecipeSerializer<GoonPressingRecipe> {
     @Override
     public GoonPressingRecipe fromJson(ResourceLocation id, JsonObject json) {

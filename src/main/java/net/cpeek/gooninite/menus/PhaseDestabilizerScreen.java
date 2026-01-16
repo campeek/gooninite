@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 import static net.cpeek.gooninite.menus.GoonGUIHelpers.GUI_TEXTURE;
 import static net.cpeek.gooninite.menus.GoonGUIHelpers.SLOTS_OVERLAY;
 
+@SuppressWarnings("removal")
 public class PhaseDestabilizerScreen extends AbstractContainerScreen<PhaseDestabilizerMenu> {
 
     private static final ResourceLocation BARS_OVERLAY = new ResourceLocation(Gooninite.MODID, "textures/gui/phase_destabilizer_overlay.png");

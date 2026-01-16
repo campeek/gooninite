@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 
+@SuppressWarnings("removal")
 public class MechanicalPressScreen extends AbstractContainerScreen<MechanicalPressMenu> {
 
     // Resources

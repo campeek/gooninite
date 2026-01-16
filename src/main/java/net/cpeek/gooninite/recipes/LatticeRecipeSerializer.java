@@ -13,6 +13,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("removal")
 public class LatticeRecipeSerializer implements RecipeSerializer<LatticeRecrystallizingRecipe> {
     @Override
     public LatticeRecrystallizingRecipe fromJson(ResourceLocation id, JsonObject json) {

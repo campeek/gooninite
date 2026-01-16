@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+@SuppressWarnings("removal")
 public class LatticeRecrystallizerScreen extends AbstractContainerScreen<LatticeRecrystallizerMenu> {
 
     private static final ResourceLocation RECRYSTALLIZER_OVERLAY = new ResourceLocation(Gooninite.MODID, "textures/gui/lattice_recrystallizer_overlay.png");

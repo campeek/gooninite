@@ -20,6 +20,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+@SuppressWarnings("removal")
 @Mod.EventBusSubscriber(modid = Gooninite.MODID, bus=Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModEvents {
     @SubscribeEvent
