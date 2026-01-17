@@ -1,6 +1,7 @@
 package net.cpeek.gooninite.recipes;
 
 
+import net.cpeek.gooninite.blocks.GooniniteFluids;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.SimpleContainer;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.fluids.FluidStack;
 
 public record LatticeRecrystallizingRecipe(
         ResourceLocation id,
@@ -37,6 +39,12 @@ public record LatticeRecrystallizingRecipe(
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
         return result;
     }
+
+    public ItemStack getOutputItem(){
+        return result;
+    }
+    public Ingredient getInputItem(){ return ingredient; }
+    public FluidStack getInputFluid(){ return new FluidStack(GooniniteFluids.GOON_JUICE.get(), fluid);}
 
     @Override
     public ResourceLocation getId() {

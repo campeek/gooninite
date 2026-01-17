@@ -144,6 +144,7 @@ repositories {
     maven{url = "https://modmaven.dev"}
     maven{url = "https://maven.createmod.net"}
     maven{url = "https://api.mondrinth.com/maven"}
+    maven{url = "https://maven.blamejared.com"}
     maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" } // ForgeConfigAPIPort
 }
 
@@ -180,6 +181,11 @@ dependencies {
     implementation(fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}"))
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
     implementation("io.github.llamalad7:mixinextras-forge:0.4.1")
+
+    compileOnly fg.deobf("mezz.jei:jei-1.20.1-common-api:15.20.0.126")
+    compileOnly fg.deobf("mezz.jei:jei-1.20.1-forge-api:15.20.0.126")
+
+    runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:15.20.0.126")
 
 }
 

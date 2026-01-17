@@ -2,12 +2,13 @@
   "_comment": "Gooninite",
 
   "block.gooninite.gooninite_ore": "Gooninite Ore",
-  "item.gooninite.raw_gooninite": "Raw Gooninite",
-  "item.gooninite.gooninite_nugget": "Gooninite Nugget",
-  "item.gooninite.gooninite_pellet": "Gooninite Pellet",
   "block.gooninite.hyperbolic_goon_chamber": "Hyperbolic Goon Chamber",
   "block.gooninite.phase_destabilizer": "Phase Destabilizer",
   "block.gooninite.lattice_recrystallizer": "Lattice Recrystallizer",
-  "block.gooninite.mechanical_press": "Mechanical Sintering Press"
+  "block.gooninite.mechanical_press": "Mechanical Sintering Press",
 
+  "item.gooninite.gooninite_liner": "Gooninite Liner",
+  "item.gooninite.raw_gooninite": "Raw Gooninite",
+  "item.gooninite.gooninite_nugget": "Gooninite Nugget",
+  "item.gooninite.gooninite_pellet": "Gooninite Pellet"
 }

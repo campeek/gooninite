@@ -24,6 +24,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
@@ -135,15 +136,22 @@ public class PhaseDestabilizerBlockEntity extends BlockEntity implements MenuPro
     }
 
     private boolean canDoWork(){
-        //if(currentRecipe == null) return false; // no recipe
-        if(itemHandler.getStackInSlot(SLOT_IN).isEmpty()) return false; // no item
-        if(energyStorage.getEnergyStored() < currentRecipe.energy()) return false; // not enough energy
-        if(fluidHandler.getFluidInTank(0).getAmount() < currentRecipe.fluid()) return false; // not enough fluid
+        if(currentRecipe == null) {
+            System.out.println("no recipe");
+            return false; // no recipe
+        }
+        if(itemHandler.getStackInSlot(SLOT_IN).isEmpty()){
+            System.out.println("no input");
+            return false; // no item
+        }
+        if(energyStorage.getEnergyStored() < currentRecipe.energy()){
+            System.out.println("no energy");
+            return false; // not enough energy
+        }
         ItemStack nugget = itemHandler.getStackInSlot(SLOT_IN);
-        if (nugget.is(GooniniteItems.GOONINITE_NUGGET_ITEM.get())) {
-            if(nugget.getDamageValue() != nugget.getMaxDamage()){ // only take broken liners
-                return false;
-            }
+        if (!nugget.is(GooniniteItems.GOONINITE_NUGGET_ITEM.get())) {
+            System.out.println("no nugget");
+            return false;
         }
 
         return true;
@@ -158,32 +166,29 @@ public class PhaseDestabilizerBlockEntity extends BlockEntity implements MenuPro
             be.fluidHandler.drain(be.currentRecipe.fluid(), IFluidHandler.FluidAction.EXECUTE);
         }
 
-        /*if(be.running){
+        if(be.running){
             be.progress++;
             if(be.progress >= be.maxProgress){
-                if(be.itemHandler.getStackInSlot(SLOT_OUT).isEmpty()) {
+
+                int fluidAmt = be.fluidHandler.getFluidInTank(0).getAmount();
+                int fluidCap = be.fluidHandler.getTankCapacity(0);
+
+                if(fluidAmt+be.currentRecipe.fluid() <= fluidCap) { // don't overfill tank and waste goon juice
                     be.running = false;
                     be.progress = 0;
 
-                    ItemStack result = be.currentRecipe.result();
 
+                    FluidStack outFluid = new FluidStack(GooniniteFluids.GOON_JUICE.get(), be.currentRecipe.fluid());
                     ItemStack in = be.itemHandler.getStackInSlot(SLOT_IN);
-                    ItemStack out = be.itemHandler.getStackInSlot(SLOT_OUT);
                     in.shrink(1);
 
                     be.itemHandler.setStackInSlot(SLOT_IN, in);
-
-                    if (out.isEmpty()) {
-                        be.itemHandler.setStackInSlot(SLOT_OUT, result.copy());
-                    } else {
-                        out.grow(result.getCount());
-                        be.itemHandler.setStackInSlot(SLOT_OUT, out);
-                    }
+                    be.fluidHandler.fill(outFluid, IFluidHandler.FluidAction.EXECUTE);
                     be.setChanged();
                     level.sendBlockUpdated(pos, state, state, 3);
                 }
             }
-        }*/
+        }
     }
 
 

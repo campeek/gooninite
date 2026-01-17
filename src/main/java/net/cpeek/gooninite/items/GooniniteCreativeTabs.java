@@ -25,6 +25,7 @@ public class GooniniteCreativeTabs {
                 output.accept(GooniniteItems.GOONINITE_INGOT.get());
                 output.accept(GooniniteItems.GOONINITE_NUGGET_ITEM.get());
                 output.accept(GooniniteItems.GOONINITE_PELLET_ITEM.get());
+                output.accept(GooniniteItems.GOONINITE_LINER_ITEM.get());
                 output.accept(GooniniteItems.GOONINITE_DRIP_ITEM.get());
                 output.accept(GooniniteItems.GOONINITE_DRIP_BLOCK_ITEM.get());
                 output.accept(GooniniteItems.GOON_JUICE_BUCKET.get());

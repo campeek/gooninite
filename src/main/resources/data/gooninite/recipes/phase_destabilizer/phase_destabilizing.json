@@ -4,7 +4,7 @@
     "item": "gooninite:gooninite_nugget"
   },
   "fluid": {
-    "fluid": "gooninite:goon_juice",
+    "type": "gooninite:goon_juice",
     "amount": 1000
   },
   "time": 200,

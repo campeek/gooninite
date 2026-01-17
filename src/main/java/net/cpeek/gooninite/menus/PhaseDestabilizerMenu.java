@@ -18,7 +18,7 @@ public class PhaseDestabilizerMenu extends AbstractContainerMenu {
     public PhaseDestabilizerMenu(int id, Inventory playerInv, FriendlyByteBuf buf){
         this(id, playerInv,
                 (PhaseDestabilizerBlockEntity) playerInv.player.level().getBlockEntity(buf.readBlockPos()),
-                new SimpleContainerData(4));
+                new SimpleContainerData(6));
     }
 
     public PhaseDestabilizerMenu(int id, Inventory playerInv, PhaseDestabilizerBlockEntity entity, ContainerData data){

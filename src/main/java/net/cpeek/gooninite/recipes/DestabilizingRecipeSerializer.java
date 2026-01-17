@@ -9,6 +9,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("removal")
@@ -17,17 +18,15 @@ public class DestabilizingRecipeSerializer implements RecipeSerializer<PhaseDest
     public PhaseDestabilizingRecipe fromJson(ResourceLocation id, JsonObject json) {
         Ingredient ingredient = Ingredient.fromJson(json.get("ingredient"));
 
-        JsonObject resultObject = GsonHelper.getAsJsonObject(json, "result");
-        ItemStack result = new ItemStack(
-                BuiltInRegistries.ITEM.get(new ResourceLocation(GsonHelper.getAsString(resultObject, "item"))),
-                GsonHelper.getAsInt(resultObject, "count", 1)
-        );
-
         int time = GsonHelper.getAsInt(json, "processingTime", 100);
         int energy = GsonHelper.getAsInt(json, "energy", 1000);
-        int fluid = GsonHelper.getAsInt(json, "fluid");
 
-        return new PhaseDestabilizingRecipe(id, ingredient, time, energy, fluid);
+        JsonObject fluidObj = json.getAsJsonObject("fluid");
+        int fluidAmt = fluidObj.get("amount").getAsInt();
+        String fluidType = fluidObj.get("type").getAsString();
+        ResourceLocation fluidTypeID = new ResourceLocation(fluidType);
+
+        return new PhaseDestabilizingRecipe(id, ingredient, time, energy, fluidAmt);
     }
 
     @Override
