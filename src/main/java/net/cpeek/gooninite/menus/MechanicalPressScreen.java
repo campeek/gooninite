@@ -61,6 +61,8 @@ public class MechanicalPressScreen extends AbstractContainerScreen<MechanicalPre
         int x = leftPos;
         int y = topPos;
 
+        //System.out.println(menu.getRPM());
+
         GoonGUIHelpers.blit9Slice(gg,
                 GoonGUIHelpers.GUI_TEXTURE,
                 leftPos, topPos,
@@ -88,10 +90,6 @@ public class MechanicalPressScreen extends AbstractContainerScreen<MechanicalPre
                 false);
 
          */
-        gg.drawCenteredString(this.font,
-                makeRPMString(menu.getRPM()),
-                leftPos+71, topPos+33,
-                0xffffb84d);
 
         // Blit bars for RPM
         int rpm = menu.getRPM();
@@ -103,6 +101,8 @@ public class MechanicalPressScreen extends AbstractContainerScreen<MechanicalPre
         }
 
         int pixelWidth = 5*barSegments;
+
+        //System.out.println(barSegments);
 
         gg.blit(PRESS_OVERLAY,
                 leftPos + 17, topPos + 26,
@@ -125,6 +125,14 @@ public class MechanicalPressScreen extends AbstractContainerScreen<MechanicalPre
                 177, 126,
                 arrowWidth, 7,
                 221, imageHeight);
+
+        gg.pose().pushPose();
+        gg.pose().translate(0,0,69);
+        gg.drawCenteredString(this.font,
+                makeRPMString(menu.getRPM()),
+                leftPos+71, topPos+33,
+                0xffffb84d);
+        gg.pose().popPose();
 
     }
 }

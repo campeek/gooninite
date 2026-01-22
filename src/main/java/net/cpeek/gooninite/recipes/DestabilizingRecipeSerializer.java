@@ -2,14 +2,14 @@ package net.cpeek.gooninite.recipes;
 
 
 import com.google.gson.JsonObject;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("removal")
@@ -25,8 +25,10 @@ public class DestabilizingRecipeSerializer implements RecipeSerializer<PhaseDest
         int fluidAmt = fluidObj.get("amount").getAsInt();
         String fluidType = fluidObj.get("type").getAsString();
         ResourceLocation fluidTypeID = new ResourceLocation(fluidType);
+        Fluid goonJuice = ForgeRegistries.FLUIDS.getValue(fluidTypeID);
 
-        return new PhaseDestabilizingRecipe(id, ingredient, time, energy, fluidAmt);
+        FluidStack fluidIngredientStack = new FluidStack(goonJuice, fluidAmt);
+        return new PhaseDestabilizingRecipe(id, ingredient, time, energy, fluidIngredientStack);
     }
 
     @Override
@@ -34,7 +36,10 @@ public class DestabilizingRecipeSerializer implements RecipeSerializer<PhaseDest
         Ingredient ingredient = Ingredient.fromNetwork(buf);
         int time = buf.readVarInt();
         int energy = buf.readVarInt();
-        int fluid = buf.readVarInt();
+        ResourceLocation fluidID = buf.readResourceLocation();
+        int fluidAmt = buf.readVarInt();
+
+        FluidStack fluid = new FluidStack(ForgeRegistries.FLUIDS.getValue(fluidID), fluidAmt);
 
         return new PhaseDestabilizingRecipe(id, ingredient, time, energy, fluid);
     }
@@ -44,6 +49,9 @@ public class DestabilizingRecipeSerializer implements RecipeSerializer<PhaseDest
         recipe.ingredient().toNetwork(buf);
         buf.writeVarInt(recipe.processingTime());
         buf.writeVarInt(recipe.energy());
-        buf.writeVarInt(recipe.fluid());
+        FluidStack fluid = recipe.resultFluid();
+        buf.writeResourceLocation(ForgeRegistries.FLUIDS.getKey(fluid.getFluid()));
+        buf.writeVarInt(fluid.getAmount());
     }
 }
+;

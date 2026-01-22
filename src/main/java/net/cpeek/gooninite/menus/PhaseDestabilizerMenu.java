@@ -26,7 +26,7 @@ public class PhaseDestabilizerMenu extends AbstractContainerMenu {
         this.entity = entity;
         this.data = data;
 
-        this.addSlot(new SlotItemHandler(entity.getItemHandler(), 0, 56, 35));
+        this.addSlot(new SlotItemHandler(entity.getItemHandler(), 0, 58, 35));
 
         addPlayerInventory(playerInv);
         addPlayerHotbar(playerInv);

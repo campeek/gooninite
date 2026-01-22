@@ -12,14 +12,18 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 
-public record GoonPressingRecipe(
-        ResourceLocation id,
-        Ingredient ingredient,
-        ItemStack result,
-        int processingTime,
-        int minRpm,
-        boolean requiresHeat
-) implements Recipe<SimpleContainer> {
+public class GoonPressingRecipe extends BaseGoonRecipe implements IGoonItemRecipe, IGoonRPMConsumer{
+
+
+    private ItemStack resultItem;
+    private int minRPM;
+
+    public GoonPressingRecipe(ResourceLocation id, Ingredient ing, int processingTime, ItemStack resultItem, int minRPM){
+        super(id, ing, processingTime, 0);
+        this.resultItem = resultItem;
+        this.minRPM = minRPM;
+    }
+
     @Override
     public boolean matches(SimpleContainer container, Level level) {
         return ingredient.test(container.getItem(0));
@@ -27,7 +31,7 @@ public record GoonPressingRecipe(
 
     @Override
     public ItemStack assemble(SimpleContainer pContainer, RegistryAccess pRegistryAccess) {
-        return result.copy();
+        return resultItem.copy();
     }
 
     @Override
@@ -37,11 +41,11 @@ public record GoonPressingRecipe(
 
     @Override
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
-        return result;
+        return resultItem;
     }
 
     public ItemStack getOutputItem(){
-        return result;
+        return resultItem;
     }
 
     public Ingredient getInputItem(){
@@ -61,5 +65,15 @@ public record GoonPressingRecipe(
     @Override
     public RecipeType<?> getType() {
         return GooniniteRecipes.GOON_PRESSING_RECIPE.get();
+    }
+
+    @Override
+    public ItemStack resultItem() {
+        return resultItem;
+    }
+
+    @Override
+    public int minRPM() {
+        return minRPM;
     }
 }

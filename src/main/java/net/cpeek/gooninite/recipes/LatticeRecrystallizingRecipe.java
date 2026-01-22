@@ -1,7 +1,8 @@
 package net.cpeek.gooninite.recipes;
 
 
-import net.cpeek.gooninite.blocks.GooniniteFluids;
+import net.cpeek.gooninite.Gooninite;
+import net.cpeek.gooninite.fluids.GooniniteFluids;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.SimpleContainer;
@@ -11,15 +12,24 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-public record LatticeRecrystallizingRecipe(
-        ResourceLocation id,
-        Ingredient ingredient,
-        ItemStack result,
-        int processingTime,
-        int energy,
-        int fluid) implements Recipe<SimpleContainer> {
+
+// TODO: change this recipe to give a FluidStack and amount
+public class LatticeRecrystallizingRecipe extends BaseGoonRecipe implements IGoonItemRecipe, IGoonFluidConsumer {
+
+
+    private FluidStack fluidIngredient;
+    private ItemStack resultItem;
+
+    public LatticeRecrystallizingRecipe(ResourceLocation id, Ingredient ing, FluidStack ingFluid, int processingTime, int energy, ItemStack resultItem) {
+        super(id, ing, processingTime, energy);
+
+        fluidIngredient = ingFluid;
+        this.resultItem = resultItem;
+    }
+
     @Override
     public boolean matches(SimpleContainer container, Level level) {
         return ingredient.test(container.getItem(0));
@@ -27,7 +37,7 @@ public record LatticeRecrystallizingRecipe(
 
     @Override
     public ItemStack assemble(SimpleContainer pContainer, RegistryAccess pRegistryAccess) {
-        return result.copy();
+        return resultItem.copy();
     }
 
     @Override
@@ -37,14 +47,12 @@ public record LatticeRecrystallizingRecipe(
 
     @Override
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
-        return result;
+        return resultItem;
     }
 
     public ItemStack getOutputItem(){
-        return result;
+        return resultItem;
     }
-    public Ingredient getInputItem(){ return ingredient; }
-    public FluidStack getInputFluid(){ return new FluidStack(GooniniteFluids.GOON_JUICE.get(), fluid);}
 
     @Override
     public ResourceLocation getId() {
@@ -59,5 +67,15 @@ public record LatticeRecrystallizingRecipe(
     @Override
     public RecipeType<?> getType() {
         return GooniniteRecipes.LATTICE_RECRYSTALLIZING_RECIPE.get();
+    }
+
+    @Override
+    public FluidStack ingredientFluid() {
+        return fluidIngredient;
+    }
+
+    @Override
+    public ItemStack resultItem() {
+        return resultItem;
     }
 }

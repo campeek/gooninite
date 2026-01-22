@@ -1,8 +1,11 @@
 {
   "type": "gooninite:lattice_recrystallizing",
   "ingredient": { "item" :  "gooninite:gooninite_liner" },
+  "fluid": {
+    "type": "gooninite:goon_juice",
+    "amount": 1000
+  },
   "result": { "item":  "gooninite:gooninite_liner", "count":  1},
   "processingTime": 240,
-  "energy": 10000,
-  "fluid": 250
+  "energy": 10000
 }

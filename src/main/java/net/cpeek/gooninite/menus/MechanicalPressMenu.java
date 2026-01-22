@@ -18,16 +18,17 @@ public class MechanicalPressMenu extends AbstractContainerMenu {
 
     public MechanicalPressMenu(int id, Inventory playerInv, FriendlyByteBuf buf){
         this(id, playerInv,
-                (MechanicalSinteringPressBE) playerInv.player.level().getBlockEntity(buf.readBlockPos()));
+                (MechanicalSinteringPressBE) playerInv.player.level().getBlockEntity(buf.readBlockPos()),
+                new SimpleContainerData(3));
 
     }
 
-    public MechanicalPressMenu(int id, Inventory playerInv, MechanicalSinteringPressBE entity){
+    public MechanicalPressMenu(int id, Inventory playerInv, MechanicalSinteringPressBE entity, ContainerData data){
         super(GooniniteMenus.MECHANICAL_PRESS_MENU.get(), id);
         this.entity = entity;
-        this.data = makeData(entity);
+        this.data = data;
 
-        addDataSlots(this.data);
+        addDataSlots(data);
         addPlayerInventory(playerInv);
         addPlayerHotbar(playerInv);
 
@@ -121,46 +122,21 @@ public class MechanicalPressMenu extends AbstractContainerMenu {
     }
 
     public int getRPM(){
-        return data.get(0);
+        //System.out.println(data.get(2));
+        return data.get(2);
     }
     public int getProgress(){
-        return data.get(1);
+        System.out.println("progress from containerdata: " + data.get(0));
+        return data.get(0);
     }
     public int getTotalTicks(){
-        return data.get(2);
+        System.out.println("totalticks from containerdata: " + data.get(1));
+        return data.get(1);
     }
 
     private void addPlayerHotbar(Inventory inv){
         for(int col=0; col<9; col++){
             this.addSlot(new Slot(inv, col, 8+col*18, 142));
         }
-    }
-
-    private static ContainerData makeData(MechanicalSinteringPressBE be){
-        return new ContainerData() {
-            @Override
-            public int get(int pIndex) {
-                return switch(pIndex){
-                    case 0 -> be.getRPM();
-                    case 1 -> be.getProgress();
-                    case 2 -> be.totalTicks;
-                    default -> 0;
-                };
-            }
-
-            @Override
-            public void set(int pIndex, int pValue) {
-                switch (pIndex){
-                    case 0 -> be.setRPM(pValue);
-                    case 1 -> be.setProgress(pValue);
-                    case 2 -> be.totalTicks = pValue;
-                }
-            }
-
-            @Override
-            public int getCount() {
-                return 3;
-            }
-        };
     }
 }

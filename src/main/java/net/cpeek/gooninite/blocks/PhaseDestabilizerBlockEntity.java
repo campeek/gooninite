@@ -1,13 +1,13 @@
 package net.cpeek.gooninite.blocks;
 
-import net.cpeek.gooninite.fluids.GoonFluidHandler;
+import net.cpeek.gooninite.blocks.handlers.GoonFluidHandler;
 import net.cpeek.gooninite.items.GooniniteItems;
 import net.cpeek.gooninite.menus.PhaseDestabilizerMenu;
 import net.cpeek.gooninite.recipes.GooniniteRecipes;
-import net.cpeek.gooninite.recipes.LatticeRecrystallizingRecipe;
 import net.cpeek.gooninite.recipes.PhaseDestabilizingRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -16,45 +16,25 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class PhaseDestabilizerBlockEntity extends BlockEntity implements MenuProvider {
+public class PhaseDestabilizerBlockEntity extends GooniniteBasicMachineBlockEntity<PhaseDestabilizingRecipe> implements MenuProvider {
     public PhaseDestabilizerBlockEntity(BlockPos pos, BlockState state){
-        super(GooniniteBlockEntities.PHASE_DESTABILIZER.get(), pos, state);
+        super(GooniniteBlockEntities.PHASE_DESTABILIZER.get(), pos, state, 50000, 1);
     }
-
-    private final EnergyStorage energyStorage = new EnergyStorage(
-            100000,     // capacity
-            5000,               // max receive
-            0                   // max extract (0=input only)
-    );
-
-    private final FluidTank fluid = new FluidTank(2000);
 
     public static final int SLOT_IN = 0;
 
-    private PhaseDestabilizingRecipe currentRecipe;
-
-    private int progress = 0;
-    private int maxProgress = 100;
-
-    private boolean running;
 
     private final ContainerData data = new ContainerData() {
         @Override
@@ -83,112 +63,91 @@ public class PhaseDestabilizerBlockEntity extends BlockEntity implements MenuPro
 
     private final GoonFluidHandler fluidHandler = new GoonFluidHandler(2000);
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(1){
-        @Override
-        protected void onContentsChanged(int slot){
-            if(slot == SLOT_IN){
-                if(!getStackInSlot(slot).isEmpty()){
-                    Optional<PhaseDestabilizingRecipe> recipeOpt = getCurrentRecipe();
-                    if(recipeOpt.isPresent()){
-                        currentRecipe = recipeOpt.get();
-                        maxProgress = currentRecipe.processingTime();
-                    } else {
-                        System.out.println("recipe not loaded");
-                    }
-                } else {
-                    currentRecipe = null;
-                }
-            }
-            setChanged();
-        }
-    };
 
-    private final LazyOptional<IEnergyStorage> energyCap = LazyOptional.of(() -> energyStorage);
     private final LazyOptional<IFluidHandler> fluidCap = LazyOptional.of(()-> fluidHandler);
-    private final LazyOptional<IItemHandler> itemCap = LazyOptional.of(() -> itemHandler);
 
     @Override
-    public <T> @NotNull LazyOptional<T> getCapability(
-        @NotNull Capability<T> cap,
-        @Nullable Direction side
-    ){
-        if(cap == ForgeCapabilities.ENERGY      // requesting energy capabilities
-                && side == getBlockState().getValue(PhaseDestabilizerBlock.FACING).getOpposite()){ // where the requested capability is allowed to hook up
-            return energyCap.cast();                                                                   // opposite of the direction the block is facing = the back
-        } else if(cap == ForgeCapabilities.FLUID_HANDLER
-                        && side == Direction.UP){
+    public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side){
+        if(cap == ForgeCapabilities.FLUID_HANDLER && side == Direction.UP) {
             return fluidCap.cast();
-        } else if(cap == ForgeCapabilities.ITEM_HANDLER
-                        && side == Direction.DOWN){
-            return itemCap.cast();
         }
         return super.getCapability(cap, side);  // otherwise pass it on
     }
 
-    private Optional<PhaseDestabilizingRecipe> getCurrentRecipe(){
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        fluidCap.invalidate();
+    }
+
+    @Override
+    public Optional<PhaseDestabilizingRecipe> findRecipe() {
         if(level == null) return Optional.empty();
 
         SimpleContainer inv = new SimpleContainer(1);
-        inv.setItem(0, itemHandler.getStackInSlot(SLOT_IN));
+        inv.addItem(itemHandler.getStackInSlot(SLOT_IN));
 
-        return level.getRecipeManager().getRecipeFor(
-                GooniniteRecipes.PHASE_DESTABILIZING_RECIPE.get(), inv, level);
+        return level.getRecipeManager().getRecipeFor(GooniniteRecipes.PHASE_DESTABILIZING_RECIPE.get(), inv, level);
     }
 
-    private boolean canDoWork(){
+
+    protected boolean canDoWork(){
         if(currentRecipe == null) {
-            System.out.println("no recipe");
-            return false; // no recipe
-        }
+            //System.out.println("no recipe");
+            return false; }// no recipe
         if(itemHandler.getStackInSlot(SLOT_IN).isEmpty()){
-            System.out.println("no input");
-            return false; // no item
-        }
+            //System.out.println("no item");
+            return false; }// no item
         if(energyStorage.getEnergyStored() < currentRecipe.energy()){
-            System.out.println("no energy");
-            return false; // not enough energy
-        }
+            //System.out.println("no energy");
+            return false; } // not enough energy
+
         ItemStack nugget = itemHandler.getStackInSlot(SLOT_IN);
         if (!nugget.is(GooniniteItems.GOONINITE_NUGGET_ITEM.get())) {
-            System.out.println("no nugget");
-            return false;
-        }
+            //System.out.println("wrong item");
+            return false;}
 
         return true;
     }
 
-    public static void serverTick(Level level, BlockPos pos, BlockState state, PhaseDestabilizerBlockEntity be){
+    @Override
+    protected void consumeInputs() {
+        assert currentRecipe != null;
+        energyStorage.extractEnergy(currentRecipe.energy(), false);
+    }
 
-        if(!be.running && be.canDoWork()){
-            be.running = true;
-            System.out.println("starting process");
-            be.energyStorage.extractEnergy(be.currentRecipe.energy(), false);
-            be.fluidHandler.drain(be.currentRecipe.fluid(), IFluidHandler.FluidAction.EXECUTE);
-        }
+    @Override
+    protected void createOutputs() {
+        assert currentRecipe != null;
+        fluidHandler.fill(currentRecipe.resultFluid(), IFluidHandler.FluidAction.EXECUTE);
+        itemHandler.extractItem(SLOT_IN, 1, false);
+    }
 
-        if(be.running){
-            be.progress++;
-            if(be.progress >= be.maxProgress){
+    @Override
+    protected boolean canOutput() {
+        assert currentRecipe != null;
+        System.out.println(currentRecipe);
+        return (fluidHandler.getFluidInTank(0).getAmount()+currentRecipe.resultFluid().getAmount()) <= fluidHandler.getTankCapacity(0);
+    }
 
-                int fluidAmt = be.fluidHandler.getFluidInTank(0).getAmount();
-                int fluidCap = be.fluidHandler.getTankCapacity(0);
+    @Override
+    protected void serverTickHook(BlockPos pos, BlockState state) {
 
-                if(fluidAmt+be.currentRecipe.fluid() <= fluidCap) { // don't overfill tank and waste goon juice
-                    be.running = false;
-                    be.progress = 0;
+    }
 
+    @Override
+    protected void runningTickHook(BlockPos pos, BlockState state) {
 
-                    FluidStack outFluid = new FluidStack(GooniniteFluids.GOON_JUICE.get(), be.currentRecipe.fluid());
-                    ItemStack in = be.itemHandler.getStackInSlot(SLOT_IN);
-                    in.shrink(1);
+    }
 
-                    be.itemHandler.setStackInSlot(SLOT_IN, in);
-                    be.fluidHandler.fill(outFluid, IFluidHandler.FluidAction.EXECUTE);
-                    be.setChanged();
-                    level.sendBlockUpdated(pos, state, state, 3);
-                }
-            }
-        }
+    @Override
+    protected void startTickHook(BlockPos pos, BlockState state) {
+
+    }
+
+    @Override
+    protected void endTickHook(BlockPos pos, BlockState state) {
+
     }
 
 
@@ -204,5 +163,18 @@ public class PhaseDestabilizerBlockEntity extends BlockEntity implements MenuPro
 
     public IItemHandler getItemHandler(){
         return itemHandler;
+    }
+
+    @Override
+    protected void saveExtra(CompoundTag tag) {
+        tag.put("Tank0", fluidHandler.getFluidInTank(0).writeToNBT(new CompoundTag()));
+    }
+
+    @Override
+    protected void loadExtra(CompoundTag tag) {
+        if(tag.contains("Tank0")){
+            FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(tag.getCompound("Tank0"));
+            fluidHandler.setFluid(fluidStack);
+        }
     }
 }

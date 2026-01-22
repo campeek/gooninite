@@ -1,7 +1,6 @@
 package net.cpeek.gooninite.recipes;
 
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -26,9 +25,8 @@ public class PressingRecipeSerializer implements RecipeSerializer<GoonPressingRe
 
         int time = GsonHelper.getAsInt(json, "processingTime", 100);
         int minRpm = GsonHelper.getAsInt(json, "minRpm", 0);
-        boolean heatReq = GsonHelper.getAsBoolean(json, "requiresHeat", false);
 
-        return new GoonPressingRecipe(id, ingredient, result, time, minRpm, heatReq);
+        return new GoonPressingRecipe(id, ingredient, time, result, minRpm);
     }
 
     @Override
@@ -37,16 +35,14 @@ public class PressingRecipeSerializer implements RecipeSerializer<GoonPressingRe
         ItemStack result = buf.readItem();
         int time = buf.readVarInt();
         int minRpm = buf.readVarInt();
-        boolean heatReq = buf.readBoolean();
-        return new GoonPressingRecipe(id, ingredient, result, time, minRpm, heatReq);
+        return new GoonPressingRecipe(id, ingredient, time, result, minRpm);
     }
 
     @Override
     public void toNetwork(FriendlyByteBuf buf, GoonPressingRecipe recipe) {
         recipe.ingredient().toNetwork(buf);
-        buf.writeItem(recipe.result());
+        buf.writeItem(recipe.resultItem());
         buf.writeVarInt(recipe.processingTime());
-        buf.writeVarInt(recipe.minRpm());
-        buf.writeBoolean(recipe.requiresHeat());
+        buf.writeVarInt(recipe.minRPM());
     }
 }

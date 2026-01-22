@@ -1,6 +1,7 @@
 package net.cpeek.gooninite.blocks.machines;
 
 
+import net.cpeek.gooninite.blocks.GooniniteBasicMachineBlockEntity;
 import net.cpeek.gooninite.blocks.GooniniteBlockEntities;
 import net.cpeek.gooninite.items.GooniniteItems;
 import net.cpeek.gooninite.menus.MechanicalPressMenu;
@@ -17,9 +18,9 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -32,11 +33,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 @SuppressWarnings("NullableProblems")
-public class MechanicalSinteringPressBE extends BlockEntity implements MenuProvider {
+public class MechanicalSinteringPressBE extends GooniniteBasicMachineBlockEntity<GoonPressingRecipe> implements MenuProvider {
 
-    private int progress = 0; // how far along the process is
-
-    private boolean running;
     private long cycleStartTick;
     private long lastPhaseChangeTick;
 
@@ -51,11 +49,6 @@ public class MechanicalSinteringPressBE extends BlockEntity implements MenuProvi
     private final float dwellRatio = 0.2f;      // these control what percentage of the total time is taken
                                                 // by these animations. they should probably add up to 1 lol
                                                 // multiply pistonRatio by 2 cuz it moves twice
-
-
-
-    private final int tickrate = 20;
-
     public int totalTicks = 240;
     public int pistonMoveTicks = (int)(totalTicks*pistonRatio);
     public int pistonDwellTicks = (int) (totalTicks*dwellRatio);
@@ -70,48 +63,87 @@ public class MechanicalSinteringPressBE extends BlockEntity implements MenuProvi
     public static final int SLOT_IN = 0;
     public static final int SLOT_OUT = 1;
 
-    private final ItemStackHandler items = new ItemStackHandler(2){
+    private final ContainerData data = new ContainerData() {
         @Override
-        protected void onContentsChanged(int slot) {
-            setChanged();
-            if(level != null && !level.isClientSide){ // keep server authoritative
-                level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+        public int get(int index) {
+            return switch(index){
+                case 0 -> progress;
+                case 1 -> totalTicks;
+                case 2 -> RPM;
+                default -> 0;
+            };
+        }
+
+        @Override
+        public void set(int index, int value) {
+            switch(index){
+                case 0 -> progress = value;
+                case 1 -> totalTicks = value;
+                case 2 -> RPM = value;
             }
         }
 
         @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            if(slot == SLOT_OUT) return false;
-            return stack.is(GooniniteItems.GOONINITE_NUGGET_ITEM.get());
+        public int getCount() {
+            return 3;
         }
     };
 
-    private LazyOptional<IItemHandler> itemCap = LazyOptional.empty();
 
     public MechanicalSinteringPressBE(BlockPos pos, BlockState state) {
-        super(GooniniteBlockEntities.PRESS_BE.get(), pos, state);
+        super(GooniniteBlockEntities.PRESS_BE.get(), pos, state, 0, 2);
     }
 
     public static void clientTick(Level level, BlockPos pos, BlockState state, MechanicalSinteringPressBE be){
         // increase progress at a constant rate
     }
 
-    private Optional<GoonPressingRecipe> getCurrentRecipe(){
+    @Override
+    public Optional<GoonPressingRecipe> findRecipe(){
         if (level == null) return Optional.empty();
 
         SimpleContainer inv = new SimpleContainer(1);
-        inv.setItem(0, items.getStackInSlot(SLOT_IN));
+        inv.setItem(0, itemHandler.getStackInSlot(SLOT_IN));
 
         return level.getRecipeManager().getRecipeFor(
                 GooniniteRecipes.GOON_PRESSING_RECIPE.get(), inv, level);
     }
 
-    private boolean canDoWork(){
+
+    @Override
+    protected boolean canDoWork(){
         if(RPM < 1) return false;
-        if(items.getStackInSlot(SLOT_IN).isEmpty()) return false;
+        if(itemHandler.getStackInSlot(SLOT_IN).isEmpty()) return false;
         //if(!heat) return false;
 
         return true;
+    }
+
+    @Override
+    protected void consumeInputs() {
+
+    }
+
+    @Override
+    protected void createOutputs() {
+        assert currentRecipe != null;
+        ItemStack result = currentRecipe.resultItem();
+
+        ItemStack in = itemHandler.getStackInSlot(SLOT_IN);
+        ItemStack out = itemHandler.getStackInSlot(SLOT_OUT);
+        itemHandler.extractItem(SLOT_IN, 1, false);
+
+        if (out.isEmpty()) {
+            itemHandler.setStackInSlot(SLOT_OUT, result.copy());
+        } else {
+            out.grow(result.getCount());
+            itemHandler.setStackInSlot(SLOT_OUT, out);
+        }
+    }
+
+    @Override
+    protected boolean canOutput() {
+        return itemHandler.getStackInSlot(SLOT_OUT).isEmpty();
     }
 
     private void recomputeAnimTimes(){
@@ -131,111 +163,61 @@ public class MechanicalSinteringPressBE extends BlockEntity implements MenuProvi
         return (float)(1/(1+ Math.exp(k*(x-64))));
     }
 
-    public static void serverTick(Level level, BlockPos pos, BlockState state, MechanicalSinteringPressBE be){
+    @Override
+    protected void runningTickHook(BlockPos pos, BlockState state) {
+        long currentTick = level.getGameTime();
+        long phaseTicks = getTicksSinceLast();
 
-        var recipeOptional = be.getCurrentRecipe();
+        if(phaseTicks >= pistonMoveTicks && phase == PressPhase.DESCEND){
+            phase = PressPhase.PRESS;
+            lastPhaseChangeTick = currentTick;
+            System.out.println("Phase change after " + pistonMoveTicks);
+            System.out.println("Ticks spent in phase: " + phaseTicks);
 
-        if(recipeOptional.isEmpty()){
-            be.progress = 0;
-            return;
+            setChanged();
+            level.sendBlockUpdated(pos, state, state, 3);
+        } else if(phaseTicks >= pistonDwellTicks && phase == PressPhase.PRESS){
+            phase = PressPhase.ASCEND;
+            lastPhaseChangeTick = currentTick;
+            System.out.println("Phase change after " + pistonDwellTicks);
+            System.out.println("Ticks spent in phase: " + phaseTicks);
+
+            setChanged();
+            level.sendBlockUpdated(pos, state, state, 3);
         }
+        else if(phaseTicks >= pistonMoveTicks && phase == PressPhase.ASCEND){
+            phase = PressPhase.IDLE;
+            lastPhaseChangeTick = currentTick;
+            System.out.println("Phase change after " + pistonMoveTicks);
+            System.out.println("Ticks spent in phase: " + phaseTicks);
 
-        GoonPressingRecipe recipe = recipeOptional.get();
 
-        if(be.canDoWork()){
-            ItemStack out = be.items.getStackInSlot(SLOT_OUT);
-            ItemStack result = recipe.result();
-
-            if(!out.isEmpty() && (!ItemStack.isSameItemSameTags(out, result) || out.getCount() >= out.getMaxStackSize())) return;
-
-            if(!be.running && be.shouldStartCycle()) {
-                be.running = true;
-                be.phase = PressPhase.DESCEND;
-                be.progress = 0;
-                be.cycleStartTick = level.getGameTime();
-                be.lastPhaseChangeTick = be.cycleStartTick;
-
-                be.updateTotalTicks();
-                be.recomputeAnimTimes();
-
-                be.setChanged();
-                level.sendBlockUpdated(pos, state, state, 3);
-
-            }
-            if(be.running){
-                be.progress++;
-                long currentTick = level.getGameTime();
-                long phaseTicks = be.getTicksSinceLast();
-
-                // phase handling for animation + effects hooking
-                // press gets put into DESCEND phase when it starts running
-                if(phaseTicks >= be.pistonMoveTicks && be.phase == PressPhase.DESCEND){
-                    be.phase = PressPhase.PRESS;
-                    be.lastPhaseChangeTick = currentTick;
-                    System.out.println("Phase change after " + be.pistonMoveTicks);
-                    System.out.println("Ticks spent in phase: " + phaseTicks);
-
-                    be.setChanged();
-                    level.sendBlockUpdated(pos, state, state, 3);
-                } else if(phaseTicks >= be.pistonDwellTicks && be.phase == PressPhase.PRESS){
-                    be.phase = PressPhase.ASCEND;
-                    be.lastPhaseChangeTick = currentTick;
-                    System.out.println("Phase change after " + be.pistonDwellTicks);
-                    System.out.println("Ticks spent in phase: " + phaseTicks);
-
-                    be.setChanged();
-                    level.sendBlockUpdated(pos, state, state, 3);
-                }
-                else if(phaseTicks >= be.pistonMoveTicks && be.phase == PressPhase.ASCEND){
-                    be.phase = PressPhase.IDLE;
-                    be.lastPhaseChangeTick = currentTick;
-                    System.out.println("Phase change after " + be.pistonMoveTicks);
-                    System.out.println("Ticks spent in phase: " + phaseTicks);
-
-                    if(be.progress >= be.totalTicks){
-                        ItemStack in = be.items.getStackInSlot(SLOT_IN);
-                        in.shrink(1);
-                        be.items.setStackInSlot(SLOT_IN, in);
-
-                        if(out.isEmpty()){
-                            be.items.setStackInSlot(SLOT_OUT, result.copy());
-                        } else {
-                            out.grow(result.getCount());
-                            be.items.setStackInSlot(SLOT_OUT, out);
-                        }
-                    }
-
-                    be.setChanged();
-                    level.sendBlockUpdated(pos, state, state, 3);
-                    be.running = false;
-                    be.progress = 0;
-
-                }
-            }
+            setChanged();
+            level.sendBlockUpdated(pos, state, state, 3);
         }
     }
 
     @Override
-    public void onLoad() {
-        super.onLoad();
-        itemCap = LazyOptional.of(() -> items);
+    protected void startTickHook(BlockPos pos, BlockState state) {
+        phase = PressPhase.DESCEND;
+        cycleStartTick = level.getGameTime();
+        lastPhaseChangeTick = cycleStartTick;
+
+        updateTotalTicks();
+        recomputeAnimTimes();
     }
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        itemCap.invalidate();
+    protected void endTickHook(BlockPos pos, BlockState state) {
+
     }
 
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if(cap == ForgeCapabilities.ITEM_HANDLER) return itemCap.cast();
-        return super.getCapability(cap, side);
+    protected void serverTickHook(BlockPos pos, BlockState state) {
+
     }
 
-    private boolean shouldStartCycle(){
-        return !running && canDoWork();
-    }
+
 
     /**
      * @return Ticks since last phase change
@@ -244,82 +226,12 @@ public class MechanicalSinteringPressBE extends BlockEntity implements MenuProvi
         if(level == null) return 0;
         return level.getGameTime() - lastPhaseChangeTick;
     }
-    public long getCycleStartTick(){
-        if(level == null) return 0;
-        return cycleStartTick;
-    }
-
-
-    // client-server sync events
-    @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.putInt("Progress", progress);
-        tag.putBoolean("Running", running);
-        tag.putLong("CycleStart", cycleStartTick);
-        tag.putLong("LastPhase", lastPhaseChangeTick);
-        tag.putString("Phase", phase.name());
-        tag.put("Items", items.serializeNBT());
-        tag.putInt("PistonTicks", pistonMoveTicks);
-        tag.putInt("DwellTicks", pistonDwellTicks);
-    }
-    @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        progress = tag.getInt("Progress");
-        running = tag.getBoolean("Running");
-        cycleStartTick = tag.getLong("CycleStart");
-        lastPhaseChangeTick = tag.getLong("LastPhase");
-        phase = PressPhase.valueOf(tag.getString("Phase"));
-        if(tag.contains("Items")) {
-            items.deserializeNBT(tag.getCompound("Items"));
-        }
-        pistonMoveTicks = tag.getInt("PistonMoveTicks");
-        pistonDwellTicks = tag.getInt("PistonDwellTicks");
-    }
-
-    @Override
-    @NotNull
-    public CompoundTag getUpdateTag() {
-        CompoundTag tag = super.getUpdateTag();
-        tag.putInt("Progress", progress);
-        tag.putBoolean("Running", running);
-        tag.putLong("CycleStart", cycleStartTick);
-        tag.putLong("LastPhase", lastPhaseChangeTick);
-        tag.putString("Phase", phase.name());
-        tag.putInt("RPM", RPM);
-        tag.putInt("PistonTicks", pistonMoveTicks);
-        tag.putInt("DwellTicks", pistonDwellTicks);
-        return tag;
-    }
-    @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        super.handleUpdateTag(tag);
-        progress = tag.getInt("Progress");
-        running = tag.getBoolean("Running");
-        cycleStartTick = tag.getLong("CycleStart");
-        lastPhaseChangeTick = tag.getLong("LastPhase");
-        phase = PressPhase.valueOf(tag.getString("Phase"));
-        pistonMoveTicks = tag.getInt("PistonTicks");
-        pistonDwellTicks = tag.getInt("DwellTicks");
-
-        //int oldRPM = RPM;
-        RPM = tag.getInt("RPM");
-        //if(oldRPM != RPM){
-            System.out.println("Updating RPM from block update");
-            //System.out.println("Old RPM: " + oldRPM);
-            System.out.println("New RPM:"  + RPM);
-            System.out.println("New Piston Ticks: " + pistonMoveTicks);
-
-            updateTotalTicks();
-            //recomputeAnimTimes();
-        //}
-    }
 
     private void updateTotalTicks() {
-        if(getCurrentRecipe().isPresent()){
-            GoonPressingRecipe recipe = getCurrentRecipe().get();
-            totalTicks = (int)(recipe.processingTime()*getTicksToComplete(RPM, k, this.dimReturnFactor, this.rampUpFactor)+minimumTicks);
+        if(currentRecipe != null){
+            totalTicks = (int)(currentRecipe.processingTime()*getTicksToComplete(RPM, k, this.dimReturnFactor, this.rampUpFactor)+minimumTicks);
+            currentRecipe.processingTime = totalTicks;
+            maxProgress = totalTicks;
         }
     }
 
@@ -333,6 +245,37 @@ public class MechanicalSinteringPressBE extends BlockEntity implements MenuProvi
         if(tag != null) handleUpdateTag(tag);
     }
 
+    @Override
+    protected void saveExtra(CompoundTag tag) {
+        tag.putLong("CycleStart", cycleStartTick);
+        tag.putLong("LastPhase", lastPhaseChangeTick);
+        tag.putString("Phase", phase.name());
+        tag.putInt("RPM", RPM);
+        tag.putInt("PistonTicks", pistonMoveTicks);
+        tag.putInt("DwellTicks", pistonDwellTicks);
+    }
+
+    @Override
+    protected void loadExtra(CompoundTag tag) {
+        cycleStartTick = tag.getLong("CycleStart");
+        lastPhaseChangeTick = tag.getLong("LastPhase");
+        phase = PressPhase.valueOf(tag.getString("Phase"));
+        pistonMoveTicks = tag.getInt("PistonTicks");
+        pistonDwellTicks = tag.getInt("DwellTicks");
+
+        //int oldRPM = RPM;
+        RPM = tag.getInt("RPM");
+        //if(oldRPM != RPM){
+        System.out.println("Updating RPM from block update");
+        //System.out.println("Old RPM: " + oldRPM);
+        System.out.println("New RPM:"  + RPM);
+        System.out.println("New Piston Ticks: " + pistonMoveTicks);
+
+        updateTotalTicks();
+        recomputeAnimTimes();
+        //}
+    }
+
 
     // boring shit
     @Override
@@ -341,7 +284,7 @@ public class MechanicalSinteringPressBE extends BlockEntity implements MenuProvi
     }
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inv, Player player){
-        return new MechanicalPressMenu(id, inv, this);
+        return new MechanicalPressMenu(id, inv, this, data);
     }
     public int getRPM() {
         return this.RPM;
@@ -350,7 +293,7 @@ public class MechanicalSinteringPressBE extends BlockEntity implements MenuProvi
         this.progress = progress;
     }
     public IItemHandler getItemHandler(){
-        return items;
+        return itemHandler;
     }
     public int getProgress(){
         return progress;

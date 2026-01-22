@@ -9,6 +9,9 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("removal")
@@ -25,9 +28,16 @@ public class LatticeRecipeSerializer implements RecipeSerializer<LatticeRecrysta
 
         int time = GsonHelper.getAsInt(json, "processingTime", 100);
         int energy = GsonHelper.getAsInt(json, "energy", 1000);
-        int fluid = GsonHelper.getAsInt(json, "fluid");
 
-        return new LatticeRecrystallizingRecipe(id, ingredient, result, time, energy, fluid);
+        JsonObject fluidObj = json.getAsJsonObject("fluid");
+        int fluidAmt = fluidObj.get("amount").getAsInt();
+        String fluidType = fluidObj.get("type").getAsString();
+        ResourceLocation fluidTypeID = new ResourceLocation(fluidType);
+        Fluid goonJuice = ForgeRegistries.FLUIDS.getValue(fluidTypeID);
+
+        FluidStack fluid = new FluidStack(goonJuice, fluidAmt);
+
+        return new LatticeRecrystallizingRecipe(id, ingredient, fluid, time, energy, result);
     }
 
     @Override
@@ -36,17 +46,23 @@ public class LatticeRecipeSerializer implements RecipeSerializer<LatticeRecrysta
         ItemStack result = buf.readItem();
         int time = buf.readVarInt();
         int energy = buf.readVarInt();
-        int fluid = buf.readVarInt();
+        ResourceLocation fluidID = buf.readResourceLocation();
+        int fluidAmt = buf.readVarInt();
 
-        return new LatticeRecrystallizingRecipe(id, ingredient, result, time, energy, fluid);
+        FluidStack fluid = new FluidStack(ForgeRegistries.FLUIDS.getValue(fluidID), fluidAmt);
+
+        return new LatticeRecrystallizingRecipe(id, ingredient, fluid, time, energy, result);
     }
 
     @Override
     public void toNetwork(FriendlyByteBuf buf, LatticeRecrystallizingRecipe recipe) {
         recipe.ingredient().toNetwork(buf);
-        buf.writeItem(recipe.result());
+        buf.writeItem(recipe.resultItem());
         buf.writeVarInt(recipe.processingTime());
         buf.writeVarInt(recipe.energy());
-        buf.writeVarInt(recipe.fluid());
+
+        FluidStack fluid = recipe.ingredientFluid();
+        buf.writeResourceLocation(ForgeRegistries.FLUIDS.getKey(fluid.getFluid()));
+        buf.writeVarInt(fluid.getAmount());
     }
 }

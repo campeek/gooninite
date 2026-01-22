@@ -10,19 +10,23 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidStack;
 
-// TODO: make this fluid-specific
-public class PhaseDestabilizingRecipe extends BaseGoonRecipe implements IGoonFluidRecipe{
+public class BaseGoonRecipe implements Recipe<SimpleContainer> {
 
-    private FluidStack fluidIngredient;
+    public ResourceLocation id;
+    public Ingredient ingredient;
+    public int processingTime;
+    public int energy;
 
-    public PhaseDestabilizingRecipe(ResourceLocation id, Ingredient ing, int time, int energy, FluidStack fluid){
-        super(id, ing, time, energy);
-        fluidIngredient = fluid;
+    public BaseGoonRecipe(ResourceLocation id, Ingredient ing, int processingTime, int energy){
+        this.id = id;
+        this.ingredient = ing;
+        this.processingTime = processingTime;
+        this.energy = energy;
     }
+
     @Override
-    public boolean matches(SimpleContainer container, Level level) {
+    public boolean matches(SimpleContainer container, Level pLevel) {
         return ingredient.test(container.getItem(0));
     }
 
@@ -34,6 +38,22 @@ public class PhaseDestabilizingRecipe extends BaseGoonRecipe implements IGoonFlu
     @Override
     public boolean canCraftInDimensions(int pWidth, int pHeight) {
         return true;
+    }
+
+    public ResourceLocation id(){
+        return id;
+    }
+
+    public Ingredient ingredient(){
+        return ingredient;
+    }
+
+    public int processingTime(){
+        return processingTime;
+    }
+
+    public int energy(){
+        return energy;
     }
 
     @Override
@@ -48,16 +68,11 @@ public class PhaseDestabilizingRecipe extends BaseGoonRecipe implements IGoonFlu
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return GooniniteRecipes.DESTABILIZING_SERIALIZER.get();
+        return null;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return GooniniteRecipes.PHASE_DESTABILIZING_RECIPE.get();
-    }
-
-    @Override
-    public FluidStack resultFluid() {
-        return fluidIngredient;
+        return null;
     }
 }

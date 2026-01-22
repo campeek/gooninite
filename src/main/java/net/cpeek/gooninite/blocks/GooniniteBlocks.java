@@ -12,7 +12,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import static net.cpeek.gooninite.blocks.GooniniteFluids.GOON_JUICE;
+import static net.cpeek.gooninite.fluids.GooniniteFluids.GOON_JUICE;
 
 public class GooniniteBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Gooninite.MODID);
