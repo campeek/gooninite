@@ -1,8 +1,11 @@
 package net.cpeek.gooninite.blocks;
 
 import net.cpeek.gooninite.Gooninite;
-import net.cpeek.gooninite.blocks.machines.MechanicalSinteringPressBlock;
-import net.cpeek.gooninite.blocks.machines.PressPowerPortBlock;
+import net.cpeek.gooninite.blocks.machines.hgc.*;
+import net.cpeek.gooninite.blocks.machines.lattice_recrystallizer.LatticeRecrystallizerBlock;
+import net.cpeek.gooninite.blocks.machines.mech_press.MechanicalSinteringPressBlock;
+import net.cpeek.gooninite.blocks.machines.mech_press.PressPowerPortBlock;
+import net.cpeek.gooninite.blocks.machines.phase_destabilizer.PhaseDestabilizerBlock;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -57,6 +60,31 @@ public class GooniniteBlocks {
 
     public static final RegistryObject<Block> LATTICE_RECRYSTALLIZER = BLOCKS.register("lattice_recrystallizer",
             () -> new LatticeRecrystallizerBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    public static final RegistryObject<Block> HYPERBOLIC_GOON_CHAMBER_CONTROLLER = BLOCKS.register("hyperbolic_goon_chamber_controller",
+            () -> new HyperbolicGoonChamberControllerBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    // TODO: art for core
+    public static final RegistryObject<Block> HYPERBOLIC_GOON_CHAMBER_CORE = BLOCKS.register("hyperbolic_goon_chamber_core",
+            () -> new HyperbolicGoonChamberPartBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    // TODO: art for fluid port
+    public static final RegistryObject<Block> GOON_FLUID_PORT = BLOCKS.register("goon_fluid_port",
+            () -> new GoonFluidPortBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    // TODO: art for power port
+    public static final RegistryObject<Block> GOON_POWER_PORT = BLOCKS.register("goon_power_port",
+            () -> new GoonPowerPortBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    // TODO: art for casing
+    public static final RegistryObject<Block> GOON_CHAMBER_CASING = BLOCKS.register("goon_chamber_casing",
+            () -> new GoonCasingBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    public static final RegistryObject<Block> GOON_CAPACITOR = BLOCKS.register("goon_capacitor",
+            () -> new HyperbolicGoonChamberPartBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    public static final RegistryObject<Block> CHAMBER_FRAME = BLOCKS.register("chamber_frame",
+            () -> new GoonCasingBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
 
     public static final RegistryObject<Block> MECHANICAL_SINTER_PRESS = BLOCKS.register("mechanical_sinter_press",
             () -> new MechanicalSinteringPressBlock(BlockBehaviour.Properties.of()

@@ -1,0 +1,11 @@
+{
+  "parent" : "minecraft:block/cube",
+  "textures":{
+    "north": "gooninite:block/hgc/frame_bottom",
+    "south": "gooninite:block/hgc/frame_bottom",
+    "east": "gooninite:block/hgc/frame_bottom",
+    "west": "gooninite:block/hgc/frame_bottom",
+    "up": "gooninite:block/hgc/casing_single",
+    "down": "gooninite:block/hgc/casing_single"
+  }
+}

@@ -1,7 +1,7 @@
 package net.cpeek.gooninite.menus;
 
 
-import net.cpeek.gooninite.blocks.machines.MechanicalSinteringPressBE;
+import net.cpeek.gooninite.blocks.machines.mech_press.MechanicalSinteringPressBE;
 import net.cpeek.gooninite.items.GooniniteItems;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;

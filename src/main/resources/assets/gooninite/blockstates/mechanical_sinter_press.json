@@ -1,8 +1,8 @@
 {
   "variants": {
-    "facing=north": {"model": "gooninite:block/mechanical_sinter_press_static"},
-    "facing=south": {"model": "gooninite:block/mechanical_sinter_press_static", "y": 180},
-    "facing=west": {"model": "gooninite:block/mechanical_sinter_press_static", "y": 270},
-    "facing=east": {"model": "gooninite:block/mechanical_sinter_press_static", "y": 90}
+    "facing=north": {"model": "gooninite:block/machines/mechanical_sinter_press_static"},
+    "facing=south": {"model": "gooninite:block/machines/mechanical_sinter_press_static", "y": 180},
+    "facing=west": {"model": "gooninite:block/machines/mechanical_sinter_press_static", "y": 270},
+    "facing=east": {"model": "gooninite:block/machines/mechanical_sinter_press_static", "y": 90}
   }
 }

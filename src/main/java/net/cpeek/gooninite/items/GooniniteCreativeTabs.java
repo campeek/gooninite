@@ -30,6 +30,13 @@ public class GooniniteCreativeTabs {
                 output.accept(GooniniteItems.GOONINITE_DRIP_BLOCK_ITEM.get());
                 output.accept(GooniniteItems.GOON_JUICE_BUCKET.get());
                 output.accept(GooniniteItems.MECHANICAL_SINTER_PRESS_ITEM.get());
+                output.accept(GooniniteItems.HYPERBOLIC_GOON_CHAMBER_CONTROLLER_ITEM.get());
+                output.accept(GooniniteItems.GOON_CHAMBER_CASING_ITEM.get());
+                output.accept(GooniniteItems.HYPERBOLIC_GOON_CHAMBER_CORE_ITEM.get());
+                output.accept(GooniniteItems.GOON_FLUID_PORT_ITEM.get());
+                output.accept(GooniniteItems.GOON_POWER_PORT_ITEM.get());
+                output.accept(GooniniteItems.GOON_CAPACITOR_ITEM.get());
+                output.accept(GooniniteItems.CHAMBER_FRAME_ITEM.get());
             }).build());
 
     public static void register(IEventBus bus){

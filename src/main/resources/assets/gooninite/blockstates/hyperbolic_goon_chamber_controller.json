@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model": "gooninite:block/machines/hgc/hyperbolic_goon_chamber_controller"},
+    "facing=south": {"model": "gooninite:block/machines/hgc/hyperbolic_goon_chamber_controller", "y":  180},
+    "facing=west": {"model": "gooninite:block/machines/hgc/hyperbolic_goon_chamber_controller","y": 270},
+    "facing=east": {"model": "gooninite:block/machines/hgc/hyperbolic_goon_chamber_controller", "y": 90}
+  }
+}

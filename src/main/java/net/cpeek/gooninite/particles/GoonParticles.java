@@ -18,6 +18,9 @@ public class GoonParticles {
     public static final RegistryObject<SimpleParticleType> GOON_JUICE_DRIPPING =
             PARTICLES.register("dripping_goon_juice", () -> new SimpleParticleType(false));
 
+    public static final RegistryObject<SimpleParticleType> GOON_JUICE_SQUIRT =
+            PARTICLES.register("squirting_goon_juice", () -> new SimpleParticleType(false));
+
     public static void register(IEventBus bus){
         PARTICLES.register(bus);
     }

@@ -1,0 +1,29 @@
+{
+  "machine.hgc_spinup": {
+    "sounds": [
+      {
+        "name": "gooninite:machine/hgc_spinup",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "machine.hgc_discharge": {
+    "sounds": [
+      {
+        "name": "gooninite:machine/hgc_discharge",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "machine.hgc_spindown": {
+    "sounds": [
+      {
+        "name": "gooninite:machine/hgc_spindown",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  }
+}

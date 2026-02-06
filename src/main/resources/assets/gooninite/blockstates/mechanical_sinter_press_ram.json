@@ -1,5 +1,5 @@
 {
   "variants":{
-    "": {"model":  "gooninite:block/mechanical_sinter_press_ram"}
+    "": {"model":  "gooninite:block/machines/mechanical_sinter_press_ram"}
   }
 }

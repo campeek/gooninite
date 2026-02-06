@@ -173,6 +173,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     runtimeOnly fg.deobf("mekanism:Mekanism:1.20.1-10.4.16.80")
+    runtimeOnly fg.deobf("mekanism:Mekanism:1.20.1-10.4.16.80:generators")
 
     implementation(fg.deobf("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false })
     implementation(fg.deobf("net.createmod.ponder:Ponder-Forge-${minecraft_version}:${ponder_version}"))

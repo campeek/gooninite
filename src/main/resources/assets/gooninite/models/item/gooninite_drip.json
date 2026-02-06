@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gooninite:block/gooninite_drip_down_tip"
+    "layer0": "gooninite:block/gooninite_drip/gooninite_drip_down_tip"
   }
 }

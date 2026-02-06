@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "gooninite:goon_chamber_casing",
+    "gooninite:chamber_frame",
+    "gooninite:goon_capacitor",
+    "gooninite:goon_power_port"
+  ]
+}

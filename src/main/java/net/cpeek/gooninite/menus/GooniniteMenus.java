@@ -21,6 +21,9 @@ public class GooniniteMenus {
     public static final RegistryObject<MenuType<LatticeRecrystallizerMenu>> LATTICE_RECRYSTALLIZER_MENU = MENUS.register("lattice_recrystallizer_menu",
             () -> IForgeMenuType.create(LatticeRecrystallizerMenu::new));
 
+    public static final RegistryObject<MenuType<HyperbolicGoonChamberMenu>> HYPERBOLIC_GOON_CHAMBER_MENU = MENUS.register("hyperbolic_goon_chamber_menu",
+            () ->  IForgeMenuType.create(HyperbolicGoonChamberMenu::new));
+
 
     public static void register(IEventBus bus){
         MENUS.register(bus);

@@ -11,7 +11,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-public class BaseGoonRecipe implements Recipe<SimpleContainer> {
+public abstract class BaseGoonRecipe implements Recipe<SimpleContainer> {
 
     public ResourceLocation id;
     public Ingredient ingredient;
@@ -67,12 +67,8 @@ public class BaseGoonRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
-        return null;
-    }
+    public abstract RecipeSerializer<?> getSerializer();
 
     @Override
-    public RecipeType<?> getType() {
-        return null;
-    }
+    public abstract RecipeType<?> getType();
 }

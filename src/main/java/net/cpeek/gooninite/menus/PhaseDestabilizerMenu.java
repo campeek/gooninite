@@ -1,7 +1,7 @@
 package net.cpeek.gooninite.menus;
 
 
-import net.cpeek.gooninite.blocks.PhaseDestabilizerBlockEntity;
+import net.cpeek.gooninite.blocks.machines.phase_destabilizer.PhaseDestabilizerBlockEntity;
 import net.cpeek.gooninite.items.GooniniteItems;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;

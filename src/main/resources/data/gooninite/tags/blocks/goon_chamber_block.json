@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "gooninite:goon_chamber_casing",
+    "gooninite:chamber_frame",
+    "gooninite:goon_fluid_port",
+    "gooninite:goon_power_port",
+    "gooninite:hyperbolic_goon_chamber_core",
+    "gooninite:hyperbolic_goon_chamber_controller"
+  ]
+}

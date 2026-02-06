@@ -1,5 +1,5 @@
 {
-  "parent": "gooninite:block/mechanical_sinter_press",
+  "parent": "gooninite:block/machines/mechanical_sinter_press",
   "display": {
     "gui": {
       "scale": [0.4,0.4,0.4],

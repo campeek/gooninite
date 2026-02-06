@@ -1,7 +1,7 @@
 package net.cpeek.gooninite.menus;
 
 
-import net.cpeek.gooninite.blocks.LatticeRecrystallizerBlockEntity;
+import net.cpeek.gooninite.blocks.machines.lattice_recrystallizer.LatticeRecrystallizerBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

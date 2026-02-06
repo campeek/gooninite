@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "gooninite:block/gooninite_drip_block"
+      "model": "gooninite:block/gooninite_drip/gooninite_drip_block"
     }
   }
 }

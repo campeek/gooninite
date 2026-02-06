@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "casing_part=single": {"model": "gooninite:block/machines/hgc/chamber_frame/frame_middle"},
+    "casing_part=middle": {"model": "gooninite:block/machines/hgc/chamber_frame/frame_middle"},
+    "casing_part=top": {"model": "gooninite:block/machines/hgc/chamber_frame/frame_top"},
+    "casing_part=bottom": {"model": "gooninite:block/machines/hgc/chamber_frame/frame_bottom"}
+  }
+}

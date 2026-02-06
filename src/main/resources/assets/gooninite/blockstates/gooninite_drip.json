@@ -1,19 +1,19 @@
 {
   "variants": {
     "thickness=tip_merge,vertical_direction=down,waterlogged=false": {
-      "model": "gooninite:block/gooninite_drip_down_tip_merge"
+      "model": "gooninite:block/gooninite_drip/gooninite_drip_down_tip_merge"
     },
     "thickness=tip,vertical_direction=down,waterlogged=false": {
-      "model": "gooninite:block/gooninite_drip_down_tip"
+      "model": "gooninite:block/gooninite_drip/gooninite_drip_down_tip"
     },
     "thickness=frustum,vertical_direction=down,waterlogged=false":{
-      "model": "gooninite:block/gooninite_drip_down_frustum"
+      "model": "gooninite:block/gooninite_drip/gooninite_drip_down_frustum"
     },
     "thickness=middle,vertical_direction=down,waterlogged=false": {
-      "model": "gooninite:block/gooninite_drip_down_middle"
+      "model": "gooninite:block/gooninite_drip/gooninite_drip_down_middle"
     },
     "thickness=base,vertical_direction=down,waterlogged=false": {
-      "model": "gooninite:block/gooninite_drip_down_base"
+      "model": "gooninite:block/gooninite_drip/gooninite_drip_down_base"
     }
   }
 }

@@ -31,18 +31,8 @@ public class LatticeRecrystallizingRecipe extends BaseGoonRecipe implements IGoo
     }
 
     @Override
-    public boolean matches(SimpleContainer container, Level level) {
-        return ingredient.test(container.getItem(0));
-    }
-
-    @Override
     public ItemStack assemble(SimpleContainer pContainer, RegistryAccess pRegistryAccess) {
         return resultItem.copy();
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int pWidth, int pHeight) {
-        return true;
     }
 
     @Override
@@ -54,10 +44,6 @@ public class LatticeRecrystallizingRecipe extends BaseGoonRecipe implements IGoo
         return resultItem;
     }
 
-    @Override
-    public ResourceLocation getId() {
-        return id;
-    }
 
     @Override
     public RecipeSerializer<?> getSerializer() {

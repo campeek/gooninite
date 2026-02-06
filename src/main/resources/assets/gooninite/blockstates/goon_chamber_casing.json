@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "casing_part=single": {"model": "gooninite:block/machines/hgc/goon_casing/casing_single"},
+    "casing_part=middle": {"model": "gooninite:block/machines/hgc/goon_casing/casing_middle"},
+    "casing_part=top": {"model": "gooninite:block/machines/hgc/goon_casing/casing_top"},
+    "casing_part=bottom": {"model": "gooninite:block/machines/hgc/goon_casing/casing_bottom"}
+  }
+}

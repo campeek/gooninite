@@ -1,6 +1,7 @@
 package net.cpeek.gooninite.items;
 
 import net.cpeek.gooninite.Gooninite;
+import net.cpeek.gooninite.blocks.GooniniteBlocks;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -22,6 +23,15 @@ public class GooniniteItems {
     public static final RegistryObject<Item> PHASE_DESTABILIZER_ITEM = ITEMS.register("phase_destabilizer", () ->new BlockItem(PHASE_DESTABILIZER.get(), new Item.Properties()));
     public static final RegistryObject<Item> LATTICE_RECRYSTALLIZER_ITEM = ITEMS.register("lattice_recrystallizer", () -> new BlockItem(LATTICE_RECRYSTALLIZER.get(), new Item.Properties()));
     public static final RegistryObject<Item> MECHANICAL_SINTER_PRESS_ITEM = ITEMS.register("mechanical_sinter_press", () -> new BlockItem(MECHANICAL_SINTER_PRESS.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> HYPERBOLIC_GOON_CHAMBER_CORE_ITEM = ITEMS.register("hyperbolic_goon_chamber_core", () -> new BlockItem(HYPERBOLIC_GOON_CHAMBER_CORE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> HYPERBOLIC_GOON_CHAMBER_CONTROLLER_ITEM = ITEMS.register("hyperbolic_goon_chamber_controller", () -> new BlockItem(HYPERBOLIC_GOON_CHAMBER_CONTROLLER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> GOON_FLUID_PORT_ITEM = ITEMS.register("goon_fluid_port", () -> new BlockItem(GOON_FLUID_PORT.get(), new Item.Properties()));
+    public static final RegistryObject<Item> GOON_POWER_PORT_ITEM = ITEMS.register("goon_power_port", () -> new BlockItem(GOON_POWER_PORT.get(), new Item.Properties()));
+    public static final RegistryObject<Item> GOON_CHAMBER_CASING_ITEM = ITEMS.register("goon_chamber_casing", () -> new BlockItem(GOON_CHAMBER_CASING.get(), new Item.Properties()));
+    public static final RegistryObject<Item> GOON_CAPACITOR_ITEM = ITEMS.register("goon_capacitor", () -> new BlockItem(GOON_CAPACITOR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CHAMBER_FRAME_ITEM = ITEMS.register("chamber_frame", () -> new BlockItem(CHAMBER_FRAME.get(), new Item.Properties()));
+
 
     // Normal Items
     public static final RegistryObject<Item> GOONINITE_NUGGET_ITEM = ITEMS.register("gooninite_nugget", () -> new Item(
