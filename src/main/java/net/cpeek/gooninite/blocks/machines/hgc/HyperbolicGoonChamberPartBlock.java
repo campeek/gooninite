@@ -65,6 +65,7 @@ public class HyperbolicGoonChamberPartBlock extends Block{
         super.onPlace(state, level, pos, oldState, movedByPiston);
         if(!level.isClientSide && state.getBlock() != oldState.getBlock()){
             controller = findController(level, pos, 3);
+            if(controller == null) return;
             if(level.getBlockEntity(controller) instanceof HyperbolicGoonChamberControllerBE be){
                 be.setMultiblockDirty();
             }

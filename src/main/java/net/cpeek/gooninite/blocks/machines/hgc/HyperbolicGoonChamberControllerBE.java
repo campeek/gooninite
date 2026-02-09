@@ -41,9 +41,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static net.cpeek.gooninite.blocks.machines.hgc.HyperbolicGoonChamberPartBlock.FORMED;
 
@@ -76,7 +74,7 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
             protected void onContentsChanged(int slot){
                 if(level == null) return;
                 if(level.isClientSide) return;
-                if(slot <= 5){
+                if(slot < 5){
                     if(phase.getIndex() > GoonChamberPhase.IDLE.getIndex() && !recipeLocked) {
                         changePhase(GoonChamberPhase.COOLDOWN);
                         System.out.println("cycle failed - recipe change");
@@ -95,7 +93,7 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
             }
         };
 
-        energyStorage = new GoonEnergyStorage(10000, 5000, 5000);
+        energyStorage = new GoonEnergyStorage(25000000, 300000000, 300000000);
     }
 
     private final GoonFluidHandler fluidHandler = new GoonFluidHandler(4000);
@@ -105,13 +103,13 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
     private long lastPhaseChangeTick;
 
     // TODO: get this from recipe
-    private static final long MIN_ENERGY_PER_TICK = (300000/11)/20;
+    private static final long MIN_ENERGY_PER_TICK = (528000000/11)/20;
 
     private static final long DISCHARGE_TIME = 80; // ticks to spend discharging (20 ticks/s)
     private static final long COOLDOWN_TIME = 80; // ticks to spend cooling down after process
 
-    private static final int DISCHARGE_CHARGE_DECAY = (300000/3)/20;
-    private static final int FAILURE_CHARGE_DECAY = (300000/2)/20;
+    private static final int DISCHARGE_CHARGE_DECAY = (528000000/3)/20;
+    private static final int FAILURE_CHARGE_DECAY = (528000000/2)/20;
 
     private ArrayList<BlockPos> blocks = new ArrayList<>();
     private BlockPos corePos;
@@ -121,8 +119,7 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
     private boolean needsValidated = false;
 
     private int currentCharge = 0;
-    private int maxCharge = 300000;
-
+    private int maxCharge = 528000000;
 
     private final BlockPos[] offsets = {
             new BlockPos(-1,1,0),
@@ -348,6 +345,9 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
             //System.out.println("not enough energy");
             return false;
         }
+        if(fluidHandler.getFluidInTank(0).getAmount() < currentRecipe.ingredientFluid().getAmount()){
+            return false;
+        }
         if(currentRecipe == null){
             //System.out.println("no recipe");
             return false;
@@ -390,6 +390,11 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
         if(canOutput()){
             if(currentRecipe!=null) {
                 itemHandler.setStackInSlot(5, currentRecipe.resultItem());
+                ItemStack liner = itemHandler.getStackInSlot(4);
+                int damage = liner.getDamageValue();
+                int max = liner.getMaxDamage();
+
+                liner.setDamageValue(Math.min(damage+1, max));
                 recipeLocked = false;
                 level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
             }

@@ -1,8 +1,7 @@
 package net.cpeek.gooninite.items;
 
 import net.cpeek.gooninite.Gooninite;
-import net.cpeek.gooninite.blocks.GooniniteBlocks;
-import net.minecraft.world.food.FoodProperties;
+import net.cpeek.gooninite.GooniniteArmorMaterials;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -16,7 +15,6 @@ public class GooniniteItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Gooninite.MODID);
 
     // Block Items
-    public static final RegistryObject<Item> GOONINITE_ORE_ITEM = ITEMS.register("gooninite_ore", () -> new BlockItem(GOONINITE_ORE.get(), new Item.Properties()));
     public static final RegistryObject<Item> GOONINITE_DRIP_ITEM = ITEMS.register("gooninite_drip", () -> new BlockItem(GOONINITE_DRIP.get(), new Item.Properties()));
     public static final RegistryObject<Item> GOONINITE_DRIP_BLOCK_ITEM = ITEMS.register("gooninite_drip_block", () -> new BlockItem(GOONINITE_DRIP_BLOCK.get(), new Item.Properties()));
 
@@ -48,10 +46,10 @@ public class GooniniteItems {
             new Item.Properties()
                     .stacksTo(1)
                     .rarity(Rarity.RARE)
-                    .durability(64)
+                    .durability(3)
+                    .setNoRepair()
     ));
 
-    public static final RegistryObject<Item> RAW_GOONINITE = ITEMS.register("raw_gooninite", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().alwaysEat().nutrition(1).saturationMod(2f).build())));
     public static final RegistryObject<Item> GOONINITE_INGOT = ITEMS.register("gooninite_ingot", () -> new Item(new Item.Properties().fireResistant()));
 
     // Fluid Items
@@ -68,6 +66,24 @@ public class GooniniteItems {
             1,                          // attack damage modifier
             -2.8f,                      // attack speed
             new Item.Properties()));
+
+    // Armor
+    public static final RegistryObject<Item> GOON_HELMET = ITEMS.register(
+            "gooninite_helmet",
+            () -> new ArmorItem(GooniniteArmorMaterials.GOON_ARMOR, ArmorItem.Type.HELMET, new Item.Properties())
+    );
+    public static final RegistryObject<Item> GOON_CHESTPLATE = ITEMS.register(
+            "gooninite_chestplate",
+            () -> new ArmorItem(GooniniteArmorMaterials.GOON_ARMOR, ArmorItem.Type.CHESTPLATE, new Item.Properties())
+    );
+    public static final RegistryObject<Item> GOON_LEGGINGS = ITEMS.register(
+            "gooninite_leggings",
+            () -> new ArmorItem(GooniniteArmorMaterials.GOON_ARMOR, ArmorItem.Type.LEGGINGS, new Item.Properties())
+    );
+    public static final RegistryObject<Item> GOON_BOOTS = ITEMS.register(
+            "gooninite_boots",
+            () -> new ArmorItem(GooniniteArmorMaterials.GOON_ARMOR, ArmorItem.Type.BOOTS, new Item.Properties())
+    );
 
     public static void register(IEventBus bus){
         ITEMS.register(bus);

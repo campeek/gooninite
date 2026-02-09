@@ -25,8 +25,6 @@ public class GooniniteFluids {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Gooninite.MODID);
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, Gooninite.MODID);
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Gooninite.MODID);
-
     private static final ResourceLocation STILL = new ResourceLocation("minecraft", "block/water_still");
     private static final ResourceLocation FLOW = new ResourceLocation("minecraft", "block/water_flow");
 
@@ -48,8 +46,16 @@ public class GooniniteFluids {
                         public ResourceLocation getFlowingTexture(){
                             return FLOW;
                         }
+
+                        @Override
+                        public int getTintColor() {
+                            return 0xfffffcf0;
+                        }
+
                     });
                 }
+
+
             });
 
     public static final RegistryObject<FlowingFluid> GOON_JUICE = FLUIDS.register("goon_juice", () -> new ForgeFlowingFluid.Source(props()));

@@ -2,6 +2,7 @@ package net.cpeek.gooninite;
 
 import net.cpeek.gooninite.blocks.GooniniteBlockEntities;
 import net.cpeek.gooninite.blocks.machines.mech_press.MechanicalSinteringPressBER;
+import net.cpeek.gooninite.fluids.GooniniteFluids;
 import net.cpeek.gooninite.menus.*;
 import net.cpeek.gooninite.particles.GoonJuiceDrippingParticle;
 import net.cpeek.gooninite.particles.GoonJuiceFallingParticle;
@@ -9,11 +10,14 @@ import net.cpeek.gooninite.particles.GoonJuiceSquirtParticle;
 import net.cpeek.gooninite.particles.GoonParticles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -38,6 +42,9 @@ public class ClientModEvents {
 
             BlockEntityRenderers.register(GooniniteBlockEntities.PRESS_BE.get(), MechanicalSinteringPressBER::new);
         });
+
+        ItemBlockRenderTypes.setRenderLayer(GooniniteFluids.GOON_JUICE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(GooniniteFluids.GOON_JUICE_FLOWING.get(), RenderType.translucent());
 
         var rm = Minecraft.getInstance().getResourceManager();
         var resId = new ResourceLocation(Gooninite.MODID, "block/machines/mechanical_sinter_press_ram");
