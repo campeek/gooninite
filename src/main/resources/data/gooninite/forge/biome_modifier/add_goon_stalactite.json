@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#gooninite:gooninite_common_biome",
+  "features": "gooninite:goon_stalactite",
+  "step": "underground_decoration"
+}

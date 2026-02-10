@@ -9,6 +9,7 @@ import net.cpeek.gooninite.items.GooniniteItems;
 import net.cpeek.gooninite.menus.GooniniteMenus;
 import net.cpeek.gooninite.particles.GoonParticles;
 import net.cpeek.gooninite.recipes.GooniniteRecipes;
+import net.cpeek.gooninite.worldgen.GooniniteFeatures;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -47,6 +48,7 @@ public class Gooninite {
         GooniniteBlockEntities.register(modEventBus);
         GooniniteMenus.register(modEventBus);
         GooniniteRecipes.register(modEventBus);
+        GooniniteFeatures.FEATURES.register(modEventBus);
 
         GooniniteSounds.SOUNDS.register(modEventBus);
 
