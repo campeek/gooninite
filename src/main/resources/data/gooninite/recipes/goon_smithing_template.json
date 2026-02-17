@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PTP",
+    "PDP",
+    "PPP"
+  ],
+  "key": {
+    "P": { "item": "gooninite:gooninite_pellet"},
+    "T": { "item": "gooninite:goon_smithing_template"},
+    "D": { "item": "minecraft:diamond_block"}
+  },
+  "result":{
+    "item": "gooninite:goon_smithing_template",
+    "count": 2
+  }
+}

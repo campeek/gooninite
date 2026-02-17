@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": { "item": "gooninite:goon_smithing_template" },
+  "base":     { "item": "minecraft:netherite_pickaxe" },
+  "addition": { "item": "gooninite:gooninite_ingot" },
+  "result":   { "item": "gooninite:gooninite_pickaxe" }
+}

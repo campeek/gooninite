@@ -30,14 +30,14 @@ public class GooniniteBlocks {
     );
 
     // Solid Gooninite Drip Block
-    public static final RegistryObject<Block> GOONINITE_DRIP_BLOCK = BLOCKS.register("gooninite_drip_block", () -> new DropExperienceBlock(
+    /*public static final RegistryObject<Block> GOONINITE_DRIP_BLOCK = BLOCKS.register("gooninite_drip_block", () -> new DropExperienceBlock(
             BlockBehaviour.Properties.of()
                     .mapColor(MapColor.STONE)
                     .strength(3.0f, 3.0f)
                     .sound(SoundType.AMETHYST)
                     .requiresCorrectToolForDrops(),
             UniformInt.of(1,4)  // XP range the block drops
-    ));
+    ));*/
 
     // Gooninite Ore
     public static final RegistryObject<Block> GOONINITE_ORE = BLOCKS.register("gooninite_ore",

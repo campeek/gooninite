@@ -272,7 +272,7 @@ public class MechanicalSinteringPressBE extends GooniniteBasicMachineBlockEntity
     // boring shit
     @Override
     public Component getDisplayName() {
-        return Component.translatable("block.gooninite.mechanical_press");
+        return Component.translatable("block.gooninite.mechanical_sinter_press");
     }
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inv, Player player){

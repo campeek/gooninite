@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {"item": "gooninite:chamber_frame"},
+    {"item": "mekanism:basic_energy_cube"},
+    {"item": "mekanism:ultimate_control_circuit"}
+  ],
+  "result":{
+    "item": "gooninite:goon_power_port",
+    "count": 1
+  }
+}

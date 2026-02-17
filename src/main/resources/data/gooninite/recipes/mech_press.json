@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "PSP",
+    " I "
+  ],
+  "key": {
+    "S": { "item": "create:sturdy_sheet"},
+    "I": { "item": "create:industrial_iron_block"},
+    "P": { "item": "minecraft:piston"},
+    "G": { "item": "create:gearbox"}
+  },
+  "result":{
+    "item": "gooninite:mechanical_sinter_press",
+    "count": 1
+  }
+}

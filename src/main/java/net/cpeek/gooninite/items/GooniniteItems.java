@@ -16,7 +16,7 @@ public class GooniniteItems {
 
     // Block Items
     public static final RegistryObject<Item> GOONINITE_DRIP_ITEM = ITEMS.register("gooninite_drip", () -> new BlockItem(GOONINITE_DRIP.get(), new Item.Properties()));
-    public static final RegistryObject<Item> GOONINITE_DRIP_BLOCK_ITEM = ITEMS.register("gooninite_drip_block", () -> new BlockItem(GOONINITE_DRIP_BLOCK.get(), new Item.Properties()));
+    //public static final RegistryObject<Item> GOONINITE_DRIP_BLOCK_ITEM = ITEMS.register("gooninite_drip_block", () -> new BlockItem(GOONINITE_DRIP_BLOCK.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> PHASE_DESTABILIZER_ITEM = ITEMS.register("phase_destabilizer", () ->new BlockItem(PHASE_DESTABILIZER.get(), new Item.Properties()));
     public static final RegistryObject<Item> LATTICE_RECRYSTALLIZER_ITEM = ITEMS.register("lattice_recrystallizer", () -> new BlockItem(LATTICE_RECRYSTALLIZER.get(), new Item.Properties()));
@@ -65,7 +65,32 @@ public class GooniniteItems {
             GooniniteTiers.GOONINITE,   // tool tier
             1,                          // attack damage modifier
             -2.8f,                      // attack speed
-            new Item.Properties()));
+            new Item.Properties()
+    ));
+    public static final RegistryObject<Item> GOONINITE_AXE = ITEMS.register("gooninite_axe", () -> new AxeItem(
+            GooniniteTiers.GOONINITE,
+            4f,
+            -3.0f,
+            new Item.Properties()
+    ));
+    public static final RegistryObject<Item> GOONINITE_SHOVEL = ITEMS.register("gooninite_shovel", () -> new ShovelItem(
+            GooniniteTiers.GOONINITE,
+            1.5f,
+            -3.0f,
+            new Item.Properties()
+    ));
+    public static final RegistryObject<Item> GOONINITE_HOE = ITEMS.register("gooninite_hoe", () -> new HoeItem(
+            GooniniteTiers.GOONINITE,
+            -4,
+            0.0f,
+            new Item.Properties()
+    ));
+    public static final RegistryObject<Item> GOONINITE_SWORD = ITEMS.register("gooninite_sword", () -> new SwordItem(
+            GooniniteTiers.GOONINITE,
+            3,
+            -2.4f,
+            new Item.Properties()
+    ));
 
     // Armor
     public static final RegistryObject<Item> GOON_HELMET = ITEMS.register(
@@ -84,6 +109,9 @@ public class GooniniteItems {
             "gooninite_boots",
             () -> new ArmorItem(GooniniteArmorMaterials.GOON_ARMOR, ArmorItem.Type.BOOTS, new Item.Properties())
     );
+
+    public static final RegistryObject<Item> GOON_SMITHING_TEMPLATE = ITEMS.register("goon_smithing_template",
+            () -> new Item(new Item.Properties()));
 
     public static void register(IEventBus bus){
         ITEMS.register(bus);

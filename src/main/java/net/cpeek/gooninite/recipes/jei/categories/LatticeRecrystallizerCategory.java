@@ -1,80 +1,91 @@
 package net.cpeek.gooninite.recipes.jei.categories;
 
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
+import mezz.jei.api.gui.drawable.IDrawableBuilder;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.cpeek.gooninite.Gooninite;
 import net.cpeek.gooninite.blocks.GooniniteBlocks;
+import net.cpeek.gooninite.menus.GoonGUIHelpers;
+import net.cpeek.gooninite.menus.HoverRegion;
+import net.cpeek.gooninite.recipes.BaseGoonRecipe;
 import net.cpeek.gooninite.recipes.LatticeRecrystallizingRecipe;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
+import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.fluids.FluidStack;
 
-public class LatticeRecrystallizerCategory implements IRecipeCategory<LatticeRecrystallizingRecipe> {
+import java.util.List;
+
+public class LatticeRecrystallizerCategory extends GoonBaseCategory {
     public static final ResourceLocation UID = new ResourceLocation(Gooninite.MODID, "lattice_recrystallizer");
+
+    private static final HoverRegion ENERGY_BAR_REGION = new HoverRegion(144, 7, 150, 51);
 
     public static final RecipeType<LatticeRecrystallizingRecipe> RECIPE_TYPE =
             new RecipeType<>(UID, LatticeRecrystallizingRecipe.class);
 
-    private final IDrawable background;
-    private final IDrawable icon;
 
     public LatticeRecrystallizerCategory(IGuiHelper guiHelper){
-        this.background = guiHelper.createBlankDrawable(150,60);
-        this.icon = guiHelper.createDrawableItemStack(
-                new ItemStack(GooniniteBlocks.LATTICE_RECRYSTALLIZER.get())
-        );
+        super(guiHelper, GooniniteBlocks.LATTICE_RECRYSTALLIZER.get());
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, LatticeRecrystallizingRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, BaseGoonRecipe recipe, IFocusGroup focuses) {
+        if(recipe instanceof LatticeRecrystallizingRecipe rec) {
+            builder.addSlot(RecipeIngredientRole.INPUT,
+                    61, 22).addIngredients(recipe.ingredient());
 
-        // TODO: make this look like not-dogshit
-        // Inputs
-        builder.addSlot(RecipeIngredientRole.INPUT,
-                20, 20).addIngredients(recipe.ingredient());
-
-
-        builder.addSlot(RecipeIngredientRole.INPUT, 50, 10)
-                        .addFluidStack(recipe.ingredientFluid().getFluid())
-                        .setFluidRenderer(
-                                recipe.ingredientFluid().getAmount(),
-                                false,
-                                16,
-                                45);
+            builder.addSlot(RecipeIngredientRole.INPUT,
+                    15,7)
+                    .addIngredient(ForgeTypes.FLUID_STACK, rec.ingredientFluid())
+                    .setFluidRenderer(rec.ingredientFluid().getAmount(), false, 18,45);
 
 
-
-        // Outputs
-        builder.addSlot(RecipeIngredientRole.OUTPUT,
-                100, 10)
-                .addItemStack(recipe.getOutputItem());
-
+            builder.addSlot(RecipeIngredientRole.OUTPUT,
+                            106, 22)
+                    .addItemStack(rec.getOutputItem());
+        }
     }
 
     @Override
-    public RecipeType<LatticeRecrystallizingRecipe> getRecipeType() {
+    public void getTooltip(ITooltipBuilder tooltip, BaseGoonRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+        super.getTooltip(tooltip, recipe, recipeSlotsView, mouseX, mouseY);
+        if(ENERGY_BAR_REGION.isInside((int) mouseX, (int) mouseY)){
+            tooltip.add(FormattedText.of("Energy"));
+            tooltip.add(Component.literal(recipe.energy + " FE").withStyle(ChatFormatting.GRAY));
+        }
+    }
+
+    @Override
+    protected void setBackground(IGuiHelper helper) {
+        IDrawableBuilder builder = helper.drawableBuilder(new ResourceLocation(Gooninite.MODID, "textures/gui/jei/lattice_recrystallizer.png"),
+                0, 0,
+                164, 60);
+        builder.setTextureSize(164, 60);
+        this.background = builder.build();
+    }
+
+    @Override
+    public RecipeType getRecipeType() {
         return RECIPE_TYPE;
     }
 
     @Override
     public Component getTitle() {
-        return Component.translatable("block.gooninite.lattice_recrystallizer");
-    }
-
-    @Override
-    public @Nullable IDrawable getBackground() {
-        return background;
-    }
-
-    @Override
-    public @Nullable IDrawable getIcon() {
-        return icon;
+        return Component.translatable("block.gooninite.mechanical_press");
     }
 }

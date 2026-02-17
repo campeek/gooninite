@@ -5,10 +5,33 @@
   "block.gooninite.hyperbolic_goon_chamber": "Hyperbolic Goon Chamber",
   "block.gooninite.phase_destabilizer": "Phase Destabilizer",
   "block.gooninite.lattice_recrystallizer": "Lattice Recrystallizer",
-  "block.gooninite.mechanical_press": "Mechanical Sintering Press",
+  "block.gooninite.mechanical_sinter_press": "Mechanical Sintering Press",
+  "block.gooninite.hyperbolic_goon_chamber_controller": "Hyperbolic Goon Chamber Controller",
+  "block.gooninite.goon_chamber_casing": "Goon Chamber Casing",
+  "block.gooninite.hyperbolic_goon_chamber_core": "Hyperbolic Goon Chamber Core",
+  "block.gooninite.goon_fluid_port": "HGC Fluid Port",
+  "block.gooninite.goon_power_port": "HGC Power Port",
+  "block.gooninite.chamber_frame": "Goon Chamber Frame",
 
   "item.gooninite.gooninite_liner": "Gooninite Liner",
   "item.gooninite.raw_gooninite": "Raw Gooninite",
   "item.gooninite.gooninite_nugget": "Gooninite Nugget",
-  "item.gooninite.gooninite_pellet": "Gooninite Pellet"
+  "item.gooninite.gooninite_pellet": "Gooninite Pellet",
+  "item.gooninite.gooninite_ingot": "Gooninite Ingot",
+  "item.gooninite.goon_juice_bucket": "Bucket of Liquid Gooninite",
+
+  "item.gooninite.gooninite_helmet": "Gooninite Helmet",
+  "item.gooninite.gooninite_chestplate": "Gooninite Chestplate",
+  "item.gooninite.gooninite_leggings": "Gooninite Leggings",
+  "item.gooninite.gooninite_boots": "Gooninite Boots",
+
+  "item.gooninite.gooninite_sword": "Gooninite Sword",
+  "item.gooninite.gooninite_axe": "Gooninite Axe",
+  "item.gooininte.gooninite_hoe": "Gooninite Hoe",
+  "item.gooninite.gooninite_pickaxe": "Gooninite Pickaxe",
+  "item.gooninite.gooninite_shovel": "Gooninite Shovel",
+
+  "item.gooninite.goon_smithing_template": "Gooninite Smithing Template",
+
+  "fluid_type.gooninite.goon_juice": "Liquid Gooninite"
 }

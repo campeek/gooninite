@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "F F",
+    " B ",
+    "F F"
+  ],
+  "key": {
+    "F": { "item": "gooninite:chamber_frame"},
+    "B": { "item": "create:brass_ingot"}
+  },
+  "result":{
+    "item": "gooninite:goon_chamber_casing",
+    "count": 1
+  }
+}

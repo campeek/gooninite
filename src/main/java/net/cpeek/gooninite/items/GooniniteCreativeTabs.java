@@ -21,13 +21,12 @@ public class GooniniteCreativeTabs {
             .displayItems((params, output) -> {
                 output.accept(GooniniteItems.PHASE_DESTABILIZER_ITEM.get());
                 output.accept(GooniniteItems.LATTICE_RECRYSTALLIZER_ITEM.get());
-                output.accept(GooniniteItems.GOONINITE_PICKAXE.get());
                 output.accept(GooniniteItems.GOONINITE_INGOT.get());
                 output.accept(GooniniteItems.GOONINITE_NUGGET_ITEM.get());
                 output.accept(GooniniteItems.GOONINITE_PELLET_ITEM.get());
                 output.accept(GooniniteItems.GOONINITE_LINER_ITEM.get());
                 output.accept(GooniniteItems.GOONINITE_DRIP_ITEM.get());
-                output.accept(GooniniteItems.GOONINITE_DRIP_BLOCK_ITEM.get());
+                //output.accept(GooniniteItems.GOONINITE_DRIP_BLOCK_ITEM.get());
                 output.accept(GooniniteItems.GOON_JUICE_BUCKET.get());
                 output.accept(GooniniteItems.MECHANICAL_SINTER_PRESS_ITEM.get());
 
@@ -36,13 +35,21 @@ public class GooniniteCreativeTabs {
                 output.accept(GooniniteItems.HYPERBOLIC_GOON_CHAMBER_CORE_ITEM.get());
                 output.accept(GooniniteItems.GOON_FLUID_PORT_ITEM.get());
                 output.accept(GooniniteItems.GOON_POWER_PORT_ITEM.get());
-                //output.accept(GooniniteItems.GOON_CAPACITOR_ITEM.get());
                 output.accept(GooniniteItems.CHAMBER_FRAME_ITEM.get());
 
                 output.accept(GooniniteItems.GOON_HELMET.get());
                 output.accept(GooniniteItems.GOON_CHESTPLATE.get());
                 output.accept(GooniniteItems.GOON_LEGGINGS.get());
                 output.accept(GooniniteItems.GOON_BOOTS.get());
+
+                output.accept(GooniniteItems.GOONINITE_PICKAXE.get());
+                output.accept(GooniniteItems.GOONINITE_SWORD.get());
+                output.accept(GooniniteItems.GOONINITE_AXE.get());
+                output.accept(GooniniteItems.GOONINITE_HOE.get());
+                output.accept(GooniniteItems.GOONINITE_SHOVEL.get());
+
+                output.accept(GooniniteItems.GOON_SMITHING_TEMPLATE.get());
+
             }).build());
 
     public static void register(IEventBus bus){

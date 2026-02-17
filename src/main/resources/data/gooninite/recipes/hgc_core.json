@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ISI",
+    "BCB",
+    "ISI"
+  ],
+  "key": {
+    "C": { "item": "gooninite:chamber_frame"},
+    "I": { "item": "create:industrial_iron_block"},
+    "B": { "item": "gooninite:goon_juice_bucket"},
+    "S": { "item": "create:sturdy_sheet"}
+  },
+  "result":{
+    "item": "gooninite:hyperbolic_goon_chamber_core",
+    "count": 1
+  }
+}

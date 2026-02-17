@@ -2,67 +2,59 @@ package net.cpeek.gooninite.recipes.jei.categories;
 
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.cpeek.gooninite.Gooninite;
 import net.cpeek.gooninite.blocks.GooniniteBlocks;
+import net.cpeek.gooninite.recipes.BaseGoonRecipe;
 import net.cpeek.gooninite.recipes.GoonPressingRecipe;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
-public class GoonPressingCategory implements IRecipeCategory<GoonPressingRecipe> {
+public class GoonPressingCategory extends GoonBaseCategory {
     public static final ResourceLocation UID = new ResourceLocation(Gooninite.MODID, "goon_pressing");
 
     public static final RecipeType<GoonPressingRecipe> RECIPE_TYPE =
             new RecipeType<>(UID, GoonPressingRecipe.class);
 
-    private final IDrawable background;
-    private final IDrawable icon;
+    public GoonPressingCategory(IGuiHelper guiHelper) {
+        super(guiHelper, GooniniteBlocks.MECHANICAL_SINTER_PRESS.get());
+    }
 
-    public GoonPressingCategory(IGuiHelper helper){
-        this.background = helper.createBlankDrawable(150, 60);
-        this.icon = helper.createDrawableItemStack(
-                new ItemStack(GooniniteBlocks.MECHANICAL_SINTER_PRESS.get())
-        );
+
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, BaseGoonRecipe recipe, IFocusGroup focuses) {
+        if(recipe instanceof GoonPressingRecipe pressing) {
+            builder.addSlot(RecipeIngredientRole.INPUT,
+                    76, 24).addIngredients(recipe.ingredient());
+
+            // Output
+            builder.addSlot(RecipeIngredientRole.OUTPUT,
+                            121, 24)
+                    .addItemStack(pressing.getOutputItem());
+        }
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, GoonPressingRecipe recipe, IFocusGroup focuses) {
-
-        // TODO: make this look like not-dogshit
-        // Inputs
-        builder.addSlot(RecipeIngredientRole.INPUT,
-                20, 20).addIngredients(recipe.getInputItem());
-
-        // Output
-        builder.addSlot(RecipeIngredientRole.OUTPUT,
-                100, 10)
-                .addItemStack(recipe.getOutputItem());
+    protected void setBackground(IGuiHelper helper) {
+        IDrawableBuilder builder = helper.drawableBuilder(new ResourceLocation(Gooninite.MODID, "textures/gui/jei/mech_press.png"),
+                0, 0,
+                164, 60);
+        builder.setTextureSize(164, 60);
+        this.background = builder.build();
     }
 
     @Override
-    public RecipeType<GoonPressingRecipe> getRecipeType() {
+    public RecipeType getRecipeType() {
         return RECIPE_TYPE;
     }
+
 
     @Override
     public Component getTitle() {
         return Component.translatable("block.gooninite.mechanical_press");
-    }
-
-    @Override
-    public @Nullable IDrawable getBackground() {
-        return background;
-    }
-
-    @Override
-    public @Nullable IDrawable getIcon() {
-        return icon;
     }
 }

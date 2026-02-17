@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {"item": "gooninite:chamber_frame"},
+    {"item": "mekanism:robit"},
+    {"item": "mekanism:ultimate_control_circuit"}
+  ],
+  "result":{
+    "item": "gooninite:hyperbolic_goon_chamber_controller",
+    "count": 1
+  }
+}

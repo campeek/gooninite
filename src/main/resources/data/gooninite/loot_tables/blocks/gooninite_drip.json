@@ -5,7 +5,7 @@
       "rolls": 1,
       "conditions": [
         {"condition" : "minecraft:survives_explosion"},
-        {"condition" : "minecraft:match_tool", "predicate": {"items": ["minecraft:netherite_pickaxe"]}}
+        {"condition" : "minecraft:match_tool", "predicate": {"items": ["minecraft:netherite_pickaxe", "gooninite:gooninite_pickaxe"]}}
       ],
       "entries": [
         {
