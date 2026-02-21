@@ -22,6 +22,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -29,7 +30,9 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,6 +41,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,7 +65,8 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 if(slot>=0 && slot < 4){
-                    return stack.is(GooniniteItems.GOONINITE_PELLET_ITEM.get());
+                    System.out.println(stack);
+                    return stack.is(GooniniteItems.GOONINITE_PELLET_ITEM.get()) || stack.is(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
                 } else if(slot == 4){
                     return stack.is(GooniniteItems.GOONINITE_LINER_ITEM.get());
                 } else if(slot == 5){

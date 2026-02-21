@@ -33,5 +33,8 @@
 
   "item.gooninite.goon_smithing_template": "Gooninite Smithing Template",
 
-  "fluid_type.gooninite.goon_juice": "Liquid Gooninite"
+  "fluid_type.gooninite.goon_juice": "Liquid Gooninite",
+
+  "tetra.material.gooninite": "Gooninite",
+  "tetra.material.gooninite.prefix": "Gooninite"
 }

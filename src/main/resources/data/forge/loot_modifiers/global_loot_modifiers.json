@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "entries": [
+    "gooninite:add_goon_template_bastion",
+    "gooninite:add_goon_template_ancient_city"
+  ]
+}

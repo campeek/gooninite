@@ -1,0 +1,27 @@
+{
+  "key": "gooninite",
+  "category": "metal",
+  "primary": 7.24,
+  "secondary": 2.9,
+  "tertiary": 3.5,
+  "durability": 3569,
+  "integrityCost": 2,
+  "integrityGain": 8,
+  "magicCapacity": 90,
+  "toolLevel": "gooninite:gooninite",
+  "toolEfficiency": 9,
+  "tints": {
+    "glyph": "d6d3c9",
+    "texture": "c1bdb2"
+  },
+  "textures": [
+    "heavy",
+    "metal"
+  ],
+  "material": {
+    "items": [ "gooninite:gooninite_ingot" ]
+  },
+  "requiredTools": {
+    "hammer_dig": "minecraft:netherite"
+  }
+}

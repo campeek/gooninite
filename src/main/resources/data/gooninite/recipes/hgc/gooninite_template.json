@@ -1,0 +1,12 @@
+{
+  "type": "gooninite:hyperbolic_goonification",
+  "ingredient": { "item" :  "minecraft:netherite_upgrade_smithing_template" },
+  "ingredient_count": 4,
+  "fluid": {
+    "type": "gooninite:goon_juice",
+    "amount": 1000
+  },
+  "result": { "item":  "gooninite:goon_smithing_template", "count":  1},
+  "processingTime": 300,
+  "energy": 528000000
+}

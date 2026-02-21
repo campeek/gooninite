@@ -68,3 +68,10 @@ mandatory = true
 versionRange = "[6.0.8,7.0.0)"
 ordering = "NONE"
 side="BOTH"
+
+[[dependencies."${mod_id}"]]
+modId="tetra"
+mandatory=true
+versionRange="[5,]"
+ordering="AFTER"
+side="BOTH"
