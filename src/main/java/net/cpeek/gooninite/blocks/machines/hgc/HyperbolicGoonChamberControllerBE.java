@@ -2,18 +2,16 @@ package net.cpeek.gooninite.blocks.machines.hgc;
 
 
 import net.cpeek.gooninite.GooniniteSounds;
-import net.cpeek.gooninite.blocks.handlers.GoonEnergyStorage;
-import net.cpeek.gooninite.blocks.machines.GooniniteBasicMachineBlockEntity;
 import net.cpeek.gooninite.blocks.GooniniteBlockEntities;
 import net.cpeek.gooninite.blocks.GooniniteBlocks;
 import net.cpeek.gooninite.blocks.GooniniteTags;
+import net.cpeek.gooninite.blocks.handlers.GoonEnergyStorage;
 import net.cpeek.gooninite.blocks.handlers.GoonFluidHandler;
 import net.cpeek.gooninite.items.GooniniteItems;
 import net.cpeek.gooninite.menus.HyperbolicGoonChamberMenu;
 import net.cpeek.gooninite.recipes.GooniniteRecipes;
 import net.cpeek.gooninite.recipes.HyperbolicGoonificationRecipe;
-import net.cpeek.gooninite.sounds.GoonChamberChargeSound;
-import net.minecraft.client.Minecraft;
+import net.cpeek.gooninite.sounds.GoonChamberSound;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -22,7 +20,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -30,22 +27,21 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static net.cpeek.gooninite.blocks.machines.hgc.HyperbolicGoonChamberPartBlock.FORMED;
 
@@ -427,6 +423,12 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
         be.serverTickHook(pos, state);
     }
 
+    public static void clientTick(Level level, BlockPos pos, BlockState state, HyperbolicGoonChamberControllerBE be){
+        if(!be.isRunning() && be.canDoWork()){
+            be.startTickClient(pos, state);
+        }
+    }
+
     protected void serverTickHook(BlockPos pos, BlockState state) {
         if(needsValidated){
             System.out.println("dirty controller - updating");
@@ -506,9 +508,12 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
 
     protected void startTickHook(BlockPos pos, BlockState state) {
         changePhase(GoonChamberPhase.CHARGING);
-        Minecraft.getInstance()
-                .getSoundManager()
-                .play(new GoonChamberChargeSound(level, worldPosition));
+    }
+
+    private void startTickClient(BlockPos pos, BlockState state){
+        if(level.isClientSide ){
+            GoonChamberSound.start(level, pos);
+        }
     }
 
     protected void saveExtra(CompoundTag tag) {

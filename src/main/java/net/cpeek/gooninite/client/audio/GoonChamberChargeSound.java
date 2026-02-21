@@ -1,4 +1,4 @@
-package net.cpeek.gooninite.sounds;
+package net.cpeek.gooninite.client.audio;
 
 
 import net.cpeek.gooninite.GooniniteSounds;
@@ -10,7 +10,6 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 
@@ -22,6 +21,7 @@ public class GoonChamberChargeSound extends AbstractTickableSoundInstance {
     private static final int minimumTicks = 4;
 
     private int tick;
+    private boolean stopped = false;
 
     public GoonChamberChargeSound(Level level, BlockPos pos){
         super(GooniniteSounds.GOON_CHAMBER_SPIN_UP.get(), SoundSource.BLOCKS, SoundInstance.createUnseededRandom());
@@ -53,5 +53,12 @@ public class GoonChamberChargeSound extends AbstractTickableSoundInstance {
                     this.stop();
             }
         }
+
+        if(stopped)
+            this.stop();
+    }
+
+    public void stopSound(){
+        this.stopped = true;
     }
 }
