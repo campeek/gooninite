@@ -1,7 +1,15 @@
 {
   "replace": false,
   "values": [
-    "gooninite:gooninite_ore",
-    "gooninite:gooninite_drip"
+    "gooninite:gooninite_drip",
+    "gooninite:lattice_recrystallizer",
+    "gooninite:phase_destabilizer",
+    "gooninite:hyperbolic_goon_chamber_controller",
+    "gooninite:hyperbolic_goon_chamber_core",
+    "gooninite:goon_fluid_port",
+    "gooninite:goon_power_port",
+    "gooninite:goon_chamber_casing",
+    "gooninite:chamber_frame",
+    "gooninite:mechanical_sinter_press"
   ]
 }

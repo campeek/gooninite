@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "gooninite:gooninite_ore",
     "gooninite:gooninite_drip"
   ]
 }

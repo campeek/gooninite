@@ -40,7 +40,7 @@ public class GooniniteBlocks {
     ));*/
 
     // Gooninite Ore
-    public static final RegistryObject<Block> GOONINITE_ORE = BLOCKS.register("gooninite_ore",
+    /*public static final RegistryObject<Block> GOONINITE_ORE = BLOCKS.register("gooninite_ore",
             () -> new DropExperienceBlock(
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.STONE)
@@ -50,45 +50,74 @@ public class GooniniteBlocks {
                     UniformInt.of(1,4)  // XP range
             ));
 
+     */
     // Goon Juice Source Block
     public static final RegistryObject<Block> GOON_JUICE_BLOCK = BLOCKS.register( "goon_juice",
             () -> new LiquidBlock(GOON_JUICE, BlockBehaviour.Properties.copy(Blocks.WATER))
     );
 
     public static final RegistryObject<Block> PHASE_DESTABILIZER = BLOCKS.register("phase_destabilizer",
-            () -> new PhaseDestabilizerBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+            () -> new PhaseDestabilizerBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3,3)
+                    .sound(SoundType.COPPER)));
 
     public static final RegistryObject<Block> LATTICE_RECRYSTALLIZER = BLOCKS.register("lattice_recrystallizer",
-            () -> new LatticeRecrystallizerBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+            () -> new LatticeRecrystallizerBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3,3)
+                    .sound(SoundType.COPPER)));
 
     public static final RegistryObject<Block> HYPERBOLIC_GOON_CHAMBER_CONTROLLER = BLOCKS.register("hyperbolic_goon_chamber_controller",
-            () -> new HyperbolicGoonChamberControllerBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+            () -> new HyperbolicGoonChamberControllerBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3,3)
+                    .sound(SoundType.COPPER)));
 
-    // TODO: art for core
     public static final RegistryObject<Block> HYPERBOLIC_GOON_CHAMBER_CORE = BLOCKS.register("hyperbolic_goon_chamber_core",
-            () -> new HyperbolicGoonChamberPartBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+            () -> new HyperbolicGoonChamberPartBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3,3)
+                    .sound(SoundType.COPPER)));
 
-    // TODO: art for fluid port
     public static final RegistryObject<Block> GOON_FLUID_PORT = BLOCKS.register("goon_fluid_port",
-            () -> new GoonFluidPortBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+            () -> new GoonFluidPortBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3,3)
+                    .sound(SoundType.COPPER)));
 
-    // TODO: art for power port
     public static final RegistryObject<Block> GOON_POWER_PORT = BLOCKS.register("goon_power_port",
-            () -> new GoonPowerPortBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+            () -> new GoonPowerPortBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3,3)
+                    .sound(SoundType.COPPER)));
 
-    // TODO: art for casing
     public static final RegistryObject<Block> GOON_CHAMBER_CASING = BLOCKS.register("goon_chamber_casing",
-            () -> new GoonCasingBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
-
-    public static final RegistryObject<Block> GOON_CAPACITOR = BLOCKS.register("goon_capacitor",
-            () -> new HyperbolicGoonChamberPartBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+            () -> new GoonCasingBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3,3)
+                    .sound(SoundType.COPPER)));
 
     public static final RegistryObject<Block> CHAMBER_FRAME = BLOCKS.register("chamber_frame",
-            () -> new GoonCasingBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+            () -> new GoonCasingBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3,3)
+                    .sound(SoundType.COPPER)));
 
     public static final RegistryObject<Block> MECHANICAL_SINTER_PRESS = BLOCKS.register("mechanical_sinter_press",
             () -> new MechanicalSinteringPressBlock(BlockBehaviour.Properties.of()
                     .strength(3.0f)
+                    .requiresCorrectToolForDrops()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .sound(SoundType.COPPER)
                     .noOcclusion()));
 
     public static final RegistryObject<Block> PRESS_RAM = BLOCKS.register("mechanical_sinter_press_ram",

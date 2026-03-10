@@ -17,7 +17,7 @@ public class LatticeRecrystallizerMenu extends AbstractContainerMenu {
     public LatticeRecrystallizerMenu(int id, Inventory inv, FriendlyByteBuf buf){
         this(id, inv,
                 (LatticeRecrystallizerBlockEntity)inv.player.level().getBlockEntity(buf.readBlockPos()),
-        new SimpleContainerData(6));
+        new SimpleContainerData(8));
     }
 
     public LatticeRecrystallizerMenu(int id, Inventory inv, LatticeRecrystallizerBlockEntity entity, ContainerData data){
@@ -103,10 +103,14 @@ public class LatticeRecrystallizerMenu extends AbstractContainerMenu {
 
     public int getProgress(){ return data.get(0);}
     public int getMaxProgress(){ return data.get(1); }
-    public int getEnergy() { return data.get(2); }
-    public int getMaxEnergy(){ return data.get(3); }
-    public int getFluid(){ return data.get(4); }
-    public int getMaxFluid(){ return data.get(5); }
+    public int getEnergy(){
+        return (data.get(2) << 16 | (data.get(3)&0xffff));
+    }
+    public int getMaxEnergy(){
+        return (data.get(4) << 16 | (data.get(5)&0xffff));
+    }
+    public int getFluid(){ return data.get(6); }
+    public int getMaxFluid(){ return data.get(7); }
 
     private void addPlayerInventory(Inventory inv){
         for(int row=0; row<3; row++){

@@ -18,7 +18,7 @@ public class PhaseDestabilizerMenu extends AbstractContainerMenu {
     public PhaseDestabilizerMenu(int id, Inventory playerInv, FriendlyByteBuf buf){
         this(id, playerInv,
                 (PhaseDestabilizerBlockEntity) playerInv.player.level().getBlockEntity(buf.readBlockPos()),
-                new SimpleContainerData(6));
+                new SimpleContainerData(8));
     }
 
     public PhaseDestabilizerMenu(int id, Inventory playerInv, PhaseDestabilizerBlockEntity entity, ContainerData data){
@@ -108,13 +108,13 @@ public class PhaseDestabilizerMenu extends AbstractContainerMenu {
         return data.get(1);
     }
     public int getEnergy(){
-        return data.get(2);
+        return (data.get(2) << 16 | (data.get(3)&0xffff));
     }
     public int getMaxEnergy(){
-        return data.get(3);
+        return (data.get(4) << 16 | (data.get(5)&0xffff));
     }
-    public int getFluid(){ return data.get(4);}
-    public int getMaxFluid(){ return data.get(5);}
+    public int getFluid(){ return data.get(6); }
+    public int getMaxFluid(){ return data.get(7); }
 
 
     private void addPlayerInventory(Inventory inv){

@@ -10,6 +10,8 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -19,6 +21,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,10 +36,11 @@ public abstract class GooniniteBasicMachineBlockEntity <R extends BaseGoonRecipe
     protected int progress;
     protected int maxProgress;
 
-    protected @Nullable R currentRecipe;
+    protected R currentRecipe;
 
     protected GoonEnergyStorage energyStorage;
     protected ItemStackHandler itemHandler;
+    protected IItemHandler pipeHandler;
 
     protected LazyOptional<IEnergyStorage> energyCap;
     protected LazyOptional<IItemHandler> itemCap;
@@ -59,19 +63,67 @@ public abstract class GooniniteBasicMachineBlockEntity <R extends BaseGoonRecipe
                 if(level != null && !level.isClientSide) // maintain server authority
                     level.sendBlockUpdated(pos, state, state, 3);
             }
+
+            @Override
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                if(slot == SLOT_IN){
+                    if(findRecipe(stack).isPresent()) return true;
+                    return false;
+                }
+                return false; // don't put shit in outputs
+            }
+        };
+        pipeHandler = new IItemHandlerModifiable() {
+            @Override
+            public void setStackInSlot(int slot, @NotNull ItemStack stack) {
+                itemHandler.setStackInSlot(slot, stack);
+            }
+
+            @Override
+            public int getSlots() {
+                return itemHandler.getSlots();
+            }
+
+            @Override
+            public @NotNull ItemStack getStackInSlot(int slot) {
+                return itemHandler.getStackInSlot(slot);
+            }
+
+            @Override
+            public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+                if(slot > SLOT_IN) return ItemStack.EMPTY;
+                return itemHandler.insertItem(slot, stack, simulate);
+            }
+
+            @Override
+            public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+                if(slot == SLOT_IN) return ItemStack.EMPTY;
+                return itemHandler.extractItem(slot, amount, simulate);
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return itemHandler.getSlotLimit(slot);
+            }
+
+            @Override
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                return itemHandler.isItemValid(slot, stack);
+            }
         };
 
         energyCap = LazyOptional.of(() -> energyStorage);
-        itemCap = LazyOptional.of(() -> itemHandler);
+        //itemCap = LazyOptional.of(() -> itemHandler);
+        itemCap = LazyOptional.of(() -> pipeHandler);
     }
 
     public GooniniteBasicMachineBlockEntity(BlockEntityType type, BlockPos pos, BlockState state){
         super(type, pos, state);
     }
 
-    public abstract Optional<R> findRecipe();
+    public abstract Optional<R> findRecipe(ItemStack stack);
     protected void handleChangeRecipe(){
-        var recipeOpt = findRecipe();
+        var recipeOpt = findRecipe(itemHandler.getStackInSlot(SLOT_IN));
 
         if(recipeOpt.isPresent()){
             currentRecipe = recipeOpt.get();

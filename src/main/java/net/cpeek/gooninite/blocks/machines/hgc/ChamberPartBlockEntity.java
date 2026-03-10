@@ -29,15 +29,14 @@ public abstract class ChamberPartBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        if(getBlockState().getValue(FORMED))
+        if(controllerPos != null)
             tag.putLong("Controller", controllerPos.asLong());
     }
 
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        if(getBlockState().getValue(FORMED))
-            controllerPos = BlockPos.of(tag.getLong("Controller"));
+        controllerPos = tag.contains("Controller") ? BlockPos.of(tag.getLong("Controller")) : null;
     }
 
     @Override

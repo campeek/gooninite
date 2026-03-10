@@ -91,11 +91,11 @@ public class MechanicalSinteringPressBE extends GooniniteBasicMachineBlockEntity
     }
 
     @Override
-    public Optional<GoonPressingRecipe> findRecipe(){
+    public Optional<GoonPressingRecipe> findRecipe(ItemStack stack){
         if (level == null) return Optional.empty();
 
         SimpleContainer inv = new SimpleContainer(1);
-        inv.setItem(0, itemHandler.getStackInSlot(SLOT_IN));
+        inv.setItem(0, stack);
 
         return level.getRecipeManager().getRecipeFor(
                 GooniniteRecipes.GOON_PRESSING_RECIPE.get(), inv, level);
@@ -124,6 +124,7 @@ public class MechanicalSinteringPressBE extends GooniniteBasicMachineBlockEntity
         ItemStack in = itemHandler.getStackInSlot(SLOT_IN);
         ItemStack out = itemHandler.getStackInSlot(SLOT_OUT);
         itemHandler.extractItem(SLOT_IN, 1, false);
+        //itemHandler.setStackInSlot(SLOT_IN, ItemStack.EMPTY);
 
         if (out.isEmpty()) {
             itemHandler.setStackInSlot(SLOT_OUT, result.copy());

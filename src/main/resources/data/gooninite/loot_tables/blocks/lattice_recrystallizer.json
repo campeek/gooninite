@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:block",
+  "pools": [{
+    "bonus_rolls": 0.0,
+    "conditions": [{ "condition": "minecraft:survives_explosion" }],
+    "entries": [{
+      "type": "minecraft:item",
+      "name": "gooninite:lattice_recrystallizer",
+      "functions": [{
+        "function": "minecraft:copy_nbt",
+        "source": "block_entity",
+        "ops": [{ "source": "", "target": "BlockEntityTag", "op": "replace" }]
+      }]
+    }],
+    "rolls": 1.0
+  }]
+}

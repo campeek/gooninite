@@ -27,7 +27,6 @@ public class GooniniteItems {
     public static final RegistryObject<Item> GOON_FLUID_PORT_ITEM = ITEMS.register("goon_fluid_port", () -> new BlockItem(GOON_FLUID_PORT.get(), new Item.Properties()));
     public static final RegistryObject<Item> GOON_POWER_PORT_ITEM = ITEMS.register("goon_power_port", () -> new BlockItem(GOON_POWER_PORT.get(), new Item.Properties()));
     public static final RegistryObject<Item> GOON_CHAMBER_CASING_ITEM = ITEMS.register("goon_chamber_casing", () -> new BlockItem(GOON_CHAMBER_CASING.get(), new Item.Properties()));
-    public static final RegistryObject<Item> GOON_CAPACITOR_ITEM = ITEMS.register("goon_capacitor", () -> new BlockItem(GOON_CAPACITOR.get(), new Item.Properties()));
     public static final RegistryObject<Item> CHAMBER_FRAME_ITEM = ITEMS.register("chamber_frame", () -> new BlockItem(CHAMBER_FRAME.get(), new Item.Properties()));
 
 

@@ -24,7 +24,7 @@ public class HyperbolicGoonChamberMenu extends AbstractContainerMenu {
 
     public HyperbolicGoonChamberMenu(int id, Inventory inv, FriendlyByteBuf buf){
         this(id, inv, (HyperbolicGoonChamberControllerBE)inv.player.level().getBlockEntity(buf.readBlockPos()),
-                new SimpleContainerData(7));
+                new SimpleContainerData(9));
     }
 
     public HyperbolicGoonChamberMenu(int id, Inventory inv, HyperbolicGoonChamberControllerBE entity, ContainerData data){
@@ -111,8 +111,13 @@ public class HyperbolicGoonChamberMenu extends AbstractContainerMenu {
             default -> null;
         };
     }
-    public int getEnergy(){return data.get(3);}
-    public int getMaxEnergy(){return data.get(4);}
-    public int getFluid(){return data.get(5);}
-    public int getMaxFluid(){return data.get(6);}
+    public int getEnergy(){
+        return (data.get(3) << 16 | (data.get(4)&0xffff));
+    }
+    public int getMaxEnergy(){
+        return (data.get(5) << 16 | (data.get(6)&0xffff));
+    }
+    public int getFluid(){
+        return data.get(7);}
+    public int getMaxFluid(){return data.get(8);}
 }

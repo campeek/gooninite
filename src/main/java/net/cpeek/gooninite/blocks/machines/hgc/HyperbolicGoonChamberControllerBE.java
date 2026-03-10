@@ -35,6 +35,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,6 +53,7 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
     private boolean recipeLocked = false;
 
     private final ItemStackHandler itemHandler;
+    private final IItemHandler pipeHandler;
     private final GoonEnergyStorage energyStorage;
 
     private HyperbolicGoonificationRecipe currentRecipe;
@@ -58,10 +61,17 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
     public HyperbolicGoonChamberControllerBE(BlockPos pos, BlockState state){
         super(GooniniteBlockEntities.HYPERBOLIC_GOON_CHAMBER_CONTROLLER.get(), pos, state);
         itemHandler = new ItemStackHandler(6){
+
+            /*@Override
+            public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+                if(slot < 4) return ItemStack.EMPTY; // don't extract input pellets
+                return super.extractItem(slot, amount, simulate);
+            }*/
+
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 if(slot>=0 && slot < 4){
-                    System.out.println(stack);
+                    //System.out.println(stack);
                     return stack.is(GooniniteItems.GOONINITE_PELLET_ITEM.get()) || stack.is(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
                 } else if(slot == 4){
                     return stack.is(GooniniteItems.GOONINITE_LINER_ITEM.get());
@@ -76,9 +86,9 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
                 if(level == null) return;
                 if(level.isClientSide) return;
                 if(slot < 5){
-                    if(phase.getIndex() > GoonChamberPhase.IDLE.getIndex() && !recipeLocked) {
+                    if(phase.getIndex() == GoonChamberPhase.CHARGING.getIndex()) {
                         changePhase(GoonChamberPhase.COOLDOWN);
-                        System.out.println("cycle failed - recipe change");
+                        //System.out.println("cycle failed - recipe change");
                         level.playSound(null, worldPosition,
                                 GooniniteSounds.GOON_CHAMBER_SPIN_DOWN.get(),
                                 SoundSource.BLOCKS,
@@ -91,6 +101,43 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
                 setChanged();
                 if(level != null && !level.isClientSide) // maintain server authority
                     level.sendBlockUpdated(pos, state, state, 3);
+            }
+        };
+        pipeHandler = new IItemHandlerModifiable() {
+            @Override
+            public void setStackInSlot(int slot, @NotNull ItemStack stack) {
+                itemHandler.setStackInSlot(slot, stack);
+            }
+            @Override
+            public int getSlots() {
+                return itemHandler.getSlots();
+            }
+
+            @Override
+            public @NotNull ItemStack getStackInSlot(int slot) {
+                return itemHandler.getStackInSlot(slot);
+            }
+
+            @Override
+            public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+                if(slot > 5) return ItemStack.EMPTY;
+                return itemHandler.insertItem(slot, stack, simulate);
+            }
+
+            @Override
+            public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+                if(slot <= 5) return ItemStack.EMPTY;
+                return itemHandler.extractItem(slot, amount, simulate);
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return itemHandler.getSlotLimit(slot);
+            }
+
+            @Override
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                return itemHandler.isItemValid(slot, stack);
             }
         };
 
@@ -141,10 +188,12 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
                 case 0 -> currentCharge;
                 case 1 -> maxCharge;
                 case 2 -> phase.ordinal();
-                case 3 -> energyStorage.getEnergyStored();
-                case 4 -> energyStorage.getMaxEnergyStored();
-                case 5 -> fluidHandler.getFluidInTank(0).getAmount();
-                case 6 -> fluidHandler.getTankCapacity(0);
+                case 3 -> (energyStorage.getEnergyStored() >> 16) & 0xffff; // high bits
+                case 4 -> energyStorage.getEnergyStored() & 0xffff; // low bits
+                case 5 -> (energyStorage.getMaxEnergyStored() >> 16) & 0xffff; // high bits (max)
+                case 6 -> energyStorage.getMaxEnergyStored() & 0xffff; // low bits (max)
+                case 7 -> fluidHandler.getFluidInTank(0).getAmount();
+                case 8 -> fluidHandler.getTankCapacity(0);
                 default -> 0;
             };
         }
@@ -156,7 +205,7 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
 
         @Override
         public int getCount() {
-            return 7;
+            return 9;
         }
     };
 
@@ -186,7 +235,6 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
             }
         } else {
             if(!valid){
-                System.out.println("breaking block - shape invalid");
                 breakMultiblock();
             }
         }
@@ -200,7 +248,6 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
         if(level == null) return;
         if(level.isClientSide) return;
         level.setBlock(getBlockPos(), getBlockState().setValue(FORMED, true), 3);
-        System.out.println("multiblock formed");
         for (BlockPos p : blocks) {
             BlockState state = level.getBlockState(p);
             if (state.is(GooniniteTags.Blocks.GOON_CHAMBER_BLOCKS)) {
@@ -220,7 +267,6 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
     public void breakMultiblock() {
         if(level == null) return;
         if(level.isClientSide) return;
-        System.out.println("multiblock broken");
 
         // BLOCKSTATES ARE IMMUTABLE
         // BLOCKSTATES ARE IMMUTABLE
@@ -244,7 +290,6 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
         if(!blocks.isEmpty()){
             for(BlockPos p : blocks){
                 if(!level.getBlockState(p).is(GooniniteTags.Blocks.GOON_CHAMBER_BLOCKS)){
-                    System.out.println("block broken from array search");
                     return false;
                 }
             }
@@ -257,15 +302,12 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
                     offset = rotate(offset, getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING));
                     BlockPos pos = worldPosition.offset(offset);
                     if(!level.getBlockState(pos).is(GooniniteTags.Blocks.GOON_CHAMBER_BLOCKS)){
-                        System.out.println("block at " + pos + " is not valid");
                         return false; // if even one block isnt tagged, fail
                     }
                     if(offset.equals(rotate(new BlockPos(0,0,1), getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING)))){
                         if(!level.getBlockState(pos).is(GooniniteBlocks.HYPERBOLIC_GOON_CHAMBER_CORE.get())){
-                            System.out.println("core not found");
                             return false;
                         } else {
-                            System.out.println("core at " + pos);
                             corePos = pos;
                         }
                     }
@@ -273,14 +315,12 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
                     if(level.getBlockState(pos).is(GooniniteBlocks.GOON_FLUID_PORT.get())){
                         if(fluidPortPos == null){
                             fluidPortPos = pos;
-                            System.out.println("fluid port at " + pos);
                         }
                     }
 
                     if(level.getBlockState(pos).is(GooniniteBlocks.GOON_POWER_PORT.get())){
                         if(powerPortPos == null){
                             powerPortPos = pos;
-                            System.out.println("power port at " + pos);
                         }
                     }
                     if(!blocks.contains(pos))
@@ -289,7 +329,6 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
             }
         }
         if(fluidPortPos == null || powerPortPos == null) {
-            System.out.println("no power or fluid port");
             return false;
         }
         //setChanged();
@@ -304,10 +343,8 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
 
             if(recipeOpt.isPresent()){
                 currentRecipe = recipeOpt.get();
-                System.out.println("recipe changed: ");
             } else {
                 currentRecipe = null;
-                System.out.println("recipe cleared");
             }
         }
 
@@ -327,32 +364,27 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
 
     protected boolean canDoWork() {
         if(!getFormed()) {
-            //System.out.println("not formed");
             return false;
         }
         if(phase != GoonChamberPhase.IDLE) {
-            //System.out.println("wrong phase");
             return false;
         }
         if(!slotsFull()) {
-            //System.out.println("slots not full");
             return false;
         }
         if(!checkLiner()) {
-            //System.out.println("liner broken");
             return false;
         }
         if(energyStorage.getEnergyStored() == 0){
-            //System.out.println("not enough energy");
+            return false;
+        }
+        if(currentRecipe == null){
             return false;
         }
         if(fluidHandler.getFluidInTank(0).getAmount() < currentRecipe.ingredientFluid().getAmount()){
             return false;
         }
-        if(currentRecipe == null){
-            //System.out.println("no recipe");
-            return false;
-        }
+
 
         return true;
     }
@@ -383,10 +415,15 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
     }
 
     protected void createOutputs() {
-        itemHandler.extractItem(0, 1, false);
+        /*itemHandler.extractItem(0, 1, false);
         itemHandler.extractItem(1, 1, false);
         itemHandler.extractItem(2, 1, false);
-        itemHandler.extractItem(3, 1, false);
+        itemHandler.extractItem(3, 1, false);*/
+
+        itemHandler.setStackInSlot(0, ItemStack.EMPTY);
+        itemHandler.setStackInSlot(1, ItemStack.EMPTY);
+        itemHandler.setStackInSlot(2, ItemStack.EMPTY);
+        itemHandler.setStackInSlot(3, ItemStack.EMPTY);
 
         if(canOutput()){
             if(currentRecipe!=null) {
@@ -431,7 +468,6 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
 
     protected void serverTickHook(BlockPos pos, BlockState state) {
         if(needsValidated){
-            System.out.println("dirty controller - updating");
             update();
             needsValidated = false;
         }
@@ -444,7 +480,7 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
                 currentCharge+=energyExtracted;
             } else {
                 // cycle fails because of energy throughput
-                System.out.println("cycle failed because of energy thruput");
+                //System.out.println("cycle failed because of energy thruput");
                 changePhase(GoonChamberPhase.COOLDOWN);
                 level.playSound(null, corePos,
                         GooniniteSounds.GOON_CHAMBER_SPIN_DOWN.get(),
@@ -471,11 +507,8 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
             }
             if(timeSinceTickChange() >= DISCHARGE_TIME){
                 changePhase(GoonChamberPhase.COOLDOWN);
-                System.out.println("cycle complete??");
-                //createOutputs(); <- nope. the "ingot has to cool down"
-                // aka you can't call this here because it gets called again when the base class
-                // completes it's cycle logic and we WILL dupe ingots.
-                // note to self.
+                //System.out.println("cycle complete??");
+                createOutputs();
 
             }
         } else if(phase == GoonChamberPhase.COOLDOWN){
@@ -488,7 +521,7 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
 
             // cooldown chamber and reset
             if(timeSinceTickChange() >= COOLDOWN_TIME){
-                createOutputs();
+                //createOutputs();
                 changePhase(GoonChamberPhase.IDLE);
             }
         }
@@ -499,7 +532,7 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
         lastPhaseChangeTick = level.getGameTime();
         setChanged();
         level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
-        System.out.println("changing phase - new phase: " + newPhase.name());
+        //System.out.println("changing phase - new phase: " + newPhase.name());
     }
 
     private long timeSinceTickChange(){
@@ -517,19 +550,16 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
     }
 
     protected void saveExtra(CompoundTag tag) {
-        //tag.putBoolean("Formed", isFormed);
         tag.putInt("Phase", phase.getIndex());
         tag.putInt("Charge", currentCharge);
         tag.putInt("MaxCharge", maxCharge);
         tag.put("Tank0", fluidHandler.getFluidInTank(0).writeToNBT(new CompoundTag()));
-        //tag.putLong("PowerPort", powerPortPos.asLong());
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
         setMultiblockDirty();
-        //update();
 
         for(BlockPos p: blocks){
             if(level.getBlockEntity(p) instanceof ChamberPartBlockEntity part){
@@ -543,7 +573,6 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
     }
 
     protected void loadExtra(CompoundTag tag) {
-        //isFormed = tag.getBoolean("Formed");
         int phaseIndex = tag.getInt("Phase");
         GoonChamberPhase newPhase = GoonChamberPhase.IDLE;
         switch (phaseIndex) {
@@ -557,7 +586,7 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
         if(tag.contains("Tank0")) {
             FluidStack stack = FluidStack.loadFluidStackFromNBT(tag.getCompound("Tank0"));
             fluidHandler.setFluid(stack);
-        } else System.out.println("no fluid key");
+        }
     }
 
 
@@ -596,7 +625,6 @@ public class HyperbolicGoonChamberControllerBE extends BlockEntity implements Me
     }
 
     public void cleanupMultiblockStates() {
-        System.out.println("cleaning up multiblock children");
         for(BlockPos p: List.copyOf(blocks)){
             BlockState state = level.getBlockState(p);
             BlockEntity be = level.getBlockEntity(p);

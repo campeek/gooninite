@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -44,10 +45,12 @@ public class PhaseDestabilizerBlockEntity extends GooniniteBasicMachineBlockEnti
             return switch(index){
                 case 0 -> progress;
                 case 1 -> maxProgress;
-                case 2 -> energyStorage.getEnergyStored();
-                case 3 -> energyStorage.getMaxEnergyStored();
-                case 4 -> fluidHandler.getFluidInTank(0).getAmount();
-                case 5 -> fluidHandler.getTankCapacity(0);
+                case 2 -> (energyStorage.getEnergyStored() >> 16) & 0xffff; // high bits
+                case 3 -> energyStorage.getEnergyStored() & 0xffff; // low bits
+                case 4 -> (energyStorage.getMaxEnergyStored() >> 16) & 0xffff; // high bits (max)
+                case 5 -> energyStorage.getMaxEnergyStored() & 0xffff; // low bits (max)
+                case 6 -> fluidHandler.getFluidInTank(0).getAmount();
+                case 7 -> fluidHandler.getTankCapacity(0);
                 default -> 0;
             };
         }
@@ -59,7 +62,7 @@ public class PhaseDestabilizerBlockEntity extends GooniniteBasicMachineBlockEnti
 
         @Override
         public int getCount() {
-            return 6;
+            return 8;
         }
     };
 
@@ -84,11 +87,11 @@ public class PhaseDestabilizerBlockEntity extends GooniniteBasicMachineBlockEnti
     }
 
     @Override
-    public Optional<PhaseDestabilizingRecipe> findRecipe() {
+    public Optional<PhaseDestabilizingRecipe> findRecipe(ItemStack stack) {
         if(level == null) return Optional.empty();
 
         SimpleContainer inv = new SimpleContainer(1);
-        inv.addItem(itemHandler.getStackInSlot(SLOT_IN));
+        inv.addItem(stack);
 
         return level.getRecipeManager().getRecipeFor(GooniniteRecipes.PHASE_DESTABILIZING_RECIPE.get(), inv, level);
     }

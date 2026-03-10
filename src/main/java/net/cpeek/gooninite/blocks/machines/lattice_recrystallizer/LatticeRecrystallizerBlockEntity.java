@@ -50,10 +50,12 @@ public class LatticeRecrystallizerBlockEntity extends GooniniteBasicMachineBlock
             return switch(index){
                 case 0 -> progress;
                 case 1 -> maxProgress;
-                case 2 -> energyStorage.getEnergyStored();
-                case 3 -> energyStorage.getMaxEnergyStored();
-                case 4 -> fluidHandler.getFluidInTank(0).getAmount();
-                case 5 -> fluidHandler.getTankCapacity(0);
+                case 2 -> (energyStorage.getEnergyStored() >> 16) & 0xffff; // high bits
+                case 3 -> energyStorage.getEnergyStored() & 0xffff; // low bits
+                case 4 -> (energyStorage.getMaxEnergyStored() >> 16) & 0xffff; // high bits (max)
+                case 5 -> energyStorage.getMaxEnergyStored() & 0xffff; // low bits (max)
+                case 6 -> fluidHandler.getFluidInTank(0).getAmount();
+                case 7 -> fluidHandler.getTankCapacity(0);
                 default -> 0;
             };
         }
@@ -67,7 +69,7 @@ public class LatticeRecrystallizerBlockEntity extends GooniniteBasicMachineBlock
 
         @Override
         public int getCount() {
-            return 6;
+            return 8;
         }
     };
 
@@ -112,7 +114,8 @@ public class LatticeRecrystallizerBlockEntity extends GooniniteBasicMachineBlock
         ItemStack out = itemHandler.getStackInSlot(SLOT_OUT);
         in.shrink(1);
 
-        itemHandler.setStackInSlot(SLOT_IN, in);
+        //itemHandler.setStackInSlot(SLOT_IN, ItemStack.EMPTY);
+        itemHandler.extractItem(SLOT_IN, 1, false);
 
         if (out.isEmpty()) {
             itemHandler.setStackInSlot(SLOT_OUT, result.copy());
@@ -124,11 +127,11 @@ public class LatticeRecrystallizerBlockEntity extends GooniniteBasicMachineBlock
 
 
     @Override
-    public Optional<LatticeRecrystallizingRecipe> findRecipe(){
+    public Optional<LatticeRecrystallizingRecipe> findRecipe(ItemStack stack){
         if(level == null) return Optional.empty();
 
         SimpleContainer inv = new SimpleContainer(1);
-        inv.setItem(0, itemHandler.getStackInSlot(SLOT_IN));
+        inv.setItem(0, stack);
 
         return level.getRecipeManager().getRecipeFor(
                 GooniniteRecipes.LATTICE_RECRYSTALLIZING_RECIPE.get(), inv, level);
